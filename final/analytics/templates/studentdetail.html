@@ -1,0 +1,472 @@
+{% extends 'base_backend.html' %}
+{% block title %}{{std.name}}{% endblock title %}
+{% block body %}
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">ข้อมูลนักศึกษา : {{std.gender}}{{std.name}} {{std.sophomore_student}}</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'home_backend' %}">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'table_backend' %}">ย้อนกลับ</a></li>
+            <li class="breadcrumb-item active">รายละเอียดข้อมูลนักศึกษาสาขาวิทยาการคอมพิวเตอร์</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                ข้อมูลนักศึกษา : {{std.gender}}{{std.name}}
+            </div>
+            <div class="card-body">
+                <form action="{% url 'update' %}" method="post">
+                    {% csrf_token %}
+                    <h3 style="text-align: center;">ข้อมูลนักศึกษา</h3>
+                    <hr>
+                    <div class="form-row">
+                        <div class="from-group col-md-2">
+                            <label for="gender">คำนำหน้า</label>
+                            <select id="gender" class="form-control" name="gender">
+                                <option selected>{{std.gender}}</option>
+                                <option>เลือก...</option>
+                                <option value="นาย">นาย</option>
+                                <option value="นางสาว">นางสาว</option>
+                                <option value="นาง">นาง</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-10">
+                            <label for="name">ชื่อจริง-นามสกุล</label>
+                            <input type="text" name="name" id="name" class="form-control" value="{{std.name}}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-2">
+                            <label for="sophomore_student">ชั้นปีที่</label>
+                            <select id="sophomore_student" name="sophomore_student" class="form-control">
+                                <option selected>{{std.sophomore_student}}</option>
+                                <option>เลือก...</option>
+                                <option value="ชั้นปีที่ 1">ชั้นปีที่ 1</option>
+                                <option value="ชั้นปีที่ 2">ชั้นปีที่ 2</option>
+                                <option value="ชั้นปีที่ 3">ชั้นปีที่ 3</option>
+                                <option value="ชั้นปีที่ 4">ชั้นปีที่ 4</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="school">สถาบันที่จบการศึกษา</label>
+                            <input type="text" name="school" id="school" class="form-control" value="{{std.school}}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="short">ชื่อย่อของโรงเรียน</label>
+                            <input type="text" name="short" id="short" class="form-control" value="{{std.short}}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="plan">แผนกการเรียน ที่ใช้สมัครเรียน</label>
+                            <select id="plan" name="plan" class="form-control">
+                                <option selected>{{std.plan}}</option>
+                                <option>เลือก...</option>
+                                <option value="แผนกการเรียน วิทย์-คณิต">แผนกการเรียน วิทย์-คณิต</option>
+                                <option value="แผนกการเรียน ศิลป์-คำนวณ">แผนกการเรียน ศิลป์-คำนวณ</option>
+                                <option value="ประกาศนียบัตรวิชาชีพ(ปวช)">ประกาศนียบัตรวิชาชีพ(ปวช)</option>
+                                <option value="ประกาศนียบัตรวิชาชีพขั้นสูง(ปวส)">ประกาศนียบัตรวิชาชีพขั้นสูง(ปวส)
+                                </option>
+                                <option value="เทียบเท่าละดับมัธยมศึกษาตอนปลาย">เทียบเท่าละดับมัธยมศึกษาตอนปลาย</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="round_apply">รอบที่มาสมัครเรียนสาขาวิทยาการคอมพิวเตอร์</label>
+                            <select id="round_apply" name="round_apply" class="form-control">
+                                <option selected>{{std.round_apply}}</option>
+                                <option>เลือก...</option>
+                                <option value="portfolio">portfolio</option>
+                                <option value="โควต้า">โควต้า</option>
+                                <option value="รับตรงรอบที่ 1">รับตรงรอบที่ 1</option>
+                                <option value="รับตรงรอบที่ 2">รับตรงรอบที่ 2</option>
+                                <option value="รับตรงอิสระ">รับตรงอิสระ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr>
+                    <h3 style="text-align: center;">ข้อมูลเกรดของนักศึกษา</h3>
+                    <hr>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="grade">ผลการเรียนตลอดหลักสูตร</label>
+                            <input type="text" class="form-control" id="grade" name="grade" value="{{std.grade}}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="grade_maths">ผลการเรียนรายวิชาคณิตศาสตร์</label>
+                            <input type="text" class="form-control" id="grade_maths" name="grade_maths"
+                                value="{{std.grade_maths}}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="grade_science">ผลการเรียนรายวิชาวิทยาศาสตร์</label>
+                            <input type="text" class="form-control" id="grade_science" name="grade_science"
+                                value="{{std.grade_science}}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="grade_english">ผลการเรียนรายวิชาภาษาต่างประเทศ</label>
+                            <input type="text" class="form-control" id="grade_english" name="grade_english"
+                                value="{{std.grade_english}}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="ComputerSkillsCompetition">เคยแข่งทักษะด้านคอมพิวเตอร์ไหม</label>
+                            <select id="ComputerSkillsCompetition" name="ComputerSkillsCompetition"
+                                class="form-control">
+                                <option selected>{{std.ComputerSkillsCompetition}}</option>
+                                <option>เลือก...</option>
+                                <option value="เคย">เคย</option>
+                                <option value="ไม่เคย">ไม่เคย</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="ComputerRelatedtraining">เคยอบรมเกี่ยวคอมพิวเตอร์ไหม</label>
+                            <select id="ComputerRelatedtraining" name="ComputerRelatedtraining" class="form-control">
+                                <option selected>{{std.ComputerRelatedtraining}}</option>
+                                <option>เลือก...</option>
+                                <option value="เคย">เคย</option>
+                                <option value="ไม่เคย">ไม่เคย</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="learnProgramming">เคยเรียนเขียนโปรแกรมไหม</label>
+                            <select id="learnProgramming" name="learnProgramming" class="form-control">
+                                <option selected>{{std.learnProgramming}}</option>
+                                <option>เลือก...</option>
+                                <option value="เคย">เคย</option>
+                                <option value="ไม่เคย">ไม่เคย</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="programmingTraining">เคยอบรมเขียนโปแกรมไหม</label>
+                            <select id="programmingTraining" name="programmingTraining" class="form-control">
+                                <option selected>{{std.programmingTraining}}</option>
+                                <option>เลือก...</option>
+                                <option value="เคย">เคย</option>
+                                <option value="ไม่เคย">ไม่เคย</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="Other_skills">มีทักษะด้านอื่น ๆ ไหม</label>
+                            <input type="text" class="form-control" id="Other_skills" name="Other_skills"
+                                value="{{std.Other_skills}}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="improve_skills">สนใจอยากพัฒนาทักษะด้านใดเพิ่ม</label>
+                            <input type="text" class="form-control" id="improve_skills" name="improve_skills"
+                                value="{{std.improve_skills}}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="family_income_per_month">รายได้ของครอบครัวต่อเดือน</label>
+                            <select id="family_income_per_month" class="form-control" name="family_income_per_month">
+                                <option selected>{{std.family_income_per_month}}</option>
+                                <option>เลือก...</option>
+                                <option value="ไม่เกิน 5,000 บาท">ไม่เกิน 5,000 บาท</option>
+                                <option value="5,001 ถึง 10,000 บาท">5,001 ถึง 10,000 บาท</option>
+                                <option value="10,001 ถึง 15,000 บาท">10,001 ถึง 15,000 บาท</option>
+                                <option value="15,001 ถึง 20,000 บาท">15,001 ถึง 20,000 บาท</option>
+                                <option value="25,001 บาทขึ้นไป">25,001 บาทขึ้นไป</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="family_status">สถานภาพครอบครัว</label>
+                            <select id="family_status" name="family_status" class="form-control">
+                                <option selected>{{std.family_status}}</option>
+                                <option>เลือก...</option>
+                                <option value="บิดา มารดาอยู่ด้วยกัน">บิดา มารดาอยู่ด้วยกัน</option>
+                                <option value="บิดา มารดาหย่าร้างกัน">บิดา มารดาหย่าร้างกัน</option>
+                                <option value="บิดาถึงแก่กรรม">บิดาถึงแก่กรรม</option>
+                                <option value="มารดาถึงแก่กรรม">มารดาถึงแก่กรรม</option>
+                                <option value="อยู่กับบิดา">อยู่กับบิดา</option>
+                                <option value="อยู่กับมารดา">อยู่กับมารดา</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="Known_from_any_channel">รู้จักสาขาวิทยาการคอมพิวเตอร์จากช่องทางใด</label>
+                            <input type="text" class="form-control" id="Known_from_any_channel"
+                                name="Known_from_any_channel" value="{{std.Known_from_any_channel}}">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="why_did_you_choose_to_study">ทำไมถึงเลือกเรียนสาขานี้</label>
+                            <input type="text" class="form-control" id="why_did_you_choose_to_study"
+                                name="why_did_you_choose_to_study" value="{{std.why_did_you_choose_to_study}}">
+                        </div>
+                    </div>
+                    <hr>
+                    <h3 style="text-align: center;">Mindset</h3>
+                    <hr>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ex1">1.สติปัญญาเป็นสิ่งที่เปลี่ยนแปลงยาก</label>
+                            <select id="ex1" name="ex1" class="form-control">
+                                <option selected>{{std.ex1}}</option>
+                                <option>เลือก...</option>
+                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="1">เห็นด้วย</option>
+                                <option value="2">ไม่เห็นด้วย</option>
+                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ex2">2.สติปัญญาเป็นสิ่งที่เปลี่ยนแปลงไม่มากก็น้อย</label>
+                            <select id="ex2" name="ex2" class="form-control">
+                                <option selected>{{std.ex2}}</option>
+                                <option>เลือก...</option>
+                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="2">เห็นด้วย</option>
+                                <option value="1">ไม่เห็นด้วย</option>
+                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ex3">3.สติปัญญาเป็นสิ่งที่เปลี่ยนแปลงได้มากมายเสมอ</label>
+                            <select id="ex3" name="ex3" class="form-control">
+                                <option selected>{{std.ex3}}</option>
+                                <option>เลือก...</option>
+                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="2">เห็นด้วย</option>
+                                <option value="1">ไม่เห็นด้วย</option>
+                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ex4">4.คนแต่ละคนมีลักษณะเฉพาะที่เปลี่ยนแปลงได้ยาก</label>
+                            <select id="ex4" name="ex4" class="form-control">
+                                <option selected>{{std.ex4}}</option>
+                                <option>เลือก...</option>
+                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="1">เห็นด้วย</option>
+                                <option value="2">ไม่เห็นด้วย</option>
+                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ex5">5.คนแต่ละคนแม้จะมีลักษณะเฉพาะ แต่ก็เปลี่ยนแปลงได้เสมอ</label>
+                            <select id="ex5" name="ex5" class="form-control">
+                                <option selected>{{std.ex5}}</option>
+                                <option>เลือก...</option>
+                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="2">เห็นด้วย</option>
+                                <option value="1">ไม่เห็นด้วย</option>
+                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ex6">6.ใครๆ ก็สามารถเรียนดนตรีให้เก่งได้</label>
+                            <select id="ex6" name="ex6" class="form-control">
+                                <option selected>{{std.ex6}}</option>
+                                <option>เลือก...</option>
+                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="2">เห็นด้วย</option>
+                                <option value="1">ไม่เห็นด้วย</option>
+                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ex7">7.มีเพียงบางคนเท่านั้นที่จะเก่งกีฬาได้ เพราะต้องเก่งโดยกำเนิด</label>
+                            <select id="ex7" name="ex7" class="form-control">
+                                <option selected>{{std.ex7}}</option>
+                                <option>เลือก...</option>
+                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="1">เห็นด้วย</option>
+                                <option value="2">ไม่เห็นด้วย</option>
+                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ex8">8.คณิตศาสตร์เป็นวิชาที่ง่ายสำหรับผู้ชาย
+                                หรือผู้ที่มาจากครอบครัวที่เก่งคณิตศาสตร์เท่านั้น</label>
+                            <select id="ex8" name="ex8" class="form-control">
+                                <option selected>{{std.ex8}}</option>
+                                <option>เลือก...</option>
+                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="1">เห็นด้วย</option>
+                                <option value="2">ไม่เห็นด้วย</option>
+                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ex9">9.ความพยายามอยู่ที่ไหน ความสำเร็จอยู่ที่นั่น</label>
+                            <select id="ex9" name="ex9" class="form-control">
+                                <option selected>{{std.ex9}}</option>
+                                <option>เลือก...</option>
+                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="2">เห็นด้วย</option>
+                                <option value="1">ไม่เห็นด้วย</option>
+                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ex10">10.ใครๆ ก็สามารถเปลี่ยนแปลงได้มากมาย</label>
+                            <select id="ex10" name="ex10" class="form-control">
+                                <option selected>{{std.ex10}}</option>
+                                <option>เลือก...</option>
+                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="2">เห็นด้วย</option>
+                                <option value="1">ไม่เห็นด้วย</option>
+                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ex11">11.การทำสิ่งใหม่ที่ไม่เคยชินเป็นเรื่องยาก เราจึงไม่ควรทำ</label>
+                            <select id="ex11" name="ex11" class="form-control">
+                                <option selected>{{std.ex11}}</option>
+                                <option>เลือก...</option>
+                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="1">เห็นด้วย</option>
+                                <option value="2">ไม่เห็นด้วย</option>
+                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ex12">12.การเปลี่ยนทุกคนให้เป็นคนดีเมตตา เป็นเรื่องที่เป็นไปได้ยาก</label>
+                            <select id="ex12" name="ex12" class="form-control">
+                                <option selected>{{std.ex12}}</option>
+                                <option>เลือก...</option>
+                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="1">เห็นด้วย</option>
+                                <option value="2">ไม่เห็นด้วย</option>
+                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ex13">13.ฉันชื่นชมยินดีเมื่อพ่อแม่ ผู้ชี้แนะ
+                                และครูให้ข้อติชมเกี่ยวทำงานและผลงานของฉัน</label>
+                            <select id="ex13" name="ex13" class="form-control">
+                                <option selected>{{std.ex13}}</option>
+                                <option>เลือก...</option>
+                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="2">เห็นด้วย</option>
+                                <option value="1">ไม่เห็นด้วย</option>
+                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ex14">14.ฉันมักจะไม่พอใจและโกรธ
+                                เมื่อได้รับข้อติชมเกี่ยวกับการทำงานและผลงานของฉัน</label>
+                            <select id="ex14" name="ex14" class="form-control">
+                                <option selected>{{std.ex14}}</option>
+                                <option>เลือก...</option>
+                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="1">เห็นด้วย</option>
+                                <option value="2">ไม่เห็นด้วย</option>
+                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ex15">15.คนทุกคนที่ไม่มีความผิดปกติทางสมอง
+                                จะมีความสามารถในการเรียนรู้เท่าเทียม</label>
+                            <select id="ex15" name="ex15" class="form-control">
+                                <option selected>{{std.ex15}}</option>
+                                <option>เลือก...</option>
+                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="2">เห็นด้วย</option>
+                                <option value="1">ไม่เห็นด้วย</option>
+                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ex16">16.คนทุกคนสามารถเรียนรู้สิ่งใหม่ได้
+                                แต่ไม่สามารถเปลี่ยนทักษะทางปัญญาได้</label>
+                            <select id="ex16" name="ex16" class="form-control">
+                                <option selected>{{std.ex16}}</option>
+                                <option>เลือก...</option>
+                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="1">เห็นด้วย</option>
+                                <option value="2">ไม่เห็นด้วย</option>
+                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ex17">17.คนทุกคนสามารถทำงานด้วยวิธีการที่แตกต่างจากเดิมได้
+                                แต่ไม่สามารถเปลี่ยนตัวตนที่แท้จริงได้</label>
+                            <select id="ex17" name="ex17" class="form-control">
+                                <option selected>{{std.ex17}}</option>
+                                <option>เลือก...</option>
+                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="1">เห็นด้วย</option>
+                                <option value="2">ไม่เห็นด้วย</option>
+                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ex18">18.คนทุกคนล้วนเป็นคนดี แต่บางครั้งอาจตัดสินใจผิดพลาดได้</label>
+                            <select id="ex18" name="ex18" class="form-control">
+                                <option selected>{{std.ex18}}</option>
+                                <option>เลือก...</option>
+                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="2">เห็นด้วย</option>
+                                <option value="1">ไม่เห็นด้วย</option>
+                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="ex19">19.เหตุผลสำคัญที่ฉันทำงานโรงเรียน คือ ฉันชอบเรียนรู้สิ่งใหม่</label>
+                            <select id="ex19" name="ex19" class="form-control">
+                                <option selected>{{std.ex19}}</option>
+                                <option>เลือก...</option>
+                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="2">เห็นด้วย</option>
+                                <option value="1">ไม่เห็นด้วย</option>
+                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ex20">20.คนฉลาดจริงไม่ต้องขยัน</label>
+                            <select id="ex20" name="ex20" class="form-control">
+                                <option selected>{{std.ex20}}</option>
+                                <option>เลือก...</option>
+                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
+                                <option value="2">เห็นด้วย</option>
+                                <option value="1">ไม่เห็นด้วย</option>
+                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-warning" onclick="saveinfo()">อัปเดต</button> / <a
+                        href="{% url 'table_backend' %}" class="btn btn-info">ย้อนกลับ</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    function saveinfo() {
+        Swal.fire({
+            title: 'Do you want to save the changes?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            denyButtonText: `Don't save`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                Swal.fire('Saved!', '', 'success')
+            } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+            }
+        })
+    }
+</script>
+{% endblock body %}
