@@ -1,6 +1,25 @@
+from unicodedata import name
 from django.db import models
 
 # Create your models here.
+
+class School(models.Model):
+    name_school = models.CharField(max_length=255)
+    size_school = models.CharField(max_length=255)
+    zone_school = models.CharField(max_length=255)
+    district_school = models.CharField(max_length=255)
+    province_school = models.CharField(max_length=255)
+    Latitude = models.CharField(max_length=255)
+    Longitude = models.CharField(max_length=255)
+
+class Eduction(models.Model):
+    education_name = models.CharField(max_length=255)
+
+class Round_apply(models.Model):
+    round_apply_name = models.CharField(max_length=255)
+
+class Plan(models.Model):
+    plan_name = models.CharField(max_length=255)
 
 class student(models.Model):
     gender_CHOICE = (('นาย', 'นาย'), ('นางสาว', 'นางสาว'), ('นาง', 'นาง'),)
