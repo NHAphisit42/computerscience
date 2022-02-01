@@ -4,8 +4,14 @@ from django.db import models
 # Create your models here.
 
 class School(models.Model):
+    SizeSchool_CHOICE = (
+        ('โรงเรียนขนาดเล็ก', 'โรงเรียนขนาดเล็ก'), 
+        ('โรงเรียนขนาดกลาง', 'โรงเรียนขนาดกลาง'), 
+        ('โรงเรียนขนาดใหญ่', 'โรงเรียนขนาดใหญ่'), 
+        ('โรงเรียนขนาดใหญ่พิเศษ', 'โรงเรียนขนาดใหญ่พิเศษ'),)
+
     name_school = models.CharField(max_length=255)
-    size_school = models.CharField(max_length=255)
+    size_school = models.CharField(max_length=255, choices=SizeSchool_CHOICE)
     zone_school = models.CharField(max_length=255)
     district_school = models.CharField(max_length=255)
     province_school = models.CharField(max_length=255)
@@ -48,7 +54,7 @@ class Plan(models.Model):
         return self.plan_name
 
     class Meta:
-        db_table='cart'
+        db_table='Plan'
         verbose_name='แผนการเรียน'
         verbose_name_plural="ข้อมูลแผนการเรียน"
 
@@ -56,18 +62,6 @@ class student(models.Model):
     gender_CHOICE = (('นาย', 'นาย'), ('นางสาว', 'นางสาว'), ('นาง', 'นาง'),)
 
     grade_CHOICE = (('ชั้นปีที่ 1', 'ชั้นปีที่ 1'), ('ชั้นปีที่ 2', 'ชั้นปีที่ 2'), ('ชั้นปีที่ 3', 'ชั้นปีที่ 3'), ('ชั้นปีที่ 4', 'ชั้นปีที่ 4'),)
-
-    plan_CHOICE = (
-        ('แผนกการเรียน วิทย์-คณิต', 'แผนกการเรียน วิทย์-คณิต'), 
-        ('แผนกการเรียน ศิลป์-คำนวณ','แผนกการเรียน ศิลป์-คำนวณ'),
-        ('แผนกการเรียน ศิลป์-ภาษา','แผนกการเรียน ศิลป์-ภาษา'),
-        ('แผนกการเรียน คณิตศาสตร์-ภาษาอังกฤษ','แผนกการเรียน คณิตศาสตร์-ภาษาอังกฤษ'), 
-        ('แผนกการเรียน ภาษา-สังคม','แผนกการเรียน ภาษา-สังคม'),
-        ('แผนกการเรียน สังคม-ญี่ปุ่น','แผนกการเรียน ภาษา-ญี่ปุ่น'),
-        ('ประกาศนียบัตรวิชาชีพ(ปวช)','ประกาศนียบัตรวิชาชีพ(ปวช)'), 
-        ('ประกาศนียบัตรวิชาชีพขั้นสูง(ปวส)','ประกาศนียบัตรวิชาชีพขั้นสูง(ปวส)'),
-        ('เทียบเท่าละดับมัธยมศึกษาตอนปลาย)','เทียบเท่าละดับมัธยมศึกษาตอนปลาย'),
-        )
 
     aroundregister_CHOICE = (
         ('portfolio', 'portfolio'),
@@ -158,10 +152,10 @@ class student(models.Model):
     gender = models.CharField(max_length=100, choices=gender_CHOICE, null=True)
     name = models.CharField(max_length=255, null=True)
     sophomore_student = models.CharField(max_length=155, choices=grade_CHOICE, null=True)
-    school = models.CharField(max_length=255, null=True)
-    short = models.CharField(max_length=100, null=True)
-    plan = models.CharField(max_length=255, choices=plan_CHOICE, null=True)
-    round_apply = models.CharField(max_length=255, choices=aroundregister_CHOICE, null=True)
+    school = models.ForeignKey(School, on_delete=models.CASCADE, null=True)
+    short = models.CharField(max_length=255, null=True)
+    plan = models.ForeignKey(Plan, on_delete=models.CASCADE, null=True)
+    round_apply = models.ForeignKey(Round_apply, on_delete=models.CASCADE, null=True)
     grade = models.CharField(max_length=50, null=True)
     grade_maths = models.CharField(max_length=50, null=True)
     grade_science = models.CharField(max_length=50, null=True)

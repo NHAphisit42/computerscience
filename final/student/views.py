@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from student.models import student
+from student.models import student, Eduction, Round_apply, Plan, School
 
 # Create your views here.
 def home(request):
