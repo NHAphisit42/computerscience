@@ -75,6 +75,9 @@ def sign_in(request):#ลงชื่อเข้าใช้
         if user is not None:
             login(request, user)
             return redirect('home_backend')
+        else:
+            messages.info(request,"ไม่พบข้อมูลบัญชีผู้ใช้")
+            return redirect("login_backend")
 
 def logout_backend(request):
     logout(request)
