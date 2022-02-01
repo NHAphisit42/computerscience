@@ -43,12 +43,12 @@
                     aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     {% if user.is_authenticated %}
-                    <li><a class="dropdown-item" href="">{{user.first_name}} {{user.last_name}}</a></li>
+                    <li><a class="dropdown-item" href="">{{user.first_name}} {{user.last_name}} <i class="fas fa-user"></i></a></li>
                     <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="{% url 'logout_backend' %}" onclick="logout()">ออกจากระบบ</a></li>
+                    <li><a class="dropdown-item" href="{% url 'logout_backend' %}" onclick="logout()">ออกจากระบบ <i class="fas fa-sign-out-alt"></i></a></li>
                     {% else %}
-                    <li><a class="dropdown-item" href="{% url 'login_backend' %}">เข้าสู่ระบบ</a></li>
-                    <li><a class="dropdown-item" href="{% url 'register_backend' %}">ลงทะเบียน</a></li>
+                    <li><a class="dropdown-item" href="{% url 'login_backend' %}">เข้าสู่ระบบ <i class="fas fa-sign-in-alt"></i></a></li>
+                    <li><a class="dropdown-item" href="{% url 'register_backend' %}">ลงทะเบียน <i class="fas fa-registered"></i></a></li>
                     {% endif %}
                 </ul>
             </li>
@@ -75,8 +75,20 @@
                                 ตารางข้อมูลนักศึกษา
                             </a>
                             <a class="nav-link" href="{% url 'home' %}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-home"></i></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
                                 ไปหน้าเว็บหลัก
+                            </a>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fas fa-school"></i></div>
+                                เพิ่มข้อมูลโรงเรียน
+                            </a>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fas fa-edit"></i></div>
+                                เพิ่มข้อมูลรอบสมัคร
+                            </a>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fas fa-edit"></i></div>
+                                เพิ่มข้อมูลแผนการเรียน
                             </a>
                         {% endif %}
                     </div>
@@ -123,7 +135,7 @@
                 icon: 'success',
                 title: 'ออกจากระบบแล้ว',
                 showConfirmButton: false,
-                timer: 1500
+                timer: 2000
             })
         }
     </script>
