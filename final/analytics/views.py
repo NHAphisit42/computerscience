@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from student.models import student
 from django.http import HttpResponse
-from django.views.generic import TemplateView
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -38,15 +38,34 @@ def adduser_backend(request):#ลงทะเบียน
         email = request.POST['email']
         username = request.POST['username']
         password = request.POST['password']
-        adduser = User.objects.create(
-            first_name = first_name,
-            last_name = last_name,
-            email = email,
-            username = username,
-            password = password,
-        )
-        adduser.save()
-        return redirect('login_backend')
+        repassword = request.POST['repassword']
+
+        if username == "" or email == "" or password=="" or repassword=="":
+            messages.info(request,"กรุณาป้อนข้อมูลให้ครบ")
+            return redirect("register_backend")
+        else:
+            if password == repassword :
+                if User.objects.filter(username=username).exists():
+                    messages.info(request,"Username นี้มีคนใช้แล้ว")
+                    return redirect("register_backend")
+                elif User.objects.filter(email=email).exists():
+                    messages.info(request,"อีเมลนี้เคยลงทะเบียนไปแล้ว")
+                    return redirect("register_backend")
+                else:
+                    user=User.objects.create_user(
+                        first_name = first_name,
+                        last_name = last_name,
+                        username = username,
+                        email=email,
+                        password=password
+                    )
+                    user.save()
+                    messages.info(request,"สร้างบัญชีเรียบร้อย")
+                    return redirect("login_backend")
+            else:
+                messages.info(request,"ไม่สามารถลงทะเบียนได้รหัสผ่านไม่ตรงกัน")
+                return redirect("register_backend")
+
 
 def sign_in(request):#ลงชื่อเข้าใช้
     if request.method == "POST":

@@ -61,10 +61,13 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
                                                 <label for="inputPassword4">Re-Password</label>
-                                                <input type="password" name="password" class="form-control" id="inputPassword4" required>
+                                                <input type="password" name="repassword" class="form-control" id="inputPassword4" required>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary" onclick="return confirm('บันทึกข้อมูลเรียบร้อย')">ลงชื่อ</button>
+                                        {% for message in messages%}
+                                            <p style="color: red;">{{message}}</p>
+                                        {% endfor%}
+                                        <button type="submit" class="btn btn-primary">ลงชื่อ</button>
                                     </form>
                                 </div>
                                 <div class="card-footer text-center py-3">
