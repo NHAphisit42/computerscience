@@ -24,12 +24,14 @@ def studentdetail(request,id):
 def chart_backend(request):
     return render(request, 'chart_backend.html')
 
+def addschool_backend(request):
+    return render(request, 'addschool_backend.html')
+
 def login_backend(request):
     return render(request, 'login_backend.html')
 
 def register_backend(request):
     return render(request, 'register_backend.html')
-
 
 def adduser_backend(request):#ลงทะเบียน
     if request.method == "POST":

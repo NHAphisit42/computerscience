@@ -1,0 +1,83 @@
+{% extends "base_backend.html" %}
+{% block title %}เพิ่มข้อมูลโรงเรียน{% endblock title %}
+{% block body %}
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">เพิ่มข้อมูลโรงเรียน</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'home_backend' %}">หน้าหลัก</a></li>
+            <li class="breadcrumb-item active">เพิ่มข้อมูลโรงเรียน</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                เพิ่มข้อมูลโรงเรียน
+            </div>
+            <div class="card-body">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <h3>เพิ่มข้อมูลโรงเรียน</h3>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="inputEmail4" class="form-label">ชื่อโรงเรียน</label>
+                            <input type="email" class="form-control" id="inputEmail4">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputPassword4" class="form-label">ขนาดโรงเรียน</label>
+                            <select id="inputState" class="form-select">
+                                <option selected>Choose...</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="inputAddress" class="form-label">ตำบล</label>
+                            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                        </div>
+                        <div class="col-4">
+                            <label for="inputAddress" class="form-label">อำเภอ</label>
+                            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                        </div>
+                        <div class="col-4">
+                            <label for="inputAddress" class="form-label">จังหวัด</label>
+                            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="inputCity" class="form-label">ละติจูด</label>
+                            <input type="text" class="form-control" id="inputCity">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputCity" class="form-label">ลองจิจูด</label>
+                            <input type="text" class="form-control" id="inputCity">
+                        </div>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-warning" onclick="saveinfo()">เพิ่มข้อมูล</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    function saveinfo() {
+        Swal.fire({
+            title: 'Do you want to save the changes?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+            denyButtonText: `Don't save`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                Swal.fire('Saved!', '', 'success')
+            } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+            }
+        })
+    }
+</script>
+{% endblock body %}

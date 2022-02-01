@@ -13,4 +13,5 @@ urlpatterns = [
     path('adduser_backend', views.adduser_backend, name='adduser_backend'),
     path('sign_in', views.sign_in, name='sign_in'),
     path('logout_backend', views.logout_backend, name='logout_backend'),
+    path('Addschool', views.addschool_backend, name='addschool_backend')
 ]
