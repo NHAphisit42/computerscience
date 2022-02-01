@@ -12,14 +12,33 @@ class School(models.Model):
     Latitude = models.CharField(max_length=255)
     Longitude = models.CharField(max_length=255)
 
+    class Meta:
+        db_table='School'
+        verbose_name='โรงเรียน'
+        verbose_name_plural="ข้อมูลโรงเรียน"
+
 class Eduction(models.Model):
     education_name = models.CharField(max_length=255)
+
+    class Meta:
+        db_table='Eduction'
+        verbose_name='การศึกษา'
+        verbose_name_plural="ข้อมูลการศึกษา"
 
 class Round_apply(models.Model):
     round_apply_name = models.CharField(max_length=255)
 
+    class Meta:
+        db_table='Round_apply'
+        verbose_name='รอบที่สมัคร'
+        verbose_name_plural="ข้อมูลรอบบสมัคร"
 class Plan(models.Model):
     plan_name = models.CharField(max_length=255)
+
+    class Meta:
+        db_table='cart'
+        verbose_name='แผนการเรียน'
+        verbose_name_plural="ข้อมูลแผนการเรียน"
 
 class student(models.Model):
     gender_CHOICE = (('นาย', 'นาย'), ('นางสาว', 'นางสาว'), ('นาง', 'นาง'),)
