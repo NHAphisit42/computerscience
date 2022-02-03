@@ -68,7 +68,6 @@ def adduser_backend(request):#ลงทะเบียน
                 messages.info(request,"ไม่สามารถลงทะเบียนได้รหัสผ่านไม่ตรงกัน")
                 return redirect("register_backend")
 
-
 def sign_in(request):#ลงชื่อเข้าใช้
     if request.method == "POST":
         username = request.POST['username']

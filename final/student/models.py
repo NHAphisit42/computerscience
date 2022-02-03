@@ -47,6 +47,7 @@ class Round_apply(models.Model):
         db_table='Round_apply'
         verbose_name='รอบที่สมัคร'
         verbose_name_plural="ข้อมูลรอบบสมัคร"
+        
 class Plan(models.Model):
     plan_name = models.CharField(max_length=255)
 
