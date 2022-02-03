@@ -33,6 +33,18 @@ def login_backend(request):
 def register_backend(request):
     return render(request, 'register_backend.html')
 
+def school(request):
+    return render(request, 'school.html')
+
+def education(request):
+    return render(request, 'education.html')
+
+def plan(request):
+    return render(request, 'plan.html')
+
+def round_apply(request):
+    return render(request, 'round_apply.html')
+
 def adduser_backend(request):#ลงทะเบียน
     if request.method == "POST":
         first_name = request.POST['first_name']

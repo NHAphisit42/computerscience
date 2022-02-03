@@ -4,8 +4,10 @@ from . import views
 urlpatterns = [
     path('', views.home_backend, name='home_backend'),
     path('table_student', views.table_backend, name='table_backend'),
+    
     path('studentdetail/<int:id>', views.studentdetail, name='studentdetail'),
     path('remove/<int:id>', views.remove, name='remove'),
+    
     path('update', views.update, name='update'),
     path('chart_backend', views.chart_backend, name='chart_backend'),
     path('login', views.login_backend, name='login_backend'),
@@ -13,5 +15,10 @@ urlpatterns = [
     path('adduser_backend', views.adduser_backend, name='adduser_backend'),
     path('sign_in', views.sign_in, name='sign_in'),
     path('logout_backend', views.logout_backend, name='logout_backend'),
-    path('Addschool', views.addschool_backend, name='addschool_backend')
+    path('Addschool', views.addschool_backend, name='addschool_backend'),
+    
+    path('plan', views.plan, name='plan'),
+    path('school', views.school, name='school'),
+    path('education', views.education, name='education'),
+    path('round_apply', views.round_apply, name='round_apply'),
 ]
