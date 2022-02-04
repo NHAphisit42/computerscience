@@ -1,0 +1,75 @@
+{% extends 'base_backend.html' %}
+{% block title %}ข้อมูลรอบใช้สมัคร{% endblock title %}
+{% block body %}
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">ตารางข้อมูลรอบใช้สมัคร</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'home_backend' %}">หน้าหลัก</a></li>
+            <li class="breadcrumb-item active">ตารางข้อมูลนักศึกษา</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                ข้อมูลนักศึกษาสาขาวิทยาการคอมพิวเตอร์
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;">คำนำหน้า</th>
+                            <th style="text-align: center;">ชื่อ</th>
+                            <th style="text-align: center;">ชั้นปีที่</th>
+                            <th style="text-align: center;">รอบสมัคร</th>
+                            <th style="text-align: center;">โรงเรียนที่จบการศึกษา</th>
+                            <th style="text-align: center;">แก้ไข/ลบ</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>คำนำหน้า</th>
+                            <th>ชื่อ</th>
+                            <th>ชั้นปีที่</th>
+                            <th>รอบสมัคร</th>
+                            <th>โรงเรียนที่จบการศึกษา</th>
+                            <th style="text-align: center;">แก้ไข/ลบ</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for std in std %}
+                        <tr>
+                            <td>{{std.gender}}</td>
+                            <td>{{std.name}}</td>
+                            <td>{{std.sophomore_student}}</td>
+                            <td>{{std.round_apply}}</td>
+                            <td>{{std.school}}</td>
+                            <td style="text-align: center;"><a href="{% url 'studentdetail' std.id %}" class="btn btn-warning">ดูข้อมูล</a> / <a href="{% url 'remove' std.id %}" class="btn btn-danger" onclick="del()">ลบข้อมูล</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        function del() {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this imaginary file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Poof! Your imaginary file has been deleted!", {
+                            icon: "success",
+                        });
+                    } else {
+                        swal("Your imaginary file is safe!");
+                    }
+                });
+        }
+    </script>
+</main>
+{% endblock body %}
