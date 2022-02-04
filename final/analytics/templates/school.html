@@ -19,11 +19,11 @@
                 <table id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th style="text-align: center;">คำนำหน้า</th>
-                            <th style="text-align: center;">ชื่อ</th>
-                            <th style="text-align: center;">ชั้นปีที่</th>
-                            <th style="text-align: center;">รอบสมัคร</th>
-                            <th style="text-align: center;">โรงเรียนที่จบการศึกษา</th>
+                            <th style="text-align: center;">ชื่อโรงเรียน</th>
+                            <th style="text-align: center;">ขนาดโรงเรียน</th>
+                            <th style="text-align: center;">ตำบล</th>
+                            <th style="text-align: center;">อำเภอ</th>
+                            <th style="text-align: center;">จังหวัด</th>
                             <th style="text-align: center;">แก้ไข/ลบ</th>
                         </tr>
                     </thead>
@@ -38,14 +38,14 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        {% for std in std %}
+                        {% for school in school %}
                         <tr>
-                            <td>{{std.gender}}</td>
-                            <td>{{std.name}}</td>
-                            <td>{{std.sophomore_student}}</td>
-                            <td>{{std.round_apply}}</td>
-                            <td>{{std.school}}</td>
-                            <td style="text-align: center;"><a href="{% url 'studentdetail' std.id %}" class="btn btn-warning">ดูข้อมูล</a> / <a href="{% url 'remove' std.id %}" class="btn btn-danger" onclick="del()">ลบข้อมูล</a></td>
+                            <td>{{school.name_school}}</td>
+                            <td style="text-align: center;">{{school.size_school}}</td>
+                            <td>{{school.zone_school}}</td>
+                            <td>{{school.district_school}}</td>
+                            <td>{{school.province_school}}</td>
+                            <td style="text-align: center;"><a href="{% url 'studentdetail' school.id %}" class="btn btn-warning">ดูข้อมูล</a> / <a href="{% url 'remove' school.id %}" class="btn btn-danger" onclick="del()">ลบข้อมูล</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>

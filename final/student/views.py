@@ -6,7 +6,11 @@ def home(request):
     return render(request, 'home.html')
 
 def form(request):
-    return render(request, 'form.html')
+    school = School.objects.all()
+    education = Eduction.objects.all()
+    round = Round_apply.objects.all()
+    plan = Plan.objects.all()
+    return render(request, 'form.html', {'school': school, 'education': education, 'round': round, 'plan': plan})
 
 def addstudent(request):
     if request.method == "POST":

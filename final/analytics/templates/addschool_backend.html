@@ -14,7 +14,7 @@
                 เพิ่มข้อมูลโรงเรียน
             </div>
             <div class="card-body">
-                <form action="{% url 'addschool' %}" method="post">
+                <form action="{% url 'add' %}" method="post">
                     {% csrf_token %}
                     <h3>เพิ่มข้อมูลโรงเรียน</h3>
                     <hr>
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     {% for messages in messages %}
-                    <p style="color: green;">{{messages}}</p>
+                        <p style="color: green;">{{messages}}</p>
                     {% endfor %}
                     <br>
                     <button type="submit" class="btn btn-warning" onclick="addschool()">เพิ่มข้อมูล</button>

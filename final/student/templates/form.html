@@ -36,8 +36,12 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="school">สถาบันที่จบการศึกษา</label>
-                    <input type="text" name="school" id="school" class="form-control"
-                        placeholder="เช่น โรงเรียน วิทยาลัยเทคนิค อื่น ๆ">
+                    <select name="school" id="" class="form-control">
+                        <option value="">เลือกโรงเรียน</option>
+                        {% for school in school %}
+                        <option value="{{school.id}}">{{school.name_school}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="form-group col-md-3">
                     <label for="short">ชื่อย่อของโรงเรียน</label>
@@ -47,11 +51,9 @@
                     <label for="plan">แผนกการเรียน ที่ใช้สมัครเรียน</label>
                     <select id="plan" name="plan" class="form-control">
                         <option selected>เลือก...</option>
-                        <option value="แผนกการเรียน วิทย์-คณิต">แผนกการเรียน วิทย์-คณิต</option>
-                        <option value="แผนกการเรียน ศิลป์-คำนวณ">แผนกการเรียน ศิลป์-คำนวณ</option>
-                        <option value="ประกาศนียบัตรวิชาชีพ(ปวช)">ประกาศนียบัตรวิชาชีพ(ปวช)</option>
-                        <option value="ประกาศนียบัตรวิชาชีพขั้นสูง(ปวส)">ประกาศนียบัตรวิชาชีพขั้นสูง(ปวส)</option>
-                        <option value="เทียบเท่าละดับมัธยมศึกษาตอนปลาย">เทียบเท่าละดับมัธยมศึกษาตอนปลาย</option>
+                        {% for plan in plan %}
+                        <option value="{{plan.id}}">{{plan.plan_name}}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
@@ -60,11 +62,9 @@
                     <label for="round_apply">รอบที่มาสมัครเรียนสาขาวิทยาการคอมพิวเตอร์</label>
                     <select id="round_apply" name="round_apply" class="form-control">
                         <option selected>เลือก...</option>
-                        <option value="portfolio">portfolio</option>
-                        <option value="โควต้า">โควต้า</option>
-                        <option value="รับตรงรอบที่ 1">รับตรงรอบที่ 1</option>
-                        <option value="รับตรงรอบที่ 2">รับตรงรอบที่ 2</option>
-                        <option value="รับตรงอิสระ">รับตรงอิสระ</option>
+                        {% for round in round %}
+                        <option value="{{round.id}}">{{round.round_apply_name}}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>

@@ -34,17 +34,18 @@ def register_backend(request):
     return render(request, 'register_backend.html')
 
 def school(request):
-    return render(request, 'school.html')
+    school = School.objects.all()
+    return render(request, 'school.html', {'school':school})
 
 def addschool(request):
     if request.method == "POST":
-        name_school = request.post['name_school']
-        size_school = request.post['size_school']
-        zone_school = request.post['zone_school']
-        district_school = request.post['district_school']
-        province_school = request.post['province_school']
-        Latitude = request.post['Latitude']
-        Longitude = request.post['Longitude']
+        name_school = request.POST['name_school']
+        size_school = request.POST['size_school']
+        zone_school = request.POST['zone_school']
+        district_school = request.POST['district_school']
+        province_school = request.POST['province_school']
+        Latitude = request.POST['Latitude']
+        Longitude = request.POST['Longitude']
         
         if name_school == "" or size_school == "" or zone_school == "" or district_school == "" or province_school == "" or Latitude == "" or Longitude == "":
             messages.info(request,"กรุณาป้อนข้อมูลให้ครบ")
