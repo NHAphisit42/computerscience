@@ -1,5 +1,6 @@
 {% extends 'base_backend.html' %}
 {% block title %}ข้อมูลโรงเรียน{% endblock title %}
+{% load static %}
 {% block body %}
 <main>
     <div class="container-fluid px-4">
@@ -10,8 +11,9 @@
         </ol>
         <div class="card mb-4">
             <div class="card-header">
-                <i class="fas fa-table me-1"></i>
+                <img src="{% static 'img/school.png' %}" width="25px" alt="">
                 ข้อมูลนักศึกษาสาขาวิทยาการคอมพิวเตอร์
+                <a href="{% url 'addschool_backend' %}" class="btn btn-primary">เพิ่มโรงเรียน</a>
             </div>
             <div class="card-body">
                 <table id="datatablesSimple">

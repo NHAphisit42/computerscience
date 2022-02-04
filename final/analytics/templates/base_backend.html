@@ -9,6 +9,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>{% block title %}{% endblock title %}</title>
+    <link rel="shortcut icon" href="{% static 'img/analytics.png' %}">
     <script src="https://kit.fontawesome.com/e0c63c4ae1.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
@@ -21,9 +22,9 @@
 </head>
 
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <nav class="sb-topnav navbar navbar-expand navbar-light" style="background-color: darkseagreen;">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="{% url 'home_backend' %}">Analytics</a>
+        <a class="navbar-brand ps-3" href="{% url 'home_backend' %}"> <img src="{% static 'img/analytics.png' %}" width="30px" alt=""> Analytics</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                 class="fas fa-bars"></i></button>
@@ -62,24 +63,24 @@
                         <div class="sb-sidenav-menu-heading">เมนูหลัก</div>
                         {% if user.is_authenticated %}
                             <a class="nav-link" href="{% url 'home_backend' %}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                <div class="sb-nav-link-icon"><img src="{% static 'img/dashboard.png' %}" width="25px" alt=""></div>
                                 หน้าหลัก
                             </a>
                             <div class="sb-sidenav-menu-heading">Addons</div>
                             <a class="nav-link" href="{% url 'chart_backend' %}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                <div class="sb-nav-link-icon"><img src="{% static 'img/analytics2.png' %}" width="25px" alt=""></div>
                                 การวิเคราะห์ข้อมูล
                             </a>
                             <a class="nav-link" href="{% url 'table_backend' %}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                <div class="sb-nav-link-icon"><img src="{% static 'img/table.png' %}" width="25px" alt=""></div>
                                 ตารางข้อมูลนักศึกษา
                             </a>
                             <a class="nav-link" href="{% url 'home' %}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+                                <div class="sb-nav-link-icon"><img src="{% static 'img/website.png' %}" width="25px" alt=""></div>
                                 ไปหน้าเว็บหลัก
                             </a>
                             <a class="nav-link" href="{% url 'school' %}">
-                                <div class="sb-nav-link-icon"><i class="fas fa-school"></i></div>
+                                <div class="sb-nav-link-icon"><img src="{% static 'img/school.png' %}" width="25px" alt=""></div>
                                 ข้อมูลโรงเรียน
                             </a>
                             <a class="nav-link" href="{% url 'round_apply' %}">

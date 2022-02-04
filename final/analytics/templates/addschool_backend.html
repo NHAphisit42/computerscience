@@ -14,72 +14,71 @@
                 เพิ่มข้อมูลโรงเรียน
             </div>
             <div class="card-body">
-                <form action="" method="post">
+                <form action="{% url 'addschool' %}" method="post">
                     {% csrf_token %}
                     <h3>เพิ่มข้อมูลโรงเรียน</h3>
                     <hr>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="inputEmail4" class="form-label">ชื่อโรงเรียน</label>
-                            <input type="email" class="form-control" id="inputEmail4">
+                            <input type="text" name="name_school" class="form-control" id="inputEmail4">
                         </div>
                         <div class="col-md-6">
                             <label for="inputPassword4" class="form-label">ขนาดโรงเรียน</label>
-                            <select id="inputState" class="form-select">
+                            <select id="inputState" name="size_school" class="form-select">
                                 <option selected>เลือกขนาดโรงเรียน</option>
-                                <option value="">โรเรียนขนาดเล็ก</option>
-                                <option value="">โรงเรียนขนาดกลาง</option>
-                                <option value="">โรงเรียนขนาดใหญ่</option>
-                                <option value="">โรงเรียนขนาดใหญ่พิเศษ</option>
+                                <option value="โรเรียนขนาดเล็ก">โรเรียนขนาดเล็ก</option>
+                                <option value="โรงเรียนขนาดกลาง">โรงเรียนขนาดกลาง</option>
+                                <option value="โรงเรียนขนาดใหญ่">โรงเรียนขนาดใหญ่</option>
+                                <option value="โรงเรียนขนาดใหญ่พิเศษ">โรงเรียนขนาดใหญ่พิเศษ</option>
                             </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-4">
                             <label for="inputAddress" class="form-label">ตำบล</label>
-                            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                            <input type="text" name="zone_school" class="form-control" id="inputAddress"
+                                placeholder="1234 Main St">
                         </div>
                         <div class="col-4">
                             <label for="inputAddress" class="form-label">อำเภอ</label>
-                            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                            <input type="text" name="district_school" class="form-control" id="inputAddress"
+                                placeholder="1234 Main St">
                         </div>
                         <div class="col-4">
                             <label for="inputAddress" class="form-label">จังหวัด</label>
-                            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                            <input type="text" name="province_school" class="form-control" id="inputAddress"
+                                placeholder="1234 Main St">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="inputCity" class="form-label">ละติจูด</label>
-                            <input type="text" class="form-control" id="inputCity">
+                            <input type="text" name="Latitude" class="form-control" id="inputCity">
                         </div>
                         <div class="col-md-6">
                             <label for="inputCity" class="form-label">ลองจิจูด</label>
-                            <input type="text" class="form-control" id="inputCity">
+                            <input type="text" name="Longitude" class="form-control" id="inputCity">
                         </div>
                     </div>
+                    {% for messages in messages %}
+                    <p style="color: green;">{{messages}}</p>
+                    {% endfor %}
                     <br>
-                    <button type="submit" class="btn btn-warning" onclick="saveinfo()">เพิ่มข้อมูล</button>
+                    <button type="submit" class="btn btn-warning" onclick="addschool()">เพิ่มข้อมูล</button>
                 </form>
             </div>
         </div>
     </div>
 </main>
 <script>
-    function saveinfo() {
+    function addschool() {
         Swal.fire({
-            title: 'Do you want to save the changes?',
-            showDenyButton: true,
-            showCancelButton: true,
-            confirmButtonText: 'Save',
-            denyButtonText: `Don't save`,
-        }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                Swal.fire('Saved!', '', 'success')
-            } else if (result.isDenied) {
-                Swal.fire('Changes are not saved', '', 'info')
-            }
+            position: 'center',
+            icon: 'success',
+            title: 'Your work has been saved',
+            showConfirmButton: false,
+            timer: 1500
         })
     }
 </script>

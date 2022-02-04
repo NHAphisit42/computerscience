@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from student.models import student
+from student.models import student, School, Eduction, Plan, Round_apply
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -35,6 +35,33 @@ def register_backend(request):
 
 def school(request):
     return render(request, 'school.html')
+
+def addschool(request):
+    if request.method == "POST":
+        name_school = request.post['name_school']
+        size_school = request.post['size_school']
+        zone_school = request.post['zone_school']
+        district_school = request.post['district_school']
+        province_school = request.post['province_school']
+        Latitude = request.post['Latitude']
+        Longitude = request.post['Longitude']
+        
+        if name_school == "" or size_school == "" or zone_school == "" or district_school == "" or province_school == "" or Latitude == "" or Longitude == "":
+            messages.info(request,"กรุณาป้อนข้อมูลให้ครบ")
+            return redirect("addschool_backend")
+        else:
+            school = School.objects.create(
+                name_school = name_school,
+                size_school = size_school,
+                zone_school = zone_school,
+                district_school = district_school,
+                province_school = province_school,
+                Latitude = Latitude,
+                Longitude = Longitude
+            )
+            school.save()
+            messages.info(request,"สร้างสถานศึกษาเรียบร้อย")
+            return redirect('addschool_backend')
 
 def education(request):
     return render(request, 'education.html')
