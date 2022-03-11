@@ -1,5 +1,7 @@
+from distutils.log import info
 from django.shortcuts import redirect, render
 from student.models import student, Eduction, Round_apply, Plan, School
+from django.contrib import messages
 
 # Create your views here.
 def home(request):
@@ -56,8 +58,8 @@ def addstudent(request):
         ex19 = request.POST['ex19']
         ex20 = request.POST['ex20']
 
-        if gender == "":
-            pass
+        if gender == "" and name=="" and sophomore_student=="":
+            messages.info(request, "กรุณากรอกข้อมูลให้ครบ")
         else:
             std = student.objects.create(
                 gender = gender,
@@ -103,4 +105,5 @@ def addstudent(request):
                 ex20 = ex20,
             )
             std.save()
+            messages.info(request, "กรอกข้อมูลครบถ้วน")
             return redirect('home')
