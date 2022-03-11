@@ -3,6 +3,9 @@
 {% block body %}
 <main>
     <div class="container">
+        {% for message in messages%}
+        <p style="color: red;">{{message}}</p>
+        {% endfor %}
         <form action="{% url 'addstudent' %}" method="post">
             {% csrf_token %}
             <h3 style="text-align: center;">ข้อมูลนักศึกษา</h3>
