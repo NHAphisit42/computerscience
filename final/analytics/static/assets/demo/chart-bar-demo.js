@@ -12,7 +12,7 @@ var myLineChart = new Chart(ctx, {
     datasets: [
       {
         label: "Revenue",
-        backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745'],
+        backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745', '#ff33cc', '#ffccff'],
         data: [6000, 5312, 6251, 7841, 9821, 8541],
       },
     ],
