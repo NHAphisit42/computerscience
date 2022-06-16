@@ -9,6 +9,9 @@ import pandas as pd
 import csv
 import numpy as np
 import matplotlib as plt
+import seaborn as sns
+from sklearn.cluster import KMeans
+from sklearn import preprocessing
 
 # Create your views here.
 # @login_required(login_url='login_backend.html')
