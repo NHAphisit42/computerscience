@@ -226,4 +226,3 @@ def update(request, id):
         )
         std.save()
         return redirect('table_backend')
-
