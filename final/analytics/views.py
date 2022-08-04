@@ -14,7 +14,7 @@ from sklearn.cluster import KMeans
 from sklearn import preprocessing
 
 # Create your views here.
-# @login_required(login_url='login_backend.html')
+# @login_required(login_url='login')
 def home_backend(request):
     std = student.objects.all()
     stdcount = std.count()
