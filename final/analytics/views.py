@@ -12,6 +12,8 @@ import matplotlib as plt
 import seaborn as sns
 from sklearn.cluster import KMeans
 from sklearn import preprocessing
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
 
 # Create your views here.
 # @login_required(login_url='login')
