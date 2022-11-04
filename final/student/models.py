@@ -145,7 +145,7 @@ class student(models.Model):
     gender = models.CharField(max_length=100, choices=gender_CHOICE, null=True)
     name = models.CharField(max_length=255, null=True)
     sophomore_student = models.CharField(max_length=155, choices=grade_CHOICE, null=True)
-    school = models.ForeignKey(School, on_delete=models.CASCADE, null=True)
+    school = models.CharField(max_length=255, null=True)
     short = models.CharField(max_length=255, null=True)
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE, null=True)
     round_apply = models.ForeignKey(Round_apply, on_delete=models.CASCADE, null=True)

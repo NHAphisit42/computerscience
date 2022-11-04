@@ -1,14 +1,24 @@
 {% extends 'base.html' %}
 {% block title %}แบบฟอร์ม{% endblock title %}
 {% block body %}
+<style>
+    p{
+        color: red;
+    }
+    
+    h3{
+        text-align: center;
+    }
+</style>
+
 <main>
     <div class="container">
         {% for message in messages%}
-        <p style="color: red;">{{message}}</p>
+            <p>{{message}}</p>
         {% endfor %}
         <form action="{% url 'addstudent' %}" method="post">
             {% csrf_token %}
-            <h3 style="text-align: center;">ข้อมูลนักศึกษา</h3>
+            <h3>ข้อมูลนักศึกษา</h3>
             <hr>
             <h4>ข้อมูลส่วนตัว</h4>
             <hr>
@@ -41,12 +51,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="school">สถาบันที่จบการศึกษา</label>
-                    <select name="school" id="" class="form-control">
-                        <option value="">เลือกโรงเรียน</option>
-                        {% for school in school %}
-                        <option value="{{school.id}}">{{school.name_school}}</option>
-                        {% endfor %}
-                    </select>
+                    <input type="text" name="school", id="school" class="form-control" placeholder="โรงเรียน(ตามด้วยชื่อ)">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="short">ชื่อย่อของโรงเรียน</label>

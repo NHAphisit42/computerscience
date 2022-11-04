@@ -6,7 +6,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import pandas as pd
-import csv
 import numpy as np
 import matplotlib as plt
 import seaborn as sns
@@ -14,6 +13,7 @@ from sklearn.cluster import KMeans
 from sklearn import preprocessing
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
+from joblib import load
 
 # Create your views here.
 # @login_required(login_url='login')
@@ -31,6 +31,7 @@ def studentdetail(request,id):
     return render(request, 'studentdetail.html', {'std':std})
 
 def chart_backend(request):
+    DT = load('DT.joblib')
     return render(request, 'chart_backend.html')
 
 def addschool_backend(request):
