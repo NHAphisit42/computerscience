@@ -1,6 +1,11 @@
 {% extends 'base_backend.html' %}
 {% block title %}{{std.name}}{% endblock title %}
 {% block body %}
+<style>
+    h3{
+        text-align: center;
+    }
+</style>
 <main>
     <div class="container-fluid px-4">
         <h1 class="mt-4">ข้อมูลนักศึกษา : {{std.gender}}{{std.name}} {{std.sophomore_student}}</h1>
@@ -17,7 +22,7 @@
             <div class="card-body">
                 <form action="{% url 'update' %}" method="post">
                     {% csrf_token %}
-                    <h3 style="text-align: center;">ข้อมูลนักศึกษา</h3>
+                    <h3>ข้อมูลนักศึกษา</h3>
                     <hr>
                     <div class="form-row">
                         <div class="from-group col-md-2">
@@ -84,7 +89,7 @@
                         </div>
                     </div>
                     <hr>
-                    <h3 style="text-align: center;">ข้อมูลเกรดของนักศึกษา</h3>
+                    <h3>ข้อมูลเกรดของนักศึกษา</h3>
                     <hr>
                     <div class="form-row">
                         <div class="form-group col-md-3">
@@ -196,7 +201,7 @@
                         </div>
                     </div>
                     <hr>
-                    <h3 style="text-align: center;">Mindset</h3>
+                    <h3>Mindset</h3>
                     <hr>
                     <div class="form-row">
                         <div class="form-group col-md-6">
