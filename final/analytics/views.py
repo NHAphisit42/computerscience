@@ -11,18 +11,17 @@ import matplotlib as plt
 import seaborn as sns
 from sklearn.cluster import KMeans
 from sklearn import preprocessing
-from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 import joblib
 import pickle 
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import tree
 
-DT = DecisionTreeClassifier()
-model = joblib.load('Project\DT.joblib')
-train = open('train', 'rb')
-x_train = pickle.load(train)
-DT.fit(x_train)
+# DT = DecisionTreeClassifier()
+# model = joblib.load('DT.joblib')
+# train = open('train', 'rb')
+# x_train = pickle.load(train)
+# DT.fit(x_train)
 
 # Create your views here.
 # @login_required(login_url='login')
