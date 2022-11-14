@@ -59,23 +59,13 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label for="plan">แผนกการเรียน ที่ใช้สมัครเรียน</label>
-                    <select id="plan" name="plan" class="form-control">
-                        <option selected>เลือก...</option>
-                        {% for plan in plan %}
-                        <option value="{{plan.id}}">{{plan.plan_name}}</option>
-                        {% endfor %}
-                    </select>
+                    <input type="text" name="plan" id="plan" class="form-control">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="round_apply">รอบที่มาสมัครเรียนสาขาวิทยาการคอมพิวเตอร์</label>
-                    <select id="round_apply" name="round_apply" class="form-control">
-                        <option selected>เลือก...</option>
-                        {% for round in round %}
-                        <option value="{{round.id}}">{{round.round_apply_name}}</option>
-                        {% endfor %}
-                    </select>
+                    <input type="text" name="round_apply" id="round_apply" class="form-control">
                 </div>
             </div>
             <hr>
