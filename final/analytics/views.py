@@ -26,6 +26,8 @@ from sklearn import tree
 # Create your views here.
 @login_required(login_url='login')
 def home_backend(request):
+    # url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSmhamUb82rl9ZTw-mV4qbDiwL-fDUHOW7BgXYHNhAi7SbI7H58uEV6vb3SFjWyY2WYG2YmnI9TDt2S/pub?output=csv'
+    # df = pd.read_csv(url)
     std = student.objects.all()
     stdcount = std.count()
     return render(request, 'home_backend.html', {'std':std, 'stdcount':stdcount})
@@ -39,7 +41,6 @@ def studentdetail(request,id):
     return render(request, 'studentdetail.html', {'std':std})
 
 def chart_backend(request):
-    
     return render(request, 'chart_backend.html')
 
 def addschool_backend(request):
