@@ -17,11 +17,6 @@ import pickle
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import tree
 
-# DT = DecisionTreeClassifier()
-# model = joblib.load('DT.joblib')
-# train = open('train', 'rb')
-# x_train = pickle.load(train)
-# DT.fit(x_train)
 
 # Create your views here.
 @login_required(login_url='login')
