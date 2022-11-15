@@ -3,7 +3,7 @@ from django.contrib import admin
 from student.models import student, School, Round_apply, Plan, Eduction
 # Register your models here.
 class studentDesing(admin.ModelAdmin):
-    list_display = ['id', 'gender', 'name', 'sophomore_student', 'school', 'plan']
+    list_display = ['id', 'gender', 'name', 'class_student', 'school', 'plan']
 
 class schoolDesing(admin.ModelAdmin):
     list_display = ['id', 'name_school', 'size_school', 'zone_school', 'district_school', 'province_school', 'Latitude', 'Longitude']

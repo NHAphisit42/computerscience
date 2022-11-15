@@ -24,7 +24,7 @@ from sklearn import tree
 # DT.fit(x_train)
 
 # Create your views here.
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def home_backend(request):
     std = student.objects.all()
     stdcount = std.count()
@@ -152,24 +152,24 @@ def update(request, id):
     if request.method == "POST":
         gender = request.POST['gender']
         name = request.POST['name']
-        sophomore_student = request.POST['sophomore_student']
+        class_student = request.POST['sophomore_student']
         school = request.POST['school']
         short = request.POST['short']
         plan = request.POST['plan']
         round_apply = request.POST['round_apply']
-        grade = request.POST['grade']
+        GPA = request.POST['grade']
         grade_maths = request.POST['grade_maths']
         grade_science = request.POST['grade_science']
         grade_english = request.POST['grade_english']
-        ComputerSkillsCompetition = request.POST['ComputerSkillsCompetition']
-        ComputerRelatedtraining = request.POST['ComputerRelatedtraining']
-        learnProgramming = request.POST['learnProgramming']
-        programmingTraining = request.POST['programmingTraining']
+        skillcomputer = request.POST['ComputerSkillsCompetition']
+        traincomputer = request.POST['ComputerRelatedtraining']
+        write_program = request.POST['learnProgramming']
+        trainprogram = request.POST['programmingTraining']
         Other_skills = request.POST['Other_skills']
-        improve_skills = request.POST['improve_skills']
+        want_to_develop = request.POST['improve_skills']
         family_income_per_month = request.POST['family_income_per_month']
-        family_status = request.POST['family_status']
-        Known_from_any_channel = request.POST['Known_from_any_channel']
+        status_family = request.POST['family_status']
+        which_channel_do_you_know = request.POST['Known_from_any_channel']
         why_did_you_choose_to_study = request.POST['why_did_you_choose_to_study']
         ex1 = request.POST['ex1']
         ex2 = request.POST['ex2']
@@ -195,24 +195,24 @@ def update(request, id):
         std = student.objects.create(
             gender = gender,
             name = name,
-            sophomore_student = sophomore_student,
+            class_student = class_student,
             school = school,
             short = short,
             plan = plan,
             round_apply = round_apply,
-            grade = grade,
+            GPA = GPA,
             grade_maths = grade_maths,
             grade_science = grade_science,
             grade_english = grade_english,
-            ComputerSkillsCompetition = ComputerSkillsCompetition,
-            ComputerRelatedtraining = ComputerRelatedtraining,
-            learnProgramming = learnProgramming,
-            programmingTraining = programmingTraining,
+            skillcomputer = skillcomputer,
+            traincomputer = traincomputer,
+            write_program = write_program,
+            trainprogram = trainprogram,
             Other_skills = Other_skills,
-            improve_skills = improve_skills,
+            want_to_develop = want_to_develop,
             family_income_per_month = family_income_per_month,
-            family_status = family_status,
-            Known_from_any_channel = Known_from_any_channel,
+            status_family = status_family,
+            which_channel_do_you_know = which_channel_do_you_know,
             why_did_you_choose_to_study = why_did_you_choose_to_study,
             ex1 = ex1,
             ex2 = ex2,
