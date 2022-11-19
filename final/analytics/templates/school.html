@@ -42,9 +42,9 @@
                         <tr>
                             <td>{{school.name_school}}</td>
                             <td style="text-align: center;">{{school.size_school}}</td>
-                            <td>{{school.zone_school}}</td>
-                            <td>{{school.district_school}}</td>
-                            <td>{{school.province_school}}</td>
+                            <td style="text-align: center;">{{school.zone_school}}</td>
+                            <td style="text-align: center;">{{school.district_school}}</td>
+                            <td style="text-align: center;">{{school.province_school}}</td>
                             <td style="text-align: center;"><a href="{% url 'studentdetail' school.id %}" class="btn btn-warning">ดูข้อมูล</a> / <a href="{% url 'remove' school.id %}" class="btn btn-danger" onclick="del()">ลบข้อมูล</a></td>
                         </tr>
                         {% endfor %}

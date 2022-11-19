@@ -40,18 +40,22 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-2">
-                    <label for="sophomore_student">ชั้นปีที่</label>
-                    <select id="sophomore_student" name="sophomore_student" class="form-control">
+                    <label for="class_student">ชั้นปีที่</label>
+                    <select id="class_student" name="class_student" class="form-control">
                         <option selected>เลือก...</option>
                         <option value="ชั้นปีที่ 1">ชั้นปีที่ 1</option>
                         <option value="ชั้นปีที่ 2">ชั้นปีที่ 2</option>
                         <option value="ชั้นปีที่ 3">ชั้นปีที่ 3</option>
                         <option value="ชั้นปีที่ 4">ชั้นปีที่ 4</option>
+                        <option value="ชั้นปีที่ 5">ชั้นปีที่ 5</option>
+                        <option value="ชั้นปีที่ 6">ชั้นปีที่ 6</option>
+                        <option value="ชั้นปีที่ 7">ชั้นปีที่ 7</option>
+                        <option value="ชั้นปีที่ 8">ชั้นปีที่ 8</option>
                     </select>
                 </div>
                 <div class="form-group col-md-4">
                     <label for="school">สถาบันที่จบการศึกษา</label>
-                    <input type="text" name="school", id="school" class="form-control" placeholder="โรงเรียน(ตามด้วยชื่อ)">
+                    <input type="text" name="school" id="school" class="form-control" placeholder="โรงเรียน(ตามด้วยชื่อ)">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="short">ชื่อย่อของโรงเรียน</label>
@@ -72,21 +76,27 @@
             <h4>ข้อมูลเกรดของนักศึกษา</h4>
             <hr>
             <div class="form-row">
-                <div class="form-group col-md-3">
-                    <label for="grade">ผลการเรียนตลอดหลักสูตร</label>
-                    <input type="text" class="form-control" id="grade" name="grade" placeholder="กรอกเกรดในรูปแบบ 2.00">
+                <div class="form-group col-md-6">
+                    <label for="GPA_BRU">ผลการเรียนมหาลัยปี 1 เทอม 1</label>
+                    <input type="text" class="form-control" id="GPA_BRU" name="GPA_BRU" placeholder="กรอกเกรดในรูปแบบ 2.00">
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-6">
+                    <label for="GPA">ผลการเรียนตลอดหลักสูตร</label>
+                    <input type="text" class="form-control" id="GPA" name="GPA" placeholder="กรอกเกรดในรูปแบบ 2.00">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
                     <label for="grade_maths">ผลการเรียนรายวิชาคณิตศาสตร์</label>
                     <input type="text" class="form-control" id="grade_maths" name="grade_maths"
                         placeholder="กรอกเกรดในรูปแบบ 2.00">
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-4">
                     <label for="grade_science">ผลการเรียนรายวิชาวิทยาศาสตร์</label>
                     <input type="text" class="form-control" id="grade_science" name="grade_science"
                         placeholder="กรอกเกรดในรูปแบบ 2.00">
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-4">
                     <label for="grade_english">ผลการเรียนรายวิชาภาษาต่างประเทศ</label>
                     <input type="text" class="form-control" id="grade_english" name="grade_english"
                         placeholder="กรอกเกรดในรูปแบบ 2.00">
@@ -94,32 +104,32 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <label for="ComputerSkillsCompetition">เคยแข่งทักษะด้านคอมพิวเตอร์ไหม</label>
-                    <select id="ComputerSkillsCompetition" name="ComputerSkillsCompetition" class="form-control">
+                    <label for="skillcomputer">เคยแข่งทักษะด้านคอมพิวเตอร์ไหม</label>
+                    <select id="skillcomputer" name="skillcomputer" class="form-control">
                         <option selected>เลือก...</option>
                         <option value="เคย">เคย</option>
                         <option value="ไม่เคย">ไม่เคย</option>
                     </select>
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="ComputerRelatedtraining">เคยอบรมเกี่ยวคอมพิวเตอร์ไหม</label>
-                    <select id="ComputerRelatedtraining" name="ComputerRelatedtraining" class="form-control">
+                    <label for="traincomputer">เคยอบรมเกี่ยวคอมพิวเตอร์ไหม</label>
+                    <select id="traincomputer" name="traincomputer" class="form-control">
                         <option selected>เลือก...</option>
                         <option value="เคย">เคย</option>
                         <option value="ไม่เคย">ไม่เคย</option>
                     </select>
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="learnProgramming">เคยเรียนเขียนโปรแกรมไหม</label>
-                    <select id="learnProgramming" name="learnProgramming" class="form-control">
+                    <label for="write_program">เคยเรียนเขียนโปรแกรมไหม</label>
+                    <select id="write_program" name="write_program" class="form-control">
                         <option selected>เลือก...</option>
                         <option value="เคย">เคย</option>
                         <option value="ไม่เคย">ไม่เคย</option>
                     </select>
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="programmingTraining">เคยอบรมเขียนโปแกรมไหม</label>
-                    <select id="programmingTraining" name="programmingTraining" class="form-control">
+                    <label for="trainprogram">เคยอบรมเขียนโปแกรมไหม</label>
+                    <select id="trainprogram" name="trainprogram" class="form-control">
                         <option selected>เลือก...</option>
                         <option value="เคย">เคย</option>
                         <option value="ไม่เคย">ไม่เคย</option>
@@ -132,8 +142,8 @@
                     <input type="text" class="form-control" id="Other_skills" name="Other_skills">
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="improve_skills">สนใจอยากพัฒนาทักษะด้านใดเพิ่ม</label>
-                    <input type="text" class="form-control" id="improve_skills" name="improve_skills">
+                    <label for="want_to_develop">สนใจอยากพัฒนาทักษะด้านใดเพิ่ม</label>
+                    <input type="text" class="form-control" id="want_to_develop" name="want_to_develop">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="family_income_per_month">รายได้ของครอบครัวต่อเดือน</label>
@@ -149,8 +159,9 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">
-                    <label for="family_status">สถานภาพครอบครัว</label>
-                    <select id="family_status" name="family_status" class="form-control">
+                    <label for="status_family">สถานภาพครอบครัว</label>
+                    <select id="status_family" name="status_family" class="form-control">
+                        <option selected>เลือก...</option>
                         <option value="บิดา มารดาอยู่ด้วยกัน">บิดา มารดาอยู่ด้วยกัน</option>
                         <option value="บิดา มารดาหย่าร้างกัน">บิดา มารดาหย่าร้างกัน</option>
                         <option value="บิดาถึงแก่กรรม">บิดาถึงแก่กรรม</option>
@@ -160,8 +171,8 @@
                     </select>
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="Known_from_any_channel">รู้จักสาขาวิทยาการคอมพิวเตอร์จากช่องทางใด</label>
-                    <input type="text" class="form-control" id="Known_from_any_channel" name="Known_from_any_channel">
+                    <label for="which_channel_do_you_know">รู้จักสาขาวิทยาการคอมพิวเตอร์จากช่องทางใด</label>
+                    <input type="text" class="form-control" id="which_channel_do_you_know" name="which_channel_do_you_know">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="why_did_you_choose_to_study">ทำไมถึงเลือกเรียนสาขานี้</label>
