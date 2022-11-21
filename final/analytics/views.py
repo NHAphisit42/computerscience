@@ -1,6 +1,5 @@
 from django.shortcuts import redirect, render
 from student.models import student, School, Eduction, Plan, Round_apply
-from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -16,7 +15,9 @@ from joblib import load
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import tree
 
-model = load('analytics/ML/DT.joblib')
+model_DT = load('analytics/ML/DT.joblib')
+model_RF = load('analytics/ML/RF.joblib')
+model_LR = load('analytics/ML/LR.joblib')
 
 # Create your views here.
 # @login_required(login_url='login')
@@ -34,7 +35,6 @@ def studentdetail(request,id):
     return render(request, 'studentdetail.html', {'std':std})
 
 def chart_backend(request):
-    
     return render(request, 'chart_backend.html')
 
 def addschool_backend(request):
@@ -45,6 +45,12 @@ def login_backend(request):
 
 def register_backend(request):
     return render(request, 'register_backend.html')
+
+def predictive_backend(request):
+    return render(request, 'predictive.html')
+
+def result(request):
+    return render(request, 'result.html')
 
 def school(request):
     school = School.objects.all()

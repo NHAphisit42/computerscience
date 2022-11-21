@@ -44,7 +44,7 @@
                         <div class="form-group col-md-2">
                             <label for="sophomore_student">ชั้นปีที่</label>
                             <select id="sophomore_student" name="sophomore_student" class="form-control">
-                                <option selected>{{std.sophomore_student}}</option>
+                                <option selected>{{std.class_student}}</option>
                                 <option>เลือก...</option>
                                 <option value="ชั้นปีที่ 1">ชั้นปีที่ 1</option>
                                 <option value="ชั้นปีที่ 2">ชั้นปีที่ 2</option>
@@ -94,7 +94,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label for="grade">ผลการเรียนตลอดหลักสูตร</label>
-                            <input type="text" class="form-control" id="grade" name="grade" value="{{std.grade}}">
+                            <input type="text" class="form-control" id="grade" name="grade" value="{{std.GPA}}">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="grade_maths">ผลการเรียนรายวิชาคณิตศาสตร์</label>
@@ -114,37 +114,37 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <label for="ComputerSkillsCompetition">เคยแข่งทักษะด้านคอมพิวเตอร์ไหม</label>
-                            <select id="ComputerSkillsCompetition" name="ComputerSkillsCompetition"
+                            <label for="skillcomputer">เคยแข่งทักษะด้านคอมพิวเตอร์ไหม</label>
+                            <select id="skillcomputer" name="skillcomputer"
                                 class="form-control">
-                                <option selected>{{std.ComputerSkillsCompetition}}</option>
+                                <option selected>{{std.skillcomputer}}</option>
                                 <option>เลือก...</option>
                                 <option value="เคย">เคย</option>
                                 <option value="ไม่เคย">ไม่เคย</option>
                             </select>
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="ComputerRelatedtraining">เคยอบรมเกี่ยวคอมพิวเตอร์ไหม</label>
-                            <select id="ComputerRelatedtraining" name="ComputerRelatedtraining" class="form-control">
-                                <option selected>{{std.ComputerRelatedtraining}}</option>
+                            <label for="traincomputer">เคยอบรมเกี่ยวคอมพิวเตอร์ไหม</label>
+                            <select id="traincomputer" name="traincomputer" class="form-control">
+                                <option selected>{{std.traincomputer}}</option>
                                 <option>เลือก...</option>
                                 <option value="เคย">เคย</option>
                                 <option value="ไม่เคย">ไม่เคย</option>
                             </select>
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="learnProgramming">เคยเรียนเขียนโปรแกรมไหม</label>
-                            <select id="learnProgramming" name="learnProgramming" class="form-control">
-                                <option selected>{{std.learnProgramming}}</option>
+                            <label for="write_program">เคยเรียนเขียนโปรแกรมไหม</label>
+                            <select id="write_program" name="write_program" class="form-control">
+                                <option selected>{{std.write_program}}</option>
                                 <option>เลือก...</option>
                                 <option value="เคย">เคย</option>
                                 <option value="ไม่เคย">ไม่เคย</option>
                             </select>
                         </div>
                         <div class="form-group col-md-3">
-                            <label for="programmingTraining">เคยอบรมเขียนโปแกรมไหม</label>
-                            <select id="programmingTraining" name="programmingTraining" class="form-control">
-                                <option selected>{{std.programmingTraining}}</option>
+                            <label for="trainprogram">เคยอบรมเขียนโปแกรมไหม</label>
+                            <select id="trainprogram" name="trainprogram" class="form-control">
+                                <option selected>{{std.trainprogram}}</option>
                                 <option>เลือก...</option>
                                 <option value="เคย">เคย</option>
                                 <option value="ไม่เคย">ไม่เคย</option>
@@ -158,9 +158,9 @@
                                 value="{{std.Other_skills}}">
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="improve_skills">สนใจอยากพัฒนาทักษะด้านใดเพิ่ม</label>
-                            <input type="text" class="form-control" id="improve_skills" name="improve_skills"
-                                value="{{std.improve_skills}}">
+                            <label for="want_to_develop">สนใจอยากพัฒนาทักษะด้านใดเพิ่ม</label>
+                            <input type="text" class="form-control" id="want_to_develop" name="want_to_develop"
+                                value="{{std.want_to_develop}}">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="family_income_per_month">รายได้ของครอบครัวต่อเดือน</label>
@@ -177,9 +177,9 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="family_status">สถานภาพครอบครัว</label>
-                            <select id="family_status" name="family_status" class="form-control">
-                                <option selected>{{std.family_status}}</option>
+                            <label for="status_family">สถานภาพครอบครัว</label>
+                            <select id="status_family" name="status_family" class="form-control">
+                                <option selected>{{std.status_family}}</option>
                                 <option>เลือก...</option>
                                 <option value="บิดา มารดาอยู่ด้วยกัน">บิดา มารดาอยู่ด้วยกัน</option>
                                 <option value="บิดา มารดาหย่าร้างกัน">บิดา มารดาหย่าร้างกัน</option>
@@ -190,9 +190,9 @@
                             </select>
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="Known_from_any_channel">รู้จักสาขาวิทยาการคอมพิวเตอร์จากช่องทางใด</label>
-                            <input type="text" class="form-control" id="Known_from_any_channel"
-                                name="Known_from_any_channel" value="{{std.Known_from_any_channel}}">
+                            <label for="which_channel_do_you_know">รู้จักสาขาวิทยาการคอมพิวเตอร์จากช่องทางใด</label>
+                            <input type="text" class="form-control" id="which_channel_do_you_know"
+                                name="which_channel_do_you_know" value="{{std.which_channel_do_you_know}}">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="why_did_you_choose_to_study">ทำไมถึงเลือกเรียนสาขานี้</label>
