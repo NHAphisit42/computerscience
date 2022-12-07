@@ -19,6 +19,7 @@ urlpatterns = [
     path('school', views.school, name='school'),
     path('education', views.education, name='education'),
     path('round_apply', views.round_apply, name='round_apply'),
-    path('predictive', views.predictive_backend, name='predictive'),
-    path('result', views.result, name='result')
+    path('predictive', views.predictive, name='predictive'),
+    path('result', views.result, name='result'),
+    path('student_list', views.student_list, name='student_list'),
 ]

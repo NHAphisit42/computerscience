@@ -14,10 +14,11 @@ import matplotlib.pyplot as plt
 from joblib import load
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import tree
+from sklearn.preprocessing import LabelEncoder
 
-model_DT = load('analytics/ML/DT.joblib')
-model_RF = load('analytics/ML/RF.joblib')
-model_LR = load('analytics/ML/LR.joblib')
+model_DT = load('./analytics/ML/DT.joblib')
+model_RF = load('./analytics/ML/RF.joblib')
+model_LR = load('./analytics/ML/LR.joblib')
 
 # Create your views here.
 # @login_required(login_url='login')
@@ -46,10 +47,59 @@ def login_backend(request):
 def register_backend(request):
     return render(request, 'register_backend.html')
 
-def predictive_backend(request):
+def predictive(request):
     return render(request, 'predictive.html')
 
+def student_list(request):
+    if request.method == "POST":
+        class_std = request.POST['class_student']
+        if class_std == "":
+            messages.info(request,"กรุณาป้อนข้อมูลให้ครบ")
+            redirect('predictive')
+        else:
+            print(class_std)
+            std = student.objects.filter(class_student=class_std)
+            return render(request, 'predictive.html', {'std':std})
+
+# custom method for generating predictions
+def getpredict(model_DT):
+    predictions = model_DT.predict()
+    if predictions == 1:
+        return "ผ่าน"
+    elif predictions == 0:
+        return "ไม่ผ่าน"
+    else:
+        return "ผิดพลาด"
+    
 def result(request):
+    if request.method == "POST":
+        print("-----------------")
+        print(request.POST)
+        # Group_size = request.POST['Group_size']
+        # plan = request.POST['plan']
+        # round_apply = request.POST['round_apply']
+        GPA = request.POST.getlist('GPA')
+        grade_maths = request.POST.getlist('grade_maths')
+        plan = request.POST.getlist('plan')
+        print("-----------------")
+        print(GPA)
+        new_data = [(float(x1),float(x2),float(x3)) for x1,x2,x3 in zip(GPA,grade_maths,plan)]
+        print(new_data)
+            
+        # write_program = request.POST['write_program']
+        # trainprogram = request.POST['trainprogram']
+        # family_income_per_month = request.POST['family_income_per_month']
+        # status_family = request.POST['status_family']
+        
+        
+        # dataset = 2.54
+       
+        # สร้างตัวแปรเก็บค่าที่ได้จากการทำนาย
+        # y_pred_DT = model_DT.predict([dataset])
+        # y_pred_RF = model_RF.predict([dataset])
+        # y_pred_LR = model_LR.predict([dataset])
+
+        
     return render(request, 'result.html')
 
 def school(request):
@@ -113,7 +163,7 @@ def adduser_backend(request):#ลงทะเบียน
                     messages.info(request,"อีเมลนี้เคยลงทะเบียนไปแล้ว")
                     return redirect("register_backend")
                 else:
-                    user=User.objects.create_user(
+                    user = User.objects.create_user(
                         first_name = first_name,
                         last_name = last_name,
                         username = username,

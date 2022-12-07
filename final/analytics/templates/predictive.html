@@ -8,44 +8,93 @@
             <li class="breadcrumb-item"><a href="{% url 'home_backend' %}">หน้าหลัก</a></li>
             <li class="breadcrumb-item active">ทำนายข้อมูล</li>
         </ol>
-        <div class="row">
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-primary text-white mb-4">
-                    <div class="card-body">Primary Card</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    </div>
-                </div>
+        <div class="crad-body">
+            <div class="form">
+                <form action="{% url 'student_list' %}" method="post">
+                    {% csrf_token %}
+                    <label for="class_student">ค้นหาข้อมูล</label>
+                    <select name="class_student" id="class_student">
+                        <option value="">เลือก</option>
+                        <option value="รุ่น 61">รุ่น 61</option>
+                        <option value="รุ่น 62">รุ่น 62</option>
+                        <option value="รุ่น 63">รุ่น 63</option>
+                        <option value="รุ่น 64">รุ่น 64</option>
+                        <option value="รุ่น 65">รุ่น 65</option>
+                        <option value="รุ่น 66">รุ่น 66</option>
+                        <option value="รุ่น 67">รุ่น 67</option>
+                        <option value="รุ่น 68">รุ่น 68</option>
+                        <option value="รุ่น 69">รุ่น 69</option>
+                        <option value="รุ่น 70">รุ่น 70</option>
+                    </select>
+                    <button type="submit">ค้นหา</button>
+                </form>
             </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-warning text-white mb-4">
-                    <div class="card-body">Warning Card</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    </div>
-                </div>
+            {% if std == "" %}
+            {% for message in messages %}
+            <p style="color: green; text-align: center;">{{message}}</p>
+            {% endfor%}
+            {% else %}
+            <div class="table-responsive" style="overflow-x:auto;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ชื่อ</th>
+                            <th scope="col">รุ่น</th>
+                            <th scope="col">เกรดมัธยม</th>
+                            <th scope="col">เขียนโปรแกรม</th>
+                            <th scope="col">อบรมเขียนโปรแกรม</th>
+                            <th scope="col">แผนการเรียน</th>
+                            <th scope="col">รอบที่มาสมัคร</th>
+                            <th scope="col">ขนาดโรงเรียน</th>
+                            <th scope="col">สถานะครอบครัว</th>
+                            <th scope="col">รายได้ครอบครัว</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <form action="{% url 'result' %}" method="POST">
+                            {% csrf_token %}
+                            {% for std in std %}
+                            <div class="form-row">
+                                <div class="from-group col-md-2">
+                                    <tr>
+                                        <td>{{std.gender}}{{std.name}}</td>
+                                        <td>{{std.class_student}}</td>
+                                        <td><input name='GPA' type='text' value="{{std.GPA}}" disabled /></td>
+                                        <td><input name='write_program' type='text' value="{{std.write_program_no}}" disabled /></td>
+                                        <td><input type="text" name="trainprogram" id="" value="{{std.trainprogram_no}}" disabled /></td>
+                                        <td><input name='plan' type='text' value="{{std.plan_no}}" disabled /></td>
+                                        <td><input type="text" name="round_apply" id="" value="{{std.round_apply_no}}" disabled /></td>
+                                        <td><input type="text" name="school_size" id="" value="{{std.school_size_no}}" disabled /></td>
+                                        <td><input type="text" name="status_family" id="" value="{{std.Group_status}}" disabled /></td>
+                                        <td><input type="text" name="family_income_per_month" id="" value="{{std.family_income_per_month_no}}" disabled /></td>
+                                    </tr>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <button type="submit">ทำนายข้อมูล</button>
+                        </form>
+                    </tbody>
+                </table>
             </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-success text-white mb-4">
-                    <div class="card-body">Success Card</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-danger text-white mb-4">
-                    <div class="card-body">Danger Card</div>
-                    <div class="card-footer d-flex align-items-center justify-content-between">
-                        <a class="small text-white stretched-link" href="#">View Details</a>
-                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                    </div>
-                </div>
-            </div>
+            {% endif %}
         </div>
     </div>
 </main>
+<script>
+    //query data from database
+    $(document).ready(function () {
+        $('datatablesSimple').DataTable({
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox',
+                targets: 0
+            }],
+            select: {
+                style: 'os',
+                selector: 'td:first-child'
+            },
+            order: [[1, 'asc']]
+        });
+    });
+</script>
 {% endblock body %}

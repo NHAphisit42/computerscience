@@ -63,8 +63,8 @@ class student(models.Model):
     gender_CHOICE = (('นาย', 'นาย'), ('นางสาว', 'นางสาว'), ('นาง', 'นาง'),)
 
     class_student_CHOICE = (
-        ('ชั้นปีที่ 1', 'ชั้นปีที่ 1'), ('ชั้นปีที่ 2', 'ชั้นปีที่ 2'), ('ชั้นปีที่ 3', 'ชั้นปีที่ 3'), ('ชั้นปีที่ 4', 'ชั้นปีที่ 4'),
-        ('ชั้นปีที่ 5', 'ชั้นปีที่ 5'), ('ชั้นปีที่ 6', 'ชั้นปีที่ 6'), ('ชั้นปีที่ 7', 'ชั้นปีที่ 7'), ('ชั้นปีที่ 8', 'ชั้นปีที่ 8'),
+        ('รุ่น61', 'รุ่น61'), ('รุ่น62', 'รุ่น62'), ('รุ่น63', 'รุ่น63'), ('รุ่น64', 'รุ่น64'),
+        ('รุ่น65', 'รุ่น65'), ('รุ่น66', 'รุ่น66'), ('รุ่น67', 'รุ่น67'), ('รุ่น68', 'รุ่น68'),
         )
 
     ComputerSkillsCompetition_CHOICE = (
@@ -191,8 +191,87 @@ class student(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def plan_no(self):
+        if 'วิทย์-คณิต' in self.plan:
+            return 5
+        elif 'ศิลป์-คำนวณ' in self.plan:
+            return 6
+        elif 'ศิลป์-ภาษา' in self.plan:
+            return 8
+        elif 'ประกาศนียบัตรวิชาชีพ(ปวช)' in self.plan:
+            return 0
+        elif 'ประกาศนียบัตรวิชาชีพขั้นสูง(ปวส)' in self.plan:
+            return 1
+        elif 'เทียบเท่าละดับมัธยมศึกษาตอนปลาย' in self.plan:
+            return 2
+        elif 'คณิต-อังกฤษ' in self.plan:
+            return 3
+        elif 'สังคม-ญี่ปุ่น' in self.plan:
+            return 9
+        elif "ภาษา สังคม" in self.plan:
+            return 4
+        else:
+            return 7
 
+    def Group_status(self):
+        if 'บิดา มารดาอยู่ด้วยกัน' in self.status_family:
+            return 2
+        elif 'บิดา มารดาหย่าร้างกัน' in self.status_family:
+            return 1
+        else:
+            return 0
+        
+    def write_program_no(self):
+        if 'ไม่เคย' in self.write_program:
+            return 0
+        else:
+            return 1
+        
+    def trainprogram_no(self):
+        if 'ไม่เคย' in self.trainprogram:
+            return 0
+        else:
+            return 1
+        
+    def round_apply_no(self):
+        if 'portfolio' in self.round_apply:
+            return 0
+        elif 'นักศึกแลกเปลี่ยน' in self.round_apply:
+            return 1
+        elif 'รับตรง(เพิ่มเติม)' in self.round_apply:
+            return 2
+        elif 'รับตรงรอบที่ 1' in self.round_apply:
+            return 3
+        elif 'รับตรงรอบที่ 2' in self.round_apply:
+            return 4
+        elif 'รับตรงอิสระ' in self.round_apply:
+            return 5
+        else :
+            return 6
+        
+    def school_size_no(self):
+        if 'รร.ขนาดใหญ่' in self.school_size:
+            return 2
+        elif 'รร.ขนาดกลาง' in self.school_size:
+            return 0
+        else:
+            return 1
+        
+    def family_income_per_month_no(self):
+        if '10,001 – 15,000 บาท' in self.family_income_per_month:
+            return 0
+        elif '15,001 – 20,000 บาท' in self.family_income_per_month:
+            return 1
+        elif '25,001 บาทขึ้นไป' in self.family_income_per_month:
+            return 2
+        elif '5,001 – 10,000 บาท' in self.family_income_per_month:
+            return 3
+        elif 'ไม่เกิน 5,000 บาท' in self.family_income_per_month:
+            return 4
     class Meta:
         db_table='student'
         verbose_name='นักเรียน'
         verbose_name_plural="ข้อมูลนักเรียน"
+        
+    

@@ -1,5 +1,20 @@
 {% extends "base_backend.html" %}
 {% block title %}ผลการทำนาย{% endblock title %}
 {% block body %}
-
+<div class="card-body">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>รุ่น</th>
+                <th>ผลการทำนาย</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>รุ่น</td>
+                <td>{{std.class_student}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 {% endblock body %}
