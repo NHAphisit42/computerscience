@@ -66,6 +66,7 @@
                         <table class="table table-bordered table-striped mb-0 autowidth">
                             <thead style="position: sticky; top: 0;" class="bg-dark text-white">
                                 <tr>
+                                    <th scope="col" style="width: 10%;">เลือก</th>
                                     <th scope="col" style="width: 10%;">ชื่อ</th>
                                     <th scope="col" style="width: 10%;">รุ่น</th>
                                     <th scope="col" style="width: 10%;">เกรดมัธยม</th>
@@ -81,17 +82,17 @@
                             <tbody>
                                 {% for std in sd %}
                                 <tr>
-                                    <td><input type="checkbox" name="checkbox[]" value="{{std.id}}" id=""></td>
+                                    <td><input type="checkbox" name="checkbox[]" value="{{std.id}}" id="">{{std.id}}</td>
                                     <td>{{std.gender}}{{std.name}}</td>
                                     <td>{{std.class_student}}</td>
                                     <td><input name="GPA[]" type="text" value="{{std.GPA}}"/></td>
-                                    <td><input name="write_program" type="text" value="{{std.write_program_no}}"/></td>
-                                    <td><input name="trainprogram" type="text" value="{{std.trainprogram_no}}"/></td>
-                                    <td><input name="plan" type="text" value="{{std.plan_no}}"/></td>
-                                    <td><input name="round_apply" type="text" value="{{std.round_apply_no}}"/></td>
-                                    <td><input name="school_size" type="text" value="{{std.school_size_no}}"/></td>
-                                    <td><input name="status_family" type="text" value="{{std.status_family_no}}"/></td>
-                                    <td><input name="family_income_per_month" type="text" value="{{std.family_income_per_month_no}}"/></td>
+                                    <td><input name="write_program[]" type="text" value="{{std.write_program_no}}"/></td>
+                                    <td><input name="trainprogram[]" type="text" value="{{std.trainprogram_no}}"/></td>
+                                    <td><input name="plan[]" type="text" value="{{std.plan_no}}"/></td>
+                                    <td><input name="round_apply[]" type="text" value="{{std.round_apply_no}}"/></td>
+                                    <td><input name="school_size[]" type="text" value="{{std.school_size_no}}"/></td>
+                                    <td><input name="status_family[]" type="text" value="{{std.status_family_no}}"/></td>
+                                    <td><input name="family_income_per_month[]" type="text" value="{{std.family_income_per_month_no}}"/></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

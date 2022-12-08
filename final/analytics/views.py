@@ -7,6 +7,16 @@ from django.contrib.auth.decorators import login_required
 from joblib import load
 from sklearn import tree
 from sklearn.tree import DecisionTreeClassifier
+import json
+from sklearn.preprocessing import LabelEncoder
+from student.models import student
+student.plan_no
+student.status_family_no
+student.write_program_no
+student.trainprogram_no
+student.round_apply_no
+student.school_size_no
+student.family_income_per_month_no
 
 model_DT = load('./analytics/ML/DT.joblib')
 model_RF = load('./analytics/ML/RF.joblib')
@@ -52,6 +62,7 @@ def predictive(request):
     return render(request, 'predictive.html')
 
 
+std_select = []
 def student_list(request):
     if request.method == "POST":
         class_std = request.POST['class_student']
@@ -61,29 +72,69 @@ def student_list(request):
         else:
             print(class_std)
             sd = student.objects.filter(class_student=class_std)
+            global std_select 
+            std_select = sd
             return render(request, 'predictive.html', {'sd': sd})
         
         
 def result(request):
+    # get funstion from model student
+    #fun = 
     if request.method == "POST":
+        keepNew = []
         checkbox = request.POST.getlist('checkbox[]')
-        GPA = request.POST.getlist('GPA[]')
-        write_program = request.POST.getlist('write_program')
-        trainprogram = request.POST.getlist('trainprogram')
-        plan = request.POST.getlist('plan')
-        round_apply = request.POST.getlist('round_apply')
-        school_size = request.POST.getlist('school_size')
-        status_family = request.POST.getlist('status_family')
-        family_income_per_month = request.POST.getlist('family_income_per_month')
-        
-        new_data = [(float(x1), int(x2), int(x3), int(x4), int(x5), int(x6), int(x7), int(x8)) for x1, x2, x3, x4, x5, x6, x7, x8 in zip(GPA, write_program, trainprogram, plan, round_apply, school_size, status_family, family_income_per_month)] 
-        print(new_data)
+        if len(checkbox) > 0:
+            print(len(checkbox))
+            for i in range(len(checkbox)):
+                if int(std_select[i].id) == int(checkbox[i]):
+                    array = {
+                            "STD_ID" : checkbox[i],
+                            "GPA" : std_select[i].GPA,
+                            "write_program" : student.school_size_no(std_select[i]),
+                            "trainprogram" :student.trainprogram_no(std_select[i]),
+                            "plan" : student.plan_no(std_select[i]),
+                            "round_apply" : student.round_apply_no(std_select[i]),
+                            "school_size" : student.school_size_no(std_select[i]),
+                            "status_family" : student.status_family_no(std_select[i]),
+                            "family_income_per_month" : student.family_income_per_month_no(std_select[i]),
+                        }
+                    keepNew.append(array)
+            print(keepNew)
+        else:
+            for i in range(len(std_select)) :
+                array = {
+                        "STD_ID" : int(std_select[i].id),
+                        "GPA" : std_select[i].GPA,
+                        "write_program" : student.school_size_no(std_select[i]),
+                        "trainprogram" :student.trainprogram_no(std_select[i]),
+                        "plan" : student.plan_no(std_select[i]),
+                        "round_apply" : student.round_apply_no(std_select[i]),
+                        "school_size" : student.school_size_no(std_select[i]),
+                        "status_family" : student.status_family_no(std_select[i]),
+                        "family_income_per_month" : student.family_income_per_month_no(std_select[i]),
+                    }
+                keepNew.append(array)
+            print(keepNew)
+    #         # print(GPA)
+    #         # print(write_program)
+    #         # print(trainprogram)
+    #         # print(plan)
+    #         # print(round_apply)
+    #         # print(school_size)
+    #         # print(status_family)
+    #         # print(family_income_per_month)
+    #         # new_data = [(float(x1), int(x2), int(x3), int(x4), int(x5), int(x6), int(x7), int(x8)) for x1, x2, x3, x4, x5, x6, x7, x8 in zip(GPA, write_program, trainprogram, plan, round_apply, school_size, status_family, family_income_per_month)] 
+    #         # print(new_data)
+    #     print(checkbox)
+            # print('-------------------------------------')
+            # checkbox = [new_data]
+            # print(checkbox)
+    
     return render(request, 'result.html')
 
 
 def getpredict(Group_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family):
-    predictions = model_DT.predict(Group_size, plan, round_apply, GPA,
-                                   write_program, trainprogram, family_income_per_month, status_family)
+    predictions = model_DT.predict(Group_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family)
     if predictions == 1:
         return "ผ่าน"
     elif predictions == 0:
