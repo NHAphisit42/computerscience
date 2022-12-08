@@ -4,17 +4,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-import pandas as pd
-import numpy as np
-import matplotlib as plt
-import seaborn as sns
-from sklearn.cluster import KMeans
-from sklearn import preprocessing
-import matplotlib.pyplot as plt
 from joblib import load
-from sklearn.tree import DecisionTreeClassifier
 from sklearn import tree
-from sklearn.preprocessing import LabelEncoder
+from sklearn.tree import DecisionTreeClassifier
 
 model_DT = load('./analytics/ML/DT.joblib')
 model_RF = load('./analytics/ML/RF.joblib')
@@ -22,89 +14,88 @@ model_LR = load('./analytics/ML/LR.joblib')
 
 # Create your views here.
 # @login_required(login_url='login')
+
+
 def home_backend(request):
     std = student.objects.all()
     stdcount = std.count()
-    return render(request, 'home_backend.html', {'std':std, 'stdcount':stdcount})
+    return render(request, 'home_backend.html', {'std': std, 'stdcount': stdcount})
+
 
 def table_backend(request):
     std = student.objects.all()
-    return render(request, 'student_table_backend.html', {'std':std})
+    return render(request, 'student_table_backend.html', {'std': std})
 
-def studentdetail(request,id):
+
+def studentdetail(request, id):
     std = student.objects.get(id=id)
-    return render(request, 'studentdetail.html', {'std':std})
+    return render(request, 'studentdetail.html', {'std': std})
+
 
 def chart_backend(request):
     return render(request, 'chart_backend.html')
 
+
 def addschool_backend(request):
     return render(request, 'addschool_backend.html')
+
 
 def login_backend(request):
     return render(request, 'login_backend.html')
 
+
 def register_backend(request):
     return render(request, 'register_backend.html')
 
+
 def predictive(request):
     return render(request, 'predictive.html')
+
 
 def student_list(request):
     if request.method == "POST":
         class_std = request.POST['class_student']
         if class_std == "":
-            messages.info(request,"กรุณาป้อนข้อมูลให้ครบ")
+            messages.info(request, "กรุณาป้อนข้อมูลให้ครบ")
             redirect('predictive')
         else:
             print(class_std)
-            std = student.objects.filter(class_student=class_std)
-            return render(request, 'predictive.html', {'std':std})
+            sd = student.objects.filter(class_student=class_std)
+            return render(request, 'predictive.html', {'sd': sd})
+        
+        
+def result(request):
+    if request.method == "POST":
+        checkbox = request.POST.getlist('checkbox[]')
+        GPA = request.POST.getlist('GPA[]')
+        write_program = request.POST.getlist('write_program')
+        trainprogram = request.POST.getlist('trainprogram')
+        plan = request.POST.getlist('plan')
+        round_apply = request.POST.getlist('round_apply')
+        school_size = request.POST.getlist('school_size')
+        status_family = request.POST.getlist('status_family')
+        family_income_per_month = request.POST.getlist('family_income_per_month')
+        
+        new_data = [(float(x1), int(x2), int(x3), int(x4), int(x5), int(x6), int(x7), int(x8)) for x1, x2, x3, x4, x5, x6, x7, x8 in zip(GPA, write_program, trainprogram, plan, round_apply, school_size, status_family, family_income_per_month)] 
+        print(new_data)
+    return render(request, 'result.html')
 
-# custom method for generating predictions
-def getpredict(model_DT):
-    predictions = model_DT.predict()
+
+def getpredict(Group_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family):
+    predictions = model_DT.predict(Group_size, plan, round_apply, GPA,
+                                   write_program, trainprogram, family_income_per_month, status_family)
     if predictions == 1:
         return "ผ่าน"
     elif predictions == 0:
         return "ไม่ผ่าน"
     else:
         return "ผิดพลาด"
-    
-def result(request):
-    if request.method == "POST":
-        print("-----------------")
-        print(request.POST)
-        # Group_size = request.POST['Group_size']
-        # plan = request.POST['plan']
-        # round_apply = request.POST['round_apply']
-        GPA = request.POST.getlist('GPA')
-        grade_maths = request.POST.getlist('grade_maths')
-        plan = request.POST.getlist('plan')
-        print("-----------------")
-        print(GPA)
-        new_data = [(float(x1),float(x2),float(x3)) for x1,x2,x3 in zip(GPA,grade_maths,plan)]
-        print(new_data)
-            
-        # write_program = request.POST['write_program']
-        # trainprogram = request.POST['trainprogram']
-        # family_income_per_month = request.POST['family_income_per_month']
-        # status_family = request.POST['status_family']
-        
-        
-        # dataset = 2.54
-       
-        # สร้างตัวแปรเก็บค่าที่ได้จากการทำนาย
-        # y_pred_DT = model_DT.predict([dataset])
-        # y_pred_RF = model_RF.predict([dataset])
-        # y_pred_LR = model_LR.predict([dataset])
 
-        
-    return render(request, 'result.html')
 
 def school(request):
     school = School.objects.all()
-    return render(request, 'school.html', {'school':school})
+    return render(request, 'school.html', {'school': school})
+
 
 def addschool(request):
     if request.method == "POST":
@@ -115,34 +106,38 @@ def addschool(request):
         province_school = request.POST['province_school']
         Latitude = request.POST['Latitude']
         Longitude = request.POST['Longitude']
-        
+
         if name_school == "" or size_school == "" or zone_school == "" or district_school == "" or province_school == "" or Latitude == "" or Longitude == "":
-            messages.info(request,"กรุณาป้อนข้อมูลให้ครบ")
+            messages.info(request, "กรุณาป้อนข้อมูลให้ครบ")
             return redirect("addschool_backend")
         else:
             school = School.objects.create(
-                name_school = name_school,
-                size_school = size_school,
-                zone_school = zone_school,
-                district_school = district_school,
-                province_school = province_school,
-                Latitude = Latitude,
-                Longitude = Longitude
+                name_school=name_school,
+                size_school=size_school,
+                zone_school=zone_school,
+                district_school=district_school,
+                province_school=province_school,
+                Latitude=Latitude,
+                Longitude=Longitude
             )
             school.save()
-            messages.info(request,"สร้างสถานศึกษาเรียบร้อย")
+            messages.info(request, "สร้างสถานศึกษาเรียบร้อย")
             return redirect('addschool_backend')
+
 
 def education(request):
     return render(request, 'education.html')
 
+
 def plan(request):
     return render(request, 'plan.html')
+
 
 def round_apply(request):
     return render(request, 'round_apply.html')
 
-def adduser_backend(request):#ลงทะเบียน
+
+def adduser_backend(request):  # ลงทะเบียน
     if request.method == "POST":
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
@@ -151,33 +146,35 @@ def adduser_backend(request):#ลงทะเบียน
         password = request.POST['password']
         repassword = request.POST['repassword']
 
-        if username == "" or email == "" or password=="" or repassword=="":
-            messages.info(request,"กรุณาป้อนข้อมูลให้ครบ")
+        if username == "" or email == "" or password == "" or repassword == "":
+            messages.info(request, "กรุณาป้อนข้อมูลให้ครบ")
             return redirect("register_backend")
         else:
-            if password == repassword :
+            if password == repassword:
                 if User.objects.filter(username=username).exists():
-                    messages.info(request,"Username นี้มีคนใช้แล้ว")
+                    messages.info(request, "Username นี้มีคนใช้แล้ว")
                     return redirect("register_backend")
                 elif User.objects.filter(email=email).exists():
-                    messages.info(request,"อีเมลนี้เคยลงทะเบียนไปแล้ว")
+                    messages.info(request, "อีเมลนี้เคยลงทะเบียนไปแล้ว")
                     return redirect("register_backend")
                 else:
                     user = User.objects.create_user(
-                        first_name = first_name,
-                        last_name = last_name,
-                        username = username,
+                        first_name=first_name,
+                        last_name=last_name,
+                        username=username,
                         email=email,
                         password=password
                     )
                     user.save()
-                    messages.info(request,"สร้างบัญชีเรียบร้อย")
+                    messages.info(request, "สร้างบัญชีเรียบร้อย")
                     return redirect("login_backend")
             else:
-                messages.info(request,"ไม่สามารถลงทะเบียนได้รหัสผ่านไม่ตรงกัน")
+                messages.info(
+                    request, "ไม่สามารถลงทะเบียนได้รหัสผ่านไม่ตรงกัน")
                 return redirect("register_backend")
 
-def sign_in(request):#ลงชื่อเข้าใช้
+
+def sign_in(request):  # ลงชื่อเข้าใช้
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -186,17 +183,20 @@ def sign_in(request):#ลงชื่อเข้าใช้
             login(request, user)
             return redirect('home_backend')
         else:
-            messages.info(request,"ไม่พบข้อมูลบัญชีผู้ใช้")
+            messages.info(request, "ไม่พบข้อมูลบัญชีผู้ใช้")
             return redirect("login_backend")
+
 
 def logout_backend(request):
     logout(request)
     return redirect('home_backend')
 
+
 def remove(request, id):
     std = student.objects.get(id=id)
     std.delete()
     return redirect('table_backend')
+
 
 def update(request, id):
     std = student.objects.get(id=id)
@@ -244,47 +244,47 @@ def update(request, id):
         ex20 = request.POST['ex20']
 
         std = student.objects.create(
-            gender = gender,
-            name = name,
-            class_student = class_student,
-            school = school,
-            short = short,
-            plan = plan,
-            round_apply = round_apply,
-            GPA = GPA,
-            grade_maths = grade_maths,
-            grade_science = grade_science,
-            grade_english = grade_english,
-            skillcomputer = skillcomputer,
-            traincomputer = traincomputer,
-            write_program = write_program,
-            trainprogram = trainprogram,
-            Other_skills = Other_skills,
-            want_to_develop = want_to_develop,
-            family_income_per_month = family_income_per_month,
-            status_family = status_family,
-            which_channel_do_you_know = which_channel_do_you_know,
-            why_did_you_choose_to_study = why_did_you_choose_to_study,
-            ex1 = ex1,
-            ex2 = ex2,
-            ex3 = ex3,
-            ex4 = ex4,
-            ex5 = ex5,
-            ex6 = ex6,
-            ex7 = ex7,
-            ex8 = ex8,
-            ex9 = ex9,
-            ex10 = ex10,
-            ex11 = ex11,
-            ex12 = ex12,
-            ex13 = ex13,
-            ex14 = ex14,
-            ex15 = ex15,
-            ex16 = ex16,
-            ex17 = ex17,
-            ex18 = ex18,
-            ex19 = ex19,
-            ex20 = ex20,
+            gender=gender,
+            name=name,
+            class_student=class_student,
+            school=school,
+            short=short,
+            plan=plan,
+            round_apply=round_apply,
+            GPA=GPA,
+            grade_maths=grade_maths,
+            grade_science=grade_science,
+            grade_english=grade_english,
+            skillcomputer=skillcomputer,
+            traincomputer=traincomputer,
+            write_program=write_program,
+            trainprogram=trainprogram,
+            Other_skills=Other_skills,
+            want_to_develop=want_to_develop,
+            family_income_per_month=family_income_per_month,
+            status_family=status_family,
+            which_channel_do_you_know=which_channel_do_you_know,
+            why_did_you_choose_to_study=why_did_you_choose_to_study,
+            ex1=ex1,
+            ex2=ex2,
+            ex3=ex3,
+            ex4=ex4,
+            ex5=ex5,
+            ex6=ex6,
+            ex7=ex7,
+            ex8=ex8,
+            ex9=ex9,
+            ex10=ex10,
+            ex11=ex11,
+            ex12=ex12,
+            ex13=ex13,
+            ex14=ex14,
+            ex15=ex15,
+            ex16=ex16,
+            ex17=ex17,
+            ex18=ex18,
+            ex19=ex19,
+            ex20=ex20,
         )
         std.save()
         return redirect('table_backend')

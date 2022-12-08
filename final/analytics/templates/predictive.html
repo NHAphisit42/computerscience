@@ -1,6 +1,31 @@
 {% extends 'base_backend.html' %}
 {% block title %}Predictive{% endblock title %}
 {% block body %}
+<style>
+    .my-custom-scrollbar {
+        position: relative;
+        height: 1000px;
+        width: auto;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    td.fitwidth {
+        width: auto;
+        white-space: nowrap;
+    }
+
+    table.autowidth td {
+        white-space: nowrap;
+    }
+
+    th.text {
+        text-align: center;
+    }
+</style>
 <main>
     <div class="container-fluid px-4">
         <h1 class="mt-4">ทำนายข้อมูล</h1>
@@ -8,93 +33,76 @@
             <li class="breadcrumb-item"><a href="{% url 'home_backend' %}">หน้าหลัก</a></li>
             <li class="breadcrumb-item active">ทำนายข้อมูล</li>
         </ol>
-        <div class="crad-body">
-            <div class="form">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                ข้อมูลรุ่น
+            </div>
+            <div class="card-body">
                 <form action="{% url 'student_list' %}" method="post">
                     {% csrf_token %}
-                    <label for="class_student">ค้นหาข้อมูล</label>
-                    <select name="class_student" id="class_student">
-                        <option value="">เลือก</option>
-                        <option value="รุ่น 61">รุ่น 61</option>
-                        <option value="รุ่น 62">รุ่น 62</option>
-                        <option value="รุ่น 63">รุ่น 63</option>
-                        <option value="รุ่น 64">รุ่น 64</option>
-                        <option value="รุ่น 65">รุ่น 65</option>
-                        <option value="รุ่น 66">รุ่น 66</option>
-                        <option value="รุ่น 67">รุ่น 67</option>
-                        <option value="รุ่น 68">รุ่น 68</option>
-                        <option value="รุ่น 69">รุ่น 69</option>
-                        <option value="รุ่น 70">รุ่น 70</option>
-                    </select>
-                    <button type="submit">ค้นหา</button>
+                    <div class="form-group">
+                        <label for="class_student">ค้นหาข้อมูล</label>
+                        <select name="class_student" id="class_student" class="custom-select custom-select-lg mb-3"
+                            multiple>
+                            <option value="">เลือก</option>
+                            <option value="รุ่น61">รุ่น 61</option>
+                            <option value="รุ่น62">รุ่น 62</option>
+                            <option value="รุ่น63">รุ่น 63</option>
+                            <option value="รุ่น64">รุ่น 64</option>
+                            <option value="รุ่น65">รุ่น 65</option>
+                            <option value="รุ่น66">รุ่น 66</option>
+                            <option value="รุ่น67">รุ่น 67</option>
+                            <option value="รุ่น68">รุ่น 68</option>
+                            <option value="รุ่น69">รุ่น 69</option>
+                            <option value="รุ่น70">รุ่น 70</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">ค้นหา</button>
+                    </div>
+                </form>
+                <form action="{% url 'result' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
+                        <table class="table table-bordered table-striped mb-0 autowidth">
+                            <thead style="position: sticky; top: 0;" class="bg-dark text-white">
+                                <tr>
+                                    <th scope="col" style="width: 10%;">ชื่อ</th>
+                                    <th scope="col" style="width: 10%;">รุ่น</th>
+                                    <th scope="col" style="width: 10%;">เกรดมัธยม</th>
+                                    <th scope="col" style="width: 10%;">เขียนโปรแกรม</th>
+                                    <th scope="col" style="width: 10%;">อบรมเขียนโปรแกรม</th>
+                                    <th scope="col" style="width: 10%;">แผนการเรียน</th>
+                                    <th scope="col" style="width: 10%;">รอบที่มาสมัคร</th>
+                                    <th scope="col" style="width: 10%;">ขนาดโรงเรียน</th>
+                                    <th scope="col" style="width: 10%;">สถานะครอบครัว</th>
+                                    <th scope="col" style="width: 10%;">รายได้ครอบครัว</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for std in sd %}
+                                <tr>
+                                    <td><input type="checkbox" name="checkbox[]" value="{{std.id}}" id=""></td>
+                                    <td>{{std.gender}}{{std.name}}</td>
+                                    <td>{{std.class_student}}</td>
+                                    <td><input name="GPA[]" type="text" value="{{std.GPA}}"/></td>
+                                    <td><input name="write_program" type="text" value="{{std.write_program_no}}"/></td>
+                                    <td><input name="trainprogram" type="text" value="{{std.trainprogram_no}}"/></td>
+                                    <td><input name="plan" type="text" value="{{std.plan_no}}"/></td>
+                                    <td><input name="round_apply" type="text" value="{{std.round_apply_no}}"/></td>
+                                    <td><input name="school_size" type="text" value="{{std.school_size_no}}"/></td>
+                                    <td><input name="status_family" type="text" value="{{std.status_family_no}}"/></td>
+                                    <td><input name="family_income_per_month" type="text" value="{{std.family_income_per_month_no}}"/></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <br>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-warning btn-lg">ทำนายข้อมูล</button>
                 </form>
             </div>
-            {% if std == "" %}
-            {% for message in messages %}
-            <p style="color: green; text-align: center;">{{message}}</p>
-            {% endfor%}
-            {% else %}
-            <div class="table-responsive" style="overflow-x:auto;">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">ชื่อ</th>
-                            <th scope="col">รุ่น</th>
-                            <th scope="col">เกรดมัธยม</th>
-                            <th scope="col">เขียนโปรแกรม</th>
-                            <th scope="col">อบรมเขียนโปรแกรม</th>
-                            <th scope="col">แผนการเรียน</th>
-                            <th scope="col">รอบที่มาสมัคร</th>
-                            <th scope="col">ขนาดโรงเรียน</th>
-                            <th scope="col">สถานะครอบครัว</th>
-                            <th scope="col">รายได้ครอบครัว</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <form action="{% url 'result' %}" method="POST">
-                            {% csrf_token %}
-                            {% for std in std %}
-                            <div class="form-row">
-                                <div class="from-group col-md-2">
-                                    <tr>
-                                        <td>{{std.gender}}{{std.name}}</td>
-                                        <td>{{std.class_student}}</td>
-                                        <td><input name='GPA' type='text' value="{{std.GPA}}" disabled /></td>
-                                        <td><input name='write_program' type='text' value="{{std.write_program_no}}" disabled /></td>
-                                        <td><input type="text" name="trainprogram" id="" value="{{std.trainprogram_no}}" disabled /></td>
-                                        <td><input name='plan' type='text' value="{{std.plan_no}}" disabled /></td>
-                                        <td><input type="text" name="round_apply" id="" value="{{std.round_apply_no}}" disabled /></td>
-                                        <td><input type="text" name="school_size" id="" value="{{std.school_size_no}}" disabled /></td>
-                                        <td><input type="text" name="status_family" id="" value="{{std.Group_status}}" disabled /></td>
-                                        <td><input type="text" name="family_income_per_month" id="" value="{{std.family_income_per_month_no}}" disabled /></td>
-                                    </tr>
-                                </div>
-                            </div>
-                            {% endfor %}
-                            <button type="submit">ทำนายข้อมูล</button>
-                        </form>
-                    </tbody>
-                </table>
-            </div>
-            {% endif %}
         </div>
     </div>
 </main>
-<script>
-    //query data from database
-    $(document).ready(function () {
-        $('datatablesSimple').DataTable({
-            columnDefs: [{
-                orderable: false,
-                className: 'select-checkbox',
-                targets: 0
-            }],
-            select: {
-                style: 'os',
-                selector: 'td:first-child'
-            },
-            order: [[1, 'asc']]
-        });
-    });
-</script>
 {% endblock body %}

@@ -66,6 +66,8 @@ class student(models.Model):
         ('รุ่น61', 'รุ่น61'), ('รุ่น62', 'รุ่น62'), ('รุ่น63', 'รุ่น63'), ('รุ่น64', 'รุ่น64'),
         ('รุ่น65', 'รุ่น65'), ('รุ่น66', 'รุ่น66'), ('รุ่น67', 'รุ่น67'), ('รุ่น68', 'รุ่น68'),
         )
+    
+    school_size_CHOICE = (('โรงเรียนขนาดเล็ก', 'โรงเรียนขนาดเล็ก'), ('โรงเรียนขนาดกลาง', 'โรงเรียนขนาดกลาง'), ('โรงเรียนขนาดใหญ่', 'โรงเรียนขนาดใหญ่'))
 
     ComputerSkillsCompetition_CHOICE = (
         ('เคย', 'เคย'),
@@ -149,7 +151,7 @@ class student(models.Model):
     name = models.CharField(max_length=255, null=True)
     class_student = models.CharField(max_length=155, choices=class_student_CHOICE, null=True)
     school = models.CharField(max_length=255, null=True)
-    school_size = models.CharField(max_length=255, null=True)
+    school_size = models.CharField(max_length=255, choices=school_size_CHOICE ,null=True)
     short = models.CharField(max_length=255, null=True)
     plan = models.CharField(max_length=255, null=True)
     round_apply = models.CharField(max_length=255, null=True)
@@ -214,7 +216,7 @@ class student(models.Model):
         else:
             return 7
 
-    def Group_status(self):
+    def status_family_no(self):
         if 'บิดา มารดาอยู่ด้วยกัน' in self.status_family:
             return 2
         elif 'บิดา มารดาหย่าร้างกัน' in self.status_family:
@@ -254,18 +256,18 @@ class student(models.Model):
         if 'รร.ขนาดใหญ่' in self.school_size:
             return 2
         elif 'รร.ขนาดกลาง' in self.school_size:
-            return 0
-        else:
             return 1
+        else:
+            return 0
         
     def family_income_per_month_no(self):
-        if '10,001 – 15,000 บาท' in self.family_income_per_month:
+        if '10,001 ถึง 15,000 บาท' in self.family_income_per_month:
             return 0
-        elif '15,001 – 20,000 บาท' in self.family_income_per_month:
+        elif '15,001 ถึง 20,000 บาท' in self.family_income_per_month:
             return 1
         elif '25,001 บาทขึ้นไป' in self.family_income_per_month:
             return 2
-        elif '5,001 – 10,000 บาท' in self.family_income_per_month:
+        elif '5,001 ถึง 10,000 บาท' in self.family_income_per_month:
             return 3
         elif 'ไม่เกิน 5,000 บาท' in self.family_income_per_month:
             return 4
