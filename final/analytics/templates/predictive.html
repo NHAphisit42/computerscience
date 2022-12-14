@@ -1,6 +1,4 @@
-{% extends 'base_backend.html' %}
-{% block title %}Predictive{% endblock title %}
-{% block body %}
+{% extends 'base_backend.html' %} {% block title %}Predictive{% endblock title%} {% block body %}
 <style>
     .my-custom-scrollbar {
         position: relative;
@@ -25,12 +23,27 @@
     th.text {
         text-align: center;
     }
+
+    th,
+    td {
+        white-space: nowrap;
+    }
+
+    div.dataTables_wrapper {
+        margin: 0 auto;
+    }
+
+    div.container {
+        width: 80%;
+    }
 </style>
 <main>
     <div class="container-fluid px-4">
         <h1 class="mt-4">ทำนายข้อมูล</h1>
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="{% url 'home_backend' %}">หน้าหลัก</a></li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'home_backend' %}">หน้าหลัก</a>
+            </li>
             <li class="breadcrumb-item active">ทำนายข้อมูล</li>
         </ol>
         <div class="card mb-4">
@@ -41,6 +54,7 @@
             <div class="card-body">
                 <form action="{% url 'student_list' %}" method="post">
                     {% csrf_token %}
+                    <input type="hidden" name="setdata[]" />
                     <div class="form-group">
                         <label for="class_student">ค้นหาข้อมูล</label>
                         <select name="class_student" id="class_student" class="custom-select custom-select-lg mb-3"
@@ -60,50 +74,106 @@
                         <button type="submit" class="btn btn-primary">ค้นหา</button>
                     </div>
                 </form>
-                <form action="{% url 'result' %}" method="POST">
+                <form id="Myform" action="{% url 'result' %}"  method="POST">
                     {% csrf_token %}
-                    <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
-                        <table class="table table-bordered table-striped mb-0 autowidth">
-                            <thead style="position: sticky; top: 0;" class="bg-dark text-white">
-                                <tr>
-                                    <th scope="col" style="width: 10%;">เลือก</th>
-                                    <th scope="col" style="width: 10%;">ชื่อ</th>
-                                    <th scope="col" style="width: 10%;">รุ่น</th>
-                                    <th scope="col" style="width: 10%;">เกรดมัธยม</th>
-                                    <th scope="col" style="width: 10%;">เขียนโปรแกรม</th>
-                                    <th scope="col" style="width: 10%;">อบรมเขียนโปรแกรม</th>
-                                    <th scope="col" style="width: 10%;">แผนการเรียน</th>
-                                    <th scope="col" style="width: 10%;">รอบที่มาสมัคร</th>
-                                    <th scope="col" style="width: 10%;">ขนาดโรงเรียน</th>
-                                    <th scope="col" style="width: 10%;">สถานะครอบครัว</th>
-                                    <th scope="col" style="width: 10%;">รายได้ครอบครัว</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for std in sd %}
-                                <tr>
-                                    <td><input type="checkbox" name="checkbox[]" value="{{std.id}}" id="">{{std.id}}</td>
-                                    <td>{{std.gender}}{{std.name}}</td>
-                                    <td>{{std.class_student}}</td>
-                                    <td><input name="GPA[]" type="text" value="{{std.GPA}}"/></td>
-                                    <td><input name="write_program[]" type="text" value="{{std.write_program_no}}"/></td>
-                                    <td><input name="trainprogram[]" type="text" value="{{std.trainprogram_no}}"/></td>
-                                    <td><input name="plan[]" type="text" value="{{std.plan_no}}"/></td>
-                                    <td><input name="round_apply[]" type="text" value="{{std.round_apply_no}}"/></td>
-                                    <td><input name="school_size[]" type="text" value="{{std.school_size_no}}"/></td>
-                                    <td><input name="status_family[]" type="text" value="{{std.status_family_no}}"/></td>
-                                    <td><input name="family_income_per_month[]" type="text" value="{{std.family_income_per_month_no}}"/></td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        <br>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            ข้อมูลนักศึกษาสาขาวิทยาการคอมพิวเตอร์
+                        </div>
+                        <div class="card-body">
+                            <table id="datatablesSimple" class="stripe row-border order-column" style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th>เลือก</th>
+                                        <th>ชื่อ</th>
+                                        <th>รุ่น</th>
+                                        <th>เกรดมัธยม</th>
+                                        <th>เขียนโปรแกรม</th>
+                                        <th>อบรมเขียนโปรแกรม</th>
+                                        <th>แผนการเรียน</th>
+                                        <th>รอบที่มาสมัคร</th>
+                                        <th>ขนาดโรงเรียน</th>
+                                        <th>สถานะครอบครัว</th>
+                                        <th>รายได้ครอบครัว</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>เลือก</th>
+                                        <th>ชื่อ</th>
+                                        <th>รุ่น</th>
+                                        <th>เกรดมัธยม</th>
+                                        <th>เขียนโปรแกรม</th>
+                                        <th>อบรมเขียนโปรแกรม</th>
+                                        <th>แผนการเรียน</th>
+                                        <th>รอบที่มาสมัคร</th>
+                                        <th>ขนาดโรงเรียน</th>
+                                        <th>สถานะครอบครัว</th>
+                                        <th>รายได้ครอบครัว</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    {% for std in sd %}
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" name="checkbox[]" value="{{std.id}}" id="" />
+                                            {{std.id}}
+                                        </td>
+                                        <td>{{std.gender}}{{std.name}}</td>
+                                        <td>{{std.class_student}}</td>
+                                        <td>
+                                            <input name="GPA" type="text" value="{{std.GPA}}" />
+                                        </td>
+                                        <td>
+                                            <input name="write_program" type="text" value="{{std.write_program_no}}" />
+                                        </td>
+                                        <td>
+                                            <input name="trainprogram" type="text" value="{{std.trainprogram_no}}" />
+                                        </td>
+                                        <td>
+                                            <input name="plan" type="text" value="{{std.plan_no}}" />
+                                        </td>
+                                        <td>
+                                            <input name="round_apply" type="text" value="{{std.round_apply_no}}" />
+                                        </td>
+                                        <td>
+                                            <input name="school_size" type="text" value="{{std.school_size_no}}" />
+                                        </td>
+                                        <td>
+                                            <input name="status_family" type="text" value="{{std.status_family_no}}" />
+                                        </td>
+                                        <td>
+                                            <input name="family_income_per_month" type="text"
+                                                value="{{std.family_income_per_month_no}}" />
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <br>
-                    <button type="submit" class="btn btn-warning btn-lg">ทำนายข้อมูล</button>
+                    <br />
+                    <button type="submit" class="btn btn-warning btn-lg">
+                        ทำนายข้อมูล
+                    </button>
                 </form>
             </div>
         </div>
     </div>
 </main>
+<script>
+    $(document).ready(function () {
+        $('#datatablesSimple').DataTable();
+       $("#datatablesSimple").DataTable({
+            scrollY: "300px",
+            scrollX: true,
+            scrollCollapse: true,
+            paging: false,
+            columnDefs: [{ width: "20%", targets: 0 }],
+            fixedColumns: true,
+        }); 
+    });
+    
+</script>
 {% endblock body %}

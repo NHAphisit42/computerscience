@@ -10,6 +10,8 @@ from sklearn.tree import DecisionTreeClassifier
 import json
 from sklearn.preprocessing import LabelEncoder
 from student.models import student
+import array
+
 student.plan_no
 student.status_family_no
 student.write_program_no
@@ -24,8 +26,6 @@ model_LR = load('./analytics/ML/LR.joblib')
 
 # Create your views here.
 # @login_required(login_url='login')
-
-
 def home_backend(request):
     std = student.objects.all()
     stdcount = std.count()
@@ -78,29 +78,34 @@ def student_list(request):
         
         
 def result(request):
-    # get funstion from model student
-    #fun = 
+    print(request)
     if request.method == "POST":
-        keepNew = []
         checkbox = request.POST.getlist('checkbox[]')
+        keepNew = []
+        # print(len(std_select))
+        # print(len(checkbox) > 0)
+        # print(len(checkbox))
         if len(checkbox) > 0:
-            print(len(checkbox))
             for i in range(len(checkbox)):
-                if int(std_select[i].id) == int(checkbox[i]):
-                    array = {
-                            "STD_ID" : checkbox[i],
-                            "GPA" : std_select[i].GPA,
-                            "write_program" : student.school_size_no(std_select[i]),
-                            "trainprogram" :student.trainprogram_no(std_select[i]),
-                            "plan" : student.plan_no(std_select[i]),
-                            "round_apply" : student.round_apply_no(std_select[i]),
-                            "school_size" : student.school_size_no(std_select[i]),
-                            "status_family" : student.status_family_no(std_select[i]),
-                            "family_income_per_month" : student.family_income_per_month_no(std_select[i]),
-                        }
-                    keepNew.append(array)
+                for y in range(len(std_select)):
+                    if int(std_select[y].id) == int(checkbox[i]):
+                        array = {
+                                "STD_ID" : checkbox[i],
+                                "GPA" : std_select[y].GPA,
+                                "write_program" : student.school_size_no(std_select[y]),
+                                "trainprogram" :student.trainprogram_no(std_select[y]),
+                                "plan" : student.plan_no(std_select[y]),
+                                "round_apply" : student.round_apply_no(std_select[y]),
+                                "school_size" : student.school_size_no(std_select[y]),
+                                "status_family" : student.status_family_no(std_select[y]),
+                                "family_income_per_month" : student.family_income_per_month_no(std_select[y]),
+                            }
+                        keepNew.append(array)
             print(keepNew)
+                        # predict = getPredictions(keepNew[i]['school_size'], keepNew[i]['plan'], keepNew[i]['round_apply'], keepNew[i]['GPA'], keepNew[i]['write_program'], keepNew[i]['trainprogram'], keepNew[i]['family_income_per_month'], keepNew[i]['status_family'])
+                        # return render(request, 'result.html', {'predict': predict})
         else:
+            keepNew = []
             for i in range(len(std_select)) :
                 array = {
                         "STD_ID" : int(std_select[i].id),
@@ -115,25 +120,12 @@ def result(request):
                     }
                 keepNew.append(array)
             print(keepNew)
-    #         # print(GPA)
-    #         # print(write_program)
-    #         # print(trainprogram)
-    #         # print(plan)
-    #         # print(round_apply)
-    #         # print(school_size)
-    #         # print(status_family)
-    #         # print(family_income_per_month)
-    #         # new_data = [(float(x1), int(x2), int(x3), int(x4), int(x5), int(x6), int(x7), int(x8)) for x1, x2, x3, x4, x5, x6, x7, x8 in zip(GPA, write_program, trainprogram, plan, round_apply, school_size, status_family, family_income_per_month)] 
-    #         # print(new_data)
-    #     print(checkbox)
-            # print('-------------------------------------')
-            # checkbox = [new_data]
-            # print(checkbox)
-    
+            print(checkbox)
+            # predict = getPredictions(keepNew[i]['school_size'], keepNew[i]['plan'], keepNew[i]['round_apply'], keepNew[i]['GPA'], keepNew[i]['write_program'], keepNew[i]['trainprogram'], keepNew[i]['family_income_per_month'], keepNew[i]['status_family'])
     return render(request, 'result.html')
 
 
-def getpredict(Group_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family):
+def getPredictions(Group_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family):
     predictions = model_DT.predict(Group_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family)
     if predictions == 1:
         return "ผ่าน"

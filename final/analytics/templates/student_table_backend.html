@@ -1,6 +1,16 @@
 {% extends 'base_backend.html' %}
 {% block title %}ตารางนักศึกษา{% endblock title %}
 {% block body %}
+<style>
+    th, td { white-space: nowrap; }
+    div.dataTables_wrapper {
+        margin: 0 auto;
+    }
+ 
+    div.container {
+        width: 80%;
+    }
+</style>
 <main>
     <div class="container-fluid px-4">
         <h1 class="mt-4">ตารางข้อมูลนักศึกษา</h1>
@@ -14,7 +24,7 @@
                 ข้อมูลนักศึกษาสาขาวิทยาการคอมพิวเตอร์
             </div>
             <div class="card-body">
-                <table id="datatablesSimple">
+                <table id="datatablesSimple" class="stripe row-border order-column" style="width:100%">
                     <thead>
                         <tr>
                             <th style="text-align: center;">คำนำหน้า</th>
@@ -70,6 +80,19 @@
                     }
                 });
         }
+
+        $(document).ready(function() {
+            var table = $('#datatablesSimple').DataTable( {
+                scrollY:        "300px",
+                scrollX:        true,
+                scrollCollapse: true,
+                paging:         false,
+                columnDefs: [
+                    { width: '20%', targets: 0 }
+                ],
+                fixedColumns: true
+            } );
+        } );
     </script>
 </main>
 {% endblock body %}

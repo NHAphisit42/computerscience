@@ -1,5 +1,6 @@
 from unicodedata import name
 from django.db import models
+import joblib
 
 # Create your models here.
 
@@ -253,9 +254,9 @@ class student(models.Model):
             return 6
         
     def school_size_no(self):
-        if 'รร.ขนาดใหญ่' in self.school_size:
+        if 'โรงเรียนขนาดใหญ่' in self.school_size:
             return 2
-        elif 'รร.ขนาดกลาง' in self.school_size:
+        elif 'โรงเรียนขนาดกลาง' in self.school_size:
             return 1
         else:
             return 0
