@@ -101,7 +101,14 @@ def result(request):
                         })
             print(data)
             for n in data:
-                result = getPredictions(n['GPA'], n['write_program'], n['trainprogram'], n['plan'], n['status_family'], n['round_apply'], n['school_size'], n['family_income_per_month'])      
+                result = getPredictions(n['GPA'], 
+                                        n['write_program'], 
+                                        n['trainprogram'], 
+                                        n['plan'], 
+                                        n['status_family'], 
+                                        n['round_apply'], 
+                                        n['school_size'], 
+                                        n['family_income_per_month'])      
                 return render(request, 'result.html', {'data': data, 'result': result})
 
 
