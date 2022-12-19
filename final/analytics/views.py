@@ -20,21 +20,22 @@ student.round_apply_no
 student.school_size_no
 student.family_income_per_month_no
 
-model_DT = load('./analytics/ML/DT.joblib')
-model_RF = load('./analytics/ML/RF.joblib')
-model_LR = load('./analytics/ML/LR.joblib')
+model_DT = load('./analytics/ML/DCT.joblib')
+# model_DT = load('./analytics/ML/DCT.joblib')
+# model_RF = load('./analytics/ML/RF.joblib')
+# model_LR = load('./analytics/ML/LR.joblib')
 
 # Create your views here.
 # @login_required(login_url='login')
 def home_backend(request):
     std = student.objects.all()
-    stdcount = std.count()
-    return render(request, 'home_backend.html', {'std': std, 'stdcount': stdcount})
+    return render(request, 'home_backend.html', {'std': std})
 
 
 def table_backend(request):
     std = student.objects.all()
-    return render(request, 'student_table_backend.html', {'std': std})
+    count = std.count()
+    return render(request, 'student_table_backend.html', {'std': std, 'count': count})
 
 
 def studentdetail(request, id):
@@ -76,63 +77,42 @@ def student_list(request):
             std_select = sd
             return render(request, 'predictive.html', {'sd': sd})
         
-        
+
 def result(request):
-    print(request)
+    data = []
     if request.method == "POST":
         checkbox = request.POST.getlist('checkbox[]')
-        keepNew = []
-        # print(len(std_select))
-        # print(len(checkbox) > 0)
-        # print(len(checkbox))
         if len(checkbox) > 0:
             for i in range(len(checkbox)):
                 for y in range(len(std_select)):
                     if int(std_select[y].id) == int(checkbox[i]):
-                        array = {
-                                "STD_ID" : checkbox[i],
-                                "GPA" : std_select[y].GPA,
-                                "write_program" : student.school_size_no(std_select[y]),
-                                "trainprogram" :student.trainprogram_no(std_select[y]),
-                                "plan" : student.plan_no(std_select[y]),
-                                "round_apply" : student.round_apply_no(std_select[y]),
-                                "school_size" : student.school_size_no(std_select[y]),
-                                "status_family" : student.status_family_no(std_select[y]),
-                                "family_income_per_month" : student.family_income_per_month_no(std_select[y]),
-                            }
-                        keepNew.append(array)
-            print(keepNew)
-                        # predict = getPredictions(keepNew[i]['school_size'], keepNew[i]['plan'], keepNew[i]['round_apply'], keepNew[i]['GPA'], keepNew[i]['write_program'], keepNew[i]['trainprogram'], keepNew[i]['family_income_per_month'], keepNew[i]['status_family'])
-                        # return render(request, 'result.html', {'predict': predict})
-        else:
-            keepNew = []
-            for i in range(len(std_select)) :
-                array = {
-                        "STD_ID" : int(std_select[i].id),
-                        "GPA" : std_select[i].GPA,
-                        "write_program" : student.school_size_no(std_select[i]),
-                        "trainprogram" :student.trainprogram_no(std_select[i]),
-                        "plan" : student.plan_no(std_select[i]),
-                        "round_apply" : student.round_apply_no(std_select[i]),
-                        "school_size" : student.school_size_no(std_select[i]),
-                        "status_family" : student.status_family_no(std_select[i]),
-                        "family_income_per_month" : student.family_income_per_month_no(std_select[i]),
-                    }
-                keepNew.append(array)
-            print(keepNew)
-            print(checkbox)
-            # predict = getPredictions(keepNew[i]['school_size'], keepNew[i]['plan'], keepNew[i]['round_apply'], keepNew[i]['GPA'], keepNew[i]['write_program'], keepNew[i]['trainprogram'], keepNew[i]['family_income_per_month'], keepNew[i]['status_family'])
-    return render(request, 'result.html')
+                        data.append({
+                            "STD_ID" : checkbox[i],
+                            "name" : std_select[y].name,
+                            "class_student" : std_select[y].class_student,
+                            "GPA" : std_select[y].GPA,
+                            "write_program" : student.write_program_no(std_select[y]),
+                            "trainprogram" :student.trainprogram_no(std_select[y]),
+                            "plan" : student.plan_no(std_select[y]),
+                            "status_family" : student.status_family_no(std_select[y]),
+                            "round_apply" : student.round_apply_no(std_select[y]),
+                            "school_size" : student.school_size_no(std_select[y]),
+                            "family_income_per_month" : student.family_income_per_month_no(std_select[y]),
+                        })
+            print(data)
+            for n in data:
+                result = getPredictions(n['GPA'], n['write_program'], n['trainprogram'], n['plan'], n['status_family'], n['round_apply'], n['school_size'], n['family_income_per_month'])      
+                return render(request, 'result.html', {'data': data, 'result': result})
 
 
-def getPredictions(Group_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family):
-    predictions = model_DT.predict(Group_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family)
+def getPredictions(school_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family):
+    predictions = model_DT.predict([[school_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family]])
     if predictions == 1:
-        return "ผ่าน"
+        return "PASS"
     elif predictions == 0:
-        return "ไม่ผ่าน"
+        return "NOT PASS"
     else:
-        return "ผิดพลาด"
+        return "ERROR"
 
 
 def school(request):
@@ -244,90 +224,46 @@ def remove(request, id):
 def update(request, id):
     std = student.objects.get(id=id)
     if request.method == "POST":
-        gender = request.POST['gender']
-        name = request.POST['name']
-        class_student = request.POST['sophomore_student']
-        school = request.POST['school']
-        short = request.POST['short']
-        plan = request.POST['plan']
-        round_apply = request.POST['round_apply']
-        GPA = request.POST['grade']
-        grade_maths = request.POST['grade_maths']
-        grade_science = request.POST['grade_science']
-        grade_english = request.POST['grade_english']
-        skillcomputer = request.POST['ComputerSkillsCompetition']
-        traincomputer = request.POST['ComputerRelatedtraining']
-        write_program = request.POST['learnProgramming']
-        trainprogram = request.POST['programmingTraining']
-        Other_skills = request.POST['Other_skills']
-        want_to_develop = request.POST['improve_skills']
-        family_income_per_month = request.POST['family_income_per_month']
-        status_family = request.POST['family_status']
-        which_channel_do_you_know = request.POST['Known_from_any_channel']
-        why_did_you_choose_to_study = request.POST['why_did_you_choose_to_study']
-        ex1 = request.POST['ex1']
-        ex2 = request.POST['ex2']
-        ex3 = request.POST['ex3']
-        ex4 = request.POST['ex4']
-        ex5 = request.POST['ex5']
-        ex6 = request.POST['ex6']
-        ex7 = request.POST['ex7']
-        ex8 = request.POST['ex8']
-        ex9 = request.POST['ex9']
-        ex10 = request.POST['ex10']
-        ex11 = request.POST['ex11']
-        ex12 = request.POST['ex12']
-        ex13 = request.POST['ex13']
-        ex14 = request.POST['ex14']
-        ex15 = request.POST['ex15']
-        ex16 = request.POST['ex16']
-        ex17 = request.POST['ex17']
-        ex18 = request.POST['ex18']
-        ex19 = request.POST['ex19']
-        ex20 = request.POST['ex20']
-
-        std = student.objects.create(
-            gender=gender,
-            name=name,
-            class_student=class_student,
-            school=school,
-            short=short,
-            plan=plan,
-            round_apply=round_apply,
-            GPA=GPA,
-            grade_maths=grade_maths,
-            grade_science=grade_science,
-            grade_english=grade_english,
-            skillcomputer=skillcomputer,
-            traincomputer=traincomputer,
-            write_program=write_program,
-            trainprogram=trainprogram,
-            Other_skills=Other_skills,
-            want_to_develop=want_to_develop,
-            family_income_per_month=family_income_per_month,
-            status_family=status_family,
-            which_channel_do_you_know=which_channel_do_you_know,
-            why_did_you_choose_to_study=why_did_you_choose_to_study,
-            ex1=ex1,
-            ex2=ex2,
-            ex3=ex3,
-            ex4=ex4,
-            ex5=ex5,
-            ex6=ex6,
-            ex7=ex7,
-            ex8=ex8,
-            ex9=ex9,
-            ex10=ex10,
-            ex11=ex11,
-            ex12=ex12,
-            ex13=ex13,
-            ex14=ex14,
-            ex15=ex15,
-            ex16=ex16,
-            ex17=ex17,
-            ex18=ex18,
-            ex19=ex19,
-            ex20=ex20,
-        )
+        std.gender = request.POST.get('gender')
+        std.name = request.POST.get('name')
+        std.class_student = request.POST.get('sophomore_student')
+        std.school = request.POST.get('school')
+        std.short = request.POST.get('short')
+        std.plan = request.POST.get('plan')
+        std.round_apply = request.POST.get('round_apply')
+        std.GPA = request.POST.get('grade')
+        std.grade_maths = request.POST.get('grade_maths')
+        std.grade_science = request.POST.get('grade_science')
+        std.grade_english = request.POST.get('grade_english')
+        std.skillcomputer = request.POST.get('ComputerSkillsCompetition')
+        std.traincomputer = request.POST.get('ComputerRelatedtraining')
+        std.write_program = request.POST.get('learnProgramming')
+        std.trainprogram = request.POST.get('programmingTraining')
+        std.Other_skills = request.POST.get('Other_skills')
+        std.want_to_develop = request.POST.get('improve_skills')
+        std.family_income_per_month = request.POST.get('family_income_per_month')
+        std.status_family = request.POST.get('family_status')
+        std.which_channel_do_you_know = request.POST.get('Known_from_any_channel')
+        std.why_did_you_choose_to_study = request.POST.get('why_did_you_choose_to_study')
+        std.ex1 = request.POST.get('ex1')
+        std.ex2 = request.POST.get('ex2')
+        std.ex3 = request.POST.get('ex3')
+        std.ex4 = request.POST.get('ex4')
+        std.ex5 = request.POST.get('ex5')
+        std.ex6 = request.POST.get('ex6')
+        std.ex7 = request.POST.get('ex7')
+        std.ex8 = request.POST.get('ex8')
+        std.ex9 = request.POST.get('ex9')
+        std.ex10 = request.POST.get('ex10')
+        std.ex11 = request.POST.get('ex11')
+        std.ex12 = request.POST.get('ex12')
+        std.ex13 = request.POST.get('ex13')
+        std.ex14 = request.POST.get('ex14')
+        std.ex15 = request.POST.get('ex15')
+        std.ex16 = request.POST.get('ex16')
+        std.ex17 = request.POST.get('ex17')
+        std.ex18 = request.POST.get('ex18')
+        std.ex19 = request.POST.get('ex19')
+        std.ex20 = request.POST.get('ex20')
         std.save()
-        return redirect('table_backend')
+        redirect('table_backend')

@@ -71,10 +71,10 @@
                             <option value="รุ่น69">รุ่น 69</option>
                             <option value="รุ่น70">รุ่น 70</option>
                         </select>
-                        <button type="submit" class="btn btn-primary">ค้นหา</button>
+                        <button type="submit" class="btn btn-primary btn-sm">ค้นหา</button>
                     </div>
                 </form>
-                <form id="Myform" action="{% url 'result' %}"  method="POST">
+                <form id="Myform" action="{% url 'result' %}" method="POST">
                     {% csrf_token %}
                     <div class="card mb-4">
                         <div class="card-header">
@@ -116,37 +116,17 @@
                                 <tbody>
                                     {% for std in sd %}
                                     <tr>
-                                        <td>
-                                            <input type="checkbox" name="checkbox[]" value="{{std.id}}" id="" />
-                                            {{std.id}}
-                                        </td>
+                                        <td><input type="checkbox" name="checkbox[]" value="{{std.id}}" id="checkbox" />{{std.id}}</td>
                                         <td>{{std.gender}}{{std.name}}</td>
                                         <td>{{std.class_student}}</td>
-                                        <td>
-                                            <input name="GPA" type="text" value="{{std.GPA}}" />
-                                        </td>
-                                        <td>
-                                            <input name="write_program" type="text" value="{{std.write_program_no}}" />
-                                        </td>
-                                        <td>
-                                            <input name="trainprogram" type="text" value="{{std.trainprogram_no}}" />
-                                        </td>
-                                        <td>
-                                            <input name="plan" type="text" value="{{std.plan_no}}" />
-                                        </td>
-                                        <td>
-                                            <input name="round_apply" type="text" value="{{std.round_apply_no}}" />
-                                        </td>
-                                        <td>
-                                            <input name="school_size" type="text" value="{{std.school_size_no}}" />
-                                        </td>
-                                        <td>
-                                            <input name="status_family" type="text" value="{{std.status_family_no}}" />
-                                        </td>
-                                        <td>
-                                            <input name="family_income_per_month" type="text"
-                                                value="{{std.family_income_per_month_no}}" />
-                                        </td>
+                                        <td><input name="GPA" type="text" value="{{std.GPA}}" /></td>
+                                        <td><input name="write_program" type="text" value="{{std.write_program_no}}" /></td>
+                                        <td><input name="trainprogram" type="text" value="{{std.trainprogram_no}}" /></td>
+                                        <td><input name="plan" type="text" value="{{std.plan_no}}" /></td>
+                                        <td><input name="round_apply" type="text" value="{{std.round_apply_no}}" /></td>
+                                        <td><input name="school_size" type="text" value="{{std.school_size_no}}" /></td>
+                                        <td><input name="status_family" type="text" value="{{std.status_family_no}}" /></td>
+                                        <td><input name="family_income_per_month" type="text"value="{{std.family_income_per_month_no}}" /></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -154,9 +134,9 @@
                         </div>
                     </div>
                     <br />
-                    <button type="submit" class="btn btn-warning btn-lg">
-                        ทำนายข้อมูล
-                    </button>
+                    <button type="submit" class="btn btn-success btn-sm">ทำนายข้อมูล</button>
+                    <button type="button" class="btn btn-warning btn-sm" onclick="selects()">เลือกทั้งหมด</button>
+                    <button type="reset" class="btn btn-primary btn-sm" onclick="deSelect()">ยกเลิก</button>
                 </form>
             </div>
         </div>
@@ -165,15 +145,50 @@
 <script>
     $(document).ready(function () {
         $('#datatablesSimple').DataTable();
-       $("#datatablesSimple").DataTable({
+        $("#datatablesSimple").DataTable({
             scrollY: "300px",
             scrollX: true,
             scrollCollapse: true,
             paging: false,
             columnDefs: [{ width: "20%", targets: 0 }],
             fixedColumns: true,
-        }); 
+        });
     });
-    
+
+    document.getElementById('select-all-button').addEventListener('click', function () {
+        // Get all the checkboxes on the page
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+        // Iterate through the checkboxes and set their checked property to true
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = true;
+        }
+    });
+
+    $('#select-all-button').click(function () {
+        // Get all the checkboxes on the page
+        var checkboxes = $('input[type="checkbox"]');
+
+        // Iterate through the checkboxes and set their checked property to true
+        checkboxes.each(function () {
+            $(this).prop('checked', true);
+        });
+    });
+
+    function selects() {
+        var ele = document.getElementsByName('checkbox[]');
+        for (var i = 0; i < ele.length; i++) {
+            if (ele[i].type == 'checkbox')
+                ele[i].checked = true;
+        }
+    }
+
+    function deSelect() {
+        var ele = document.getElementsByName('chk');
+        for (var i = 0; i < ele.length; i++) {
+            if (ele[i].type == 'checkbox')
+                ele[i].checked = false;
+        }
+    }
 </script>
 {% endblock body %}

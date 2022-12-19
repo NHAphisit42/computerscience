@@ -46,10 +46,17 @@
                             <select id="sophomore_student" name="sophomore_student" class="form-control">
                                 <option selected>{{std.class_student}}</option>
                                 <option>เลือก...</option>
-                                <option value="ชั้นปีที่ 1">ชั้นปีที่ 1</option>
-                                <option value="ชั้นปีที่ 2">ชั้นปีที่ 2</option>
-                                <option value="ชั้นปีที่ 3">ชั้นปีที่ 3</option>
-                                <option value="ชั้นปีที่ 4">ชั้นปีที่ 4</option>
+                                <option value="รุ่น61">รุ่น61</option>
+                                <option value="รุ่น62">รุ่น62</option>
+                                <option value="รุ่น63">รุ่น63</option>
+                                <option value="รุ่น64">รุ่น64</option>
+                                <option value="รุ่น65">รุ่น65</option>
+                                <option value="รุ่น66">รุ่น66</option>
+                                <option value="รุ่น67">รุ่น67</option>
+                                <option value="รุ่น68">รุ่น68</option>
+                                <option value="รุ่น69">รุ่น69</option>
+                                <option value="รุ่น70">รุ่น70</option>
+                                <option value="รุ่น71">รุ่น71</option>
                             </select>
                         </div>
                         <div class="form-group col-md-4">
@@ -61,6 +68,18 @@
                             <input type="text" name="short" id="short" class="form-control" value="{{std.short}}">
                         </div>
                         <div class="form-group col-md-3">
+                            <label for="school_size">ขนาดโรงเรียน</label>
+                            <select id="school_size" name="school_size" class="form-control">
+                                <option selected>{{std.school_size}}</option>
+                                <option>เลือก...</option>
+                                <option value="โรงเรียนขนาดเล็ก">โรงเรียนขนาดเล็ก</option>
+                                <option value="โรงเรียนขนาดกลาง">โรงเรียนขนาดกลาง</option>
+                                <option value="โรงเรียนขนาดใหญ่">โรงเรียนขนาดใหญ่</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
                             <label for="plan">แผนกการเรียน ที่ใช้สมัครเรียน</label>
                             <select id="plan" name="plan" class="form-control">
                                 <option selected>{{std.plan}}</option>
@@ -68,13 +87,10 @@
                                 <option value="แผนกการเรียน วิทย์-คณิต">แผนกการเรียน วิทย์-คณิต</option>
                                 <option value="แผนกการเรียน ศิลป์-คำนวณ">แผนกการเรียน ศิลป์-คำนวณ</option>
                                 <option value="ประกาศนียบัตรวิชาชีพ(ปวช)">ประกาศนียบัตรวิชาชีพ(ปวช)</option>
-                                <option value="ประกาศนียบัตรวิชาชีพขั้นสูง(ปวส)">ประกาศนียบัตรวิชาชีพขั้นสูง(ปวส)
-                                </option>
+                                <option value="ประกาศนียบัตรวิชาชีพขั้นสูง(ปวส)">ประกาศนียบัตรวิชาชีพขั้นสูง(ปวส)</option>
                                 <option value="เทียบเท่าละดับมัธยมศึกษาตอนปลาย">เทียบเท่าละดับมัธยมศึกษาตอนปลาย</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="round_apply">รอบที่มาสมัครเรียนสาขาวิทยาการคอมพิวเตอร์</label>
                             <select id="round_apply" name="round_apply" class="form-control">
@@ -449,8 +465,7 @@
                             </select>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-warning" onclick="saveinfo()">อัปเดต</button> / <a
-                        href="{% url 'table_backend' %}" class="btn btn-info">ย้อนกลับ</a>
+                    <button type="submit" class="btn btn-warning btn-sm" onclick="saveinfo()">อัปเดต</button> / <a href="{% url 'table_backend' %}" class="btn btn-info btn-sm">ย้อนกลับ</a>
                 </form>
             </div>
         </div>

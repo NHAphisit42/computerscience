@@ -9,8 +9,7 @@
             <li class="breadcrumb-item"><a href="{% url 'predictive' %}">ย้อนกลับ</a></li>
         </ol>
         <div class="card-body">
-            {{predict.GPA}}
-            {{predict.class_student}}
+            {{result}}
             <!-- <table class="table">
                 <thead>
                     <tr>
@@ -21,12 +20,11 @@
                 </thead>
                 <tbody>
                     <tr>
-                        {% for std in std %}
-                            <tb>{{std.GPA}}</tb>
+                        {% for std in predictresults %}
+                            <tb>{{std.name}}</tb>
                             <tb>{{std.class_student}}</tb>
                             <tb></tb>
                         {% endfor %}
-                        
                     </tr>
                 </tbody>
             </table> -->

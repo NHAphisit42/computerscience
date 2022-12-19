@@ -1,6 +1,7 @@
 from csv import list_dialects
 from django.contrib import admin
 from student.models import student, School, Round_apply, Plan, Eduction
+from analytics.models import Predict
 # Register your models here.
 class studentDesing(admin.ModelAdmin):
     list_display = ['id', 'name', 'class_student', 'school', 'school_size', 'plan', 'family_income_per_month', 'status_family']
@@ -22,3 +23,4 @@ admin.site.register(School, schoolDesing)
 admin.site.register(Plan, planDesing)
 admin.site.register(Eduction, educationDesing)
 admin.site.register(Round_apply, round_applyDesing)
+admin.site.register(Predict)

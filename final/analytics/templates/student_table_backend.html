@@ -21,7 +21,7 @@
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
-                ข้อมูลนักศึกษาสาขาวิทยาการคอมพิวเตอร์
+                ข้อมูลนักศึกษาสาขาวิทยาการคอมพิวเตอร์ จำนวนนักศึกษาทั้งหมด {{count}} คน
             </div>
             <div class="card-body">
                 <table id="datatablesSimple" class="stripe row-border order-column" style="width:100%">
@@ -53,7 +53,7 @@
                             <td>{{std.class_student}}</td>
                             <td>{{std.round_apply}}</td>
                             <td>{{std.school}}</td>
-                            <td style="text-align: center;"><a href="{% url 'studentdetail' std.id %}" class="btn btn-warning">ดูข้อมูล</a> / <a href="{% url 'remove' std.id %}" class="btn btn-danger" onclick="del()">ลบข้อมูล</a></td>
+                            <td style="text-align: center;"><a href="{% url 'studentdetail' std.id %}" class="btn btn-warning btn-sm">ดูข้อมูล</a> / <a href="{% url 'remove' std.id %}" class="btn btn-danger btn-sm" onclick="del()">ลบข้อมูล</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
