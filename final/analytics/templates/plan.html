@@ -17,33 +17,21 @@
                 <table id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th style="text-align: center;">คำนำหน้า</th>
-                            <th style="text-align: center;">ชื่อ</th>
-                            <th style="text-align: center;">ชั้นปีที่</th>
-                            <th style="text-align: center;">รอบสมัคร</th>
-                            <th style="text-align: center;">โรงเรียนที่จบการศึกษา</th>
+                            <th style="text-align: center;">ชื่อแผนการเรียน</th>
                             <th style="text-align: center;">แก้ไข/ลบ</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>คำนำหน้า</th>
-                            <th>ชื่อ</th>
-                            <th>ชั้นปีที่</th>
-                            <th>รอบสมัคร</th>
-                            <th>โรงเรียนที่จบการศึกษา</th>
+                            <th>ชื่อแผนการเรียน</th>
                             <th style="text-align: center;">แก้ไข/ลบ</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        {% for std in std %}
+                        {% for p in plan %}
                         <tr>
-                            <td>{{std.gender}}</td>
-                            <td>{{std.name}}</td>
-                            <td>{{std.sophomore_student}}</td>
-                            <td>{{std.round_apply}}</td>
-                            <td>{{std.school}}</td>
-                            <td style="text-align: center;"><a href="{% url 'studentdetail' std.id %}" class="btn btn-warning">ดูข้อมูล</a> / <a href="{% url 'remove' std.id %}" class="btn btn-danger" onclick="del()">ลบข้อมูล</a></td>
+                            <td>{{p.name}}</td>
+                            <td style="text-align: center;"><a href="{% url 'studentdetail' p.id %}" class="btn btn-warning">ดูข้อมูล</a> / <a href="{% url 'remove' p.id %}" class="btn btn-danger" onclick="del()">ลบข้อมูล</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>

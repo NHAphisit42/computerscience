@@ -55,12 +55,12 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="school">สถาบันที่จบการศึกษา</label>
-                    <!-- <select name="school" id="">
-                        {% for school in school %}
-                            <option value="{{school.id}}">{{school.name}}</option>
+                    <select name="school" id="school" class="form-control">
+                        {% for sc in school %}
+                            <option value="{{sc.id}}">{{sc.name_school}}</option>
                         {% endfor %}
-                    </select> -->
-                    <input type="text" name="school" id="school" class="form-control" placeholder="โรงเรียน(ตามด้วยชื่อ)">
+                    </select>
+                    <!-- <input type="text" name="school" id="school" class="form-control" placeholder="โรงเรียน(ตามด้วยชื่อ)"> -->
                 </div>
                 <div class="form-group col-md-3">
                     <label for="short">ชื่อย่อของโรงเรียน</label>
@@ -68,13 +68,22 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label for="plan">แผนกการเรียน ที่ใช้สมัครเรียน</label>
-                    <input type="text" name="plan" id="plan" class="form-control">
+                    <select name="plan" id="plan" class="form-control">
+                        {% for p in plan %}
+                            <option value="{{p.id}}">{{p.name}}</option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-4">
                     <label for="round_apply">รอบที่มาสมัครเรียนสาขาวิทยาการคอมพิวเตอร์</label>
-                    <input type="text" name="round_apply" id="round_apply" class="form-control">
+                    <select name="round_apply" id="round_apply" class="form-control">
+                        {% for round in round %}
+                            <option value="{{round.id}}">{{round.round_apply_name}}</option>
+                        {% endfor %}
+                    </select>
+                    <!-- <input type="text" name="round_apply" id="round_apply" class="form-control"> -->
                 </div>
             </div>
             <hr>

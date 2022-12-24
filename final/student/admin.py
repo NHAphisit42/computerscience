@@ -16,7 +16,7 @@ class educationDesing(admin.ModelAdmin):
     list_display = ['id', 'education_name']
 
 class planDesing(admin.ModelAdmin):
-    list_display = ['id', 'plan_name']
+    list_display = ['id', 'name']
 
 admin.site.register(student, studentDesing)
 admin.site.register(School, schoolDesing)

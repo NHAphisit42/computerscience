@@ -59,7 +59,7 @@ def addstudent(request):
         ex19 = request.POST['ex19']
         ex20 = request.POST['ex20']
 
-        if gender == "" and name == "" and sophomore_student == "":
+        if gender == "" and name == "":
             messages.info(request, "กรุณากรอกข้อมูลให้ครบ")
         else:
             std = student.objects.create(
