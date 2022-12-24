@@ -9,8 +9,7 @@
             <li class="breadcrumb-item"><a href="{% url 'predictive' %}">ย้อนกลับ</a></li>
         </ol>
         <div class="card-body">
-            {{result}}
-            <!-- <table class="table">
+            <table class="table">
                 <thead>
                     <tr>
                         <th>ชื่อ</th>
@@ -19,16 +18,24 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for std in predictresult %}
                     <tr>
-                        {% for std in predictresults %}
-                            <tb>{{std.name}}</tb>
-                            <tb>{{std.class_student}}</tb>
-                            <tb></tb>
-                        {% endfor %}
+                        <td>{{std.gender}}{{std.name}}</td>
+                        <td>{{std.class_student}}</td>
+                        <td>{{std.result}}</td>
                     </tr>
+                    {% endfor %}
                 </tbody>
-            </table> -->
+            </table>
+            <button class="btn btn-primary pull-right" onclick="btn()"><i class="fas fa-print"></i>
+                ปริ้นใบสั่งซื้อ
+            </button>
         </div>
     </div>
 </main>
+<script>
+    function btn(){
+        window.print()
+    }
+</script>
 {% endblock body %}

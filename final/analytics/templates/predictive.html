@@ -55,25 +55,13 @@
                 <form action="{% url 'student_list' %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="setdata[]" />
-                    <div class="form-group">
+                    <div class="form-group col-md-2">
                         <label for="class_student">ค้นหาข้อมูล</label>
-                        <select name="class_student" id="class_student" class="custom-select custom-select-lg mb-3"
-                            multiple>
-                            <option value="">เลือก</option>
-                            <option value="รุ่น61">รุ่น 61</option>
-                            <option value="รุ่น62">รุ่น 62</option>
-                            <option value="รุ่น63">รุ่น 63</option>
-                            <option value="รุ่น64">รุ่น 64</option>
-                            <option value="รุ่น65">รุ่น 65</option>
-                            <option value="รุ่น66">รุ่น 66</option>
-                            <option value="รุ่น67">รุ่น 67</option>
-                            <option value="รุ่น68">รุ่น 68</option>
-                            <option value="รุ่น69">รุ่น 69</option>
-                            <option value="รุ่น70">รุ่น 70</option>
-                        </select>
-                        <button type="submit" class="btn btn-primary btn-sm">ค้นหา</button>
+                        <input type="text" name="class_student" id="class_student" class="form-control">
                     </div>
+                    <button type="submit" class="btn btn-primary btn-sm">ค้นหา</button>
                 </form>
+                <br>
                 <form id="Myform" action="{% url 'result' %}" method="POST">
                     {% csrf_token %}
                     <div class="card mb-4">

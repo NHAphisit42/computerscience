@@ -20,7 +20,7 @@
                 ข้อมูลนักศึกษา : {{std.gender}}{{std.name}}
             </div>
             <div class="card-body">
-                <form action="{% url 'update' %}" method="post">
+                <form method="POST">
                     {% csrf_token %}
                     <h3>ข้อมูลนักศึกษา</h3>
                     <hr>
@@ -42,8 +42,8 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-2">
-                            <label for="sophomore_student">ชั้นปีที่</label>
-                            <select id="sophomore_student" name="sophomore_student" class="form-control">
+                            <label for="class_student">ชั้นปีที่</label>
+                            <select id="class_student" name="class_student" class="form-control">
                                 <option selected>{{std.class_student}}</option>
                                 <option>เลือก...</option>
                                 <option value="รุ่น61">รุ่น61</option>
@@ -109,30 +109,26 @@
                     <hr>
                     <div class="form-row">
                         <div class="form-group col-md-3">
-                            <label for="grade">ผลการเรียนตลอดหลักสูตร</label>
-                            <input type="text" class="form-control" id="grade" name="grade" value="{{std.GPA}}">
+                            <label for="GPA">ผลการเรียนตลอดหลักสูตร</label>
+                            <input type="text" class="form-control" id="GPA" name="GPA" value="{{std.GPA}}">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="grade_maths">ผลการเรียนรายวิชาคณิตศาสตร์</label>
-                            <input type="text" class="form-control" id="grade_maths" name="grade_maths"
-                                value="{{std.grade_maths}}">
+                            <input type="text" class="form-control" id="grade_maths" name="grade_maths" value="{{std.grade_maths}}">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="grade_science">ผลการเรียนรายวิชาวิทยาศาสตร์</label>
-                            <input type="text" class="form-control" id="grade_science" name="grade_science"
-                                value="{{std.grade_science}}">
+                            <input type="text" class="form-control" id="grade_science" name="grade_science" value="{{std.grade_science}}">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="grade_english">ผลการเรียนรายวิชาภาษาต่างประเทศ</label>
-                            <input type="text" class="form-control" id="grade_english" name="grade_english"
-                                value="{{std.grade_english}}">
+                            <input type="text" class="form-control" id="grade_english" name="grade_english" value="{{std.grade_english}}">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label for="skillcomputer">เคยแข่งทักษะด้านคอมพิวเตอร์ไหม</label>
-                            <select id="skillcomputer" name="skillcomputer"
-                                class="form-control">
+                            <select id="skillcomputer" name="skillcomputer" class="form-control">
                                 <option selected>{{std.skillcomputer}}</option>
                                 <option>เลือก...</option>
                                 <option value="เคย">เคย</option>
@@ -170,13 +166,11 @@
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="Other_skills">มีทักษะด้านอื่น ๆ ไหม</label>
-                            <input type="text" class="form-control" id="Other_skills" name="Other_skills"
-                                value="{{std.Other_skills}}">
+                            <input type="text" class="form-control" id="Other_skills" name="Other_skills" value="{{std.Other_skills}}">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="want_to_develop">สนใจอยากพัฒนาทักษะด้านใดเพิ่ม</label>
-                            <input type="text" class="form-control" id="want_to_develop" name="want_to_develop"
-                                value="{{std.want_to_develop}}">
+                            <input type="text" class="form-control" id="want_to_develop" name="want_to_develop" value="{{std.want_to_develop}}">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="family_income_per_month">รายได้ของครอบครัวต่อเดือน</label>
@@ -207,13 +201,11 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="which_channel_do_you_know">รู้จักสาขาวิทยาการคอมพิวเตอร์จากช่องทางใด</label>
-                            <input type="text" class="form-control" id="which_channel_do_you_know"
-                                name="which_channel_do_you_know" value="{{std.which_channel_do_you_know}}">
+                            <input type="text" class="form-control" id="which_channel_do_you_know" name="which_channel_do_you_know" value="{{std.which_channel_do_you_know}}">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="why_did_you_choose_to_study">ทำไมถึงเลือกเรียนสาขานี้</label>
-                            <input type="text" class="form-control" id="why_did_you_choose_to_study"
-                                name="why_did_you_choose_to_study" value="{{std.why_did_you_choose_to_study}}">
+                            <input type="text" class="form-control" id="why_did_you_choose_to_study" name="why_did_you_choose_to_study" value="{{std.why_did_you_choose_to_study}}">
                         </div>
                     </div>
                     <hr>

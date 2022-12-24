@@ -39,8 +39,55 @@ def table_backend(request):
 
 
 def studentdetail(request, id):
-    std = student.objects.get(id=id)
-    return render(request, 'studentdetail.html', {'std': std})
+    if request.method == "POST":
+        std = student.objects.get(id=id)
+        std.gender = request.POST['gender']
+        std.name = request.POST['name']
+        std.class_student = request.POST['class_student']
+        std.school = request.POST['school']
+        std.school_size = request.POST['school_size']
+        std.short = request.POST['short']
+        std.plan = request.POST['plan']
+        std.round_apply = request.POST['round_apply']
+        std.GPA = request.POST['GPA']
+        std.grade_maths = request.POST['grade_maths']
+        std.grade_science = request.POST['grade_science']
+        std.grade_english = request.POST['grade_english']
+        std.skillcomputer = request.POST['skillcomputer']
+        std.traincomputer = request.POST['traincomputer']
+        std.write_program = request.POST['write_program']
+        std.trainprogram = request.POST['trainprogram']
+        std.Other_skills = request.POST['Other_skills']
+        std.want_to_develop = request.POST['want_to_develop']
+        std.family_income_per_month = request.POST['family_income_per_month']
+        std.status_family = request.POST['status_family']
+        std.which_channel_do_you_know = request.POST['which_channel_do_you_know']
+        std.why_did_you_choose_to_study = request.POST['why_did_you_choose_to_study']
+        std.ex1 = request.POST['ex1']
+        std.ex2 = request.POST['ex2']
+        std.ex3 = request.POST['ex3']
+        std.ex4 = request.POST['ex4']
+        std.ex5 = request.POST['ex5']
+        std.ex6 = request.POST['ex6']
+        std.ex7 = request.POST['ex7']
+        std.ex8 = request.POST['ex8']
+        std.ex9 = request.POST['ex9']
+        std.ex10 = request.POST['ex10']
+        std.ex11 = request.POST['ex11']
+        std.ex12 = request.POST['ex12']
+        std.ex13 = request.POST['ex13']
+        std.ex14 = request.POST['ex14']
+        std.ex15 = request.POST['ex15']
+        std.ex16 = request.POST['ex16']
+        std.ex17 = request.POST['ex17']
+        std.ex18 = request.POST['ex18']
+        std.ex19 = request.POST['ex19']
+        std.ex20 = request.POST['ex20']
+        std.save()
+        redirect('table_backend')
+    else:
+        std = student.objects.get(id=id)
+        return render(request, 'studentdetail.html', {'std': std})
 
 
 def chart_backend(request):
@@ -71,7 +118,7 @@ def student_list(request):
             messages.info(request, "กรุณาป้อนข้อมูลให้ครบ")
             redirect('predictive')
         else:
-            print(class_std)
+            # print(class_std)
             sd = student.objects.filter(class_student=class_std)
             global std_select 
             std_select = sd
@@ -80,6 +127,7 @@ def student_list(request):
 
 def result(request):
     data = []
+    predictresult = []
     if request.method == "POST":
         checkbox = request.POST.getlist('checkbox[]')
         if len(checkbox) > 0:
@@ -88,6 +136,7 @@ def result(request):
                     if int(std_select[y].id) == int(checkbox[i]):
                         data.append({
                             "STD_ID" : checkbox[i],
+                            "gender" : std_select[y].gender,
                             "name" : std_select[y].name,
                             "class_student" : std_select[y].class_student,
                             "GPA" : std_select[y].GPA,
@@ -99,8 +148,7 @@ def result(request):
                             "school_size" : student.school_size_no(std_select[y]),
                             "family_income_per_month" : student.family_income_per_month_no(std_select[y]),
                         })
-            print(data)
-            for n in data:
+            for n in data :
                 result = getPredictions(n['GPA'], 
                                         n['write_program'], 
                                         n['trainprogram'], 
@@ -108,18 +156,25 @@ def result(request):
                                         n['status_family'], 
                                         n['round_apply'], 
                                         n['school_size'], 
-                                        n['family_income_per_month'])      
-                return render(request, 'result.html', {'data': data, 'result': result})
+                                        n['family_income_per_month'])
+                predictresult.append({
+                    "STD_ID" : n['STD_ID'],
+                    "gender" : n['gender'],
+                    "name" : n['name'],
+                    "class_student" : n['class_student'],
+                    "result" : result
+                })
+            return render(request, 'result.html', {'data': data, 'predictresult': predictresult})
 
 
 def getPredictions(school_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family):
-    predictions = model_DT.predict([[school_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family]])
-    if predictions == 1:
-        return "PASS"
-    elif predictions == 0:
-        return "NOT PASS"
+    predictions = model_DT.predict([
+        [school_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family]
+        ])
+    if predictions == 0:
+        return "Not Pass"
     else:
-        return "ERROR"
+        return "Pass"
 
 
 def school(request):
@@ -226,51 +281,3 @@ def remove(request, id):
     std = student.objects.get(id=id)
     std.delete()
     return redirect('table_backend')
-
-
-def update(request, id):
-    std = student.objects.get(id=id)
-    if request.method == "POST":
-        std.gender = request.POST.get('gender')
-        std.name = request.POST.get('name')
-        std.class_student = request.POST.get('sophomore_student')
-        std.school = request.POST.get('school')
-        std.short = request.POST.get('short')
-        std.plan = request.POST.get('plan')
-        std.round_apply = request.POST.get('round_apply')
-        std.GPA = request.POST.get('grade')
-        std.grade_maths = request.POST.get('grade_maths')
-        std.grade_science = request.POST.get('grade_science')
-        std.grade_english = request.POST.get('grade_english')
-        std.skillcomputer = request.POST.get('ComputerSkillsCompetition')
-        std.traincomputer = request.POST.get('ComputerRelatedtraining')
-        std.write_program = request.POST.get('learnProgramming')
-        std.trainprogram = request.POST.get('programmingTraining')
-        std.Other_skills = request.POST.get('Other_skills')
-        std.want_to_develop = request.POST.get('improve_skills')
-        std.family_income_per_month = request.POST.get('family_income_per_month')
-        std.status_family = request.POST.get('family_status')
-        std.which_channel_do_you_know = request.POST.get('Known_from_any_channel')
-        std.why_did_you_choose_to_study = request.POST.get('why_did_you_choose_to_study')
-        std.ex1 = request.POST.get('ex1')
-        std.ex2 = request.POST.get('ex2')
-        std.ex3 = request.POST.get('ex3')
-        std.ex4 = request.POST.get('ex4')
-        std.ex5 = request.POST.get('ex5')
-        std.ex6 = request.POST.get('ex6')
-        std.ex7 = request.POST.get('ex7')
-        std.ex8 = request.POST.get('ex8')
-        std.ex9 = request.POST.get('ex9')
-        std.ex10 = request.POST.get('ex10')
-        std.ex11 = request.POST.get('ex11')
-        std.ex12 = request.POST.get('ex12')
-        std.ex13 = request.POST.get('ex13')
-        std.ex14 = request.POST.get('ex14')
-        std.ex15 = request.POST.get('ex15')
-        std.ex16 = request.POST.get('ex16')
-        std.ex17 = request.POST.get('ex17')
-        std.ex18 = request.POST.get('ex18')
-        std.ex19 = request.POST.get('ex19')
-        std.ex20 = request.POST.get('ex20')
-        std.save()
-        redirect('table_backend')

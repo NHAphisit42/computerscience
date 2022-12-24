@@ -6,7 +6,6 @@ urlpatterns = [
     path('table_student', views.table_backend, name='table_backend'),
     path('studentdetail/<int:id>', views.studentdetail, name='studentdetail'),
     path('remove/<int:id>', views.remove, name='remove'),
-    path('update', views.update, name='update'),
     path('chart_backend', views.chart_backend, name='chart_backend'),
     path('login', views.login_backend, name='login_backend'),
     path('register', views.register_backend, name='register_backend'),
