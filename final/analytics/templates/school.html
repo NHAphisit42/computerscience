@@ -45,7 +45,7 @@
                             <td style="text-align: center;">{{school.zone_school}}</td>
                             <td style="text-align: center;">{{school.district_school}}</td>
                             <td style="text-align: center;">{{school.province_school}}</td>
-                            <td style="text-align: center;"><a href="{% url 'studentdetail' school.id %}" class="btn btn-warning">ดูข้อมูล</a> / <a href="{% url 'remove' school.id %}" class="btn btn-danger" onclick="del()">ลบข้อมูล</a></td>
+                            <td style="text-align: center;"><a href="{% url 'schooldetail' school.id %}" class="btn btn-warning">ดูข้อมูล</a> / <a href="{% url 'remove_school' school.id %}" class="btn btn-danger" onclick="return confirm('คุณต้องการลบ {{school.name_school}} หรือไม่?')">ลบข้อมูล</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>

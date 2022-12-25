@@ -31,7 +31,7 @@
                         {% for p in plan %}
                         <tr>
                             <td>{{p.name}}</td>
-                            <td style="text-align: center;"><a href="{% url 'studentdetail' p.id %}" class="btn btn-warning">ดูข้อมูล</a> / <a href="{% url 'remove' p.id %}" class="btn btn-danger" onclick="del()">ลบข้อมูล</a></td>
+                            <td style="text-align: center;"><a href="{% url 'plan_detail' p.id %}" class="btn btn-warning">ดูข้อมูล</a> / <a href="{% url 'remove' p.id %}" class="btn btn-danger" onclick="del()">ลบข้อมูล</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>

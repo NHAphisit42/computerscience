@@ -1,0 +1,37 @@
+{% extends 'base_backend.html' %}
+{% block title %}{{round.round_apply_name}}{% endblock title %}
+{% block body %}
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">ข้อมูลรอบสมัคร</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'round_apply' %}">ย้อนกลับ</a></li>
+            <li class="breadcrumb-item active">ข้อมูลรอบสมัคร</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                ข้อมูลรอบสมัคร
+            </div>
+            <div class="card-body">
+                <form action="{% url 'add' %}" method="post">
+                    {% csrf_token %}
+                    <h3>ข้อมูลรอบสมัคร</h3>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="inputEmail4" class="form-label">รอบสมัคร</label>
+                            <input type="text" name="name_school" class="form-control" id="inputEmail4" value="{{round.round_apply_name}}">
+                        </div>
+                    </div>
+                    {% for messages in messages %}
+                        <p style="color: green;">{{messages}}</p>
+                    {% endfor %}
+                    <br>
+                    <button type="submit" class="btn btn-warning" onclick="addschool()">เพิ่มข้อมูล</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock body %}

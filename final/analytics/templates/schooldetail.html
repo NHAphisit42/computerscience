@@ -1,11 +1,11 @@
-{% extends "base_backend.html" %}
-{% block title %}เพิ่มข้อมูลโรงเรียน{% endblock title %}
+{% extends 'base_backend.html' %}
+{% block title %}{{sc.name_school}}{% endblock title %}
 {% block body %}
 <main>
     <div class="container-fluid px-4">
         <h1 class="mt-4">เพิ่มข้อมูลโรงเรียน</h1>
         <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="{% url 'home_backend' %}">หน้าหลัก</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'school' %}">ย้อนกลับ</a></li>
             <li class="breadcrumb-item active">เพิ่มข้อมูลโรงเรียน</li>
         </ol>
         <div class="card mb-4">
@@ -21,12 +21,13 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="inputEmail4" class="form-label">ชื่อโรงเรียน</label>
-                            <input type="text" name="name_school" class="form-control" id="inputEmail4">
+                            <input type="text" name="name_school" class="form-control" id="inputEmail4" value="{{sc.name_school}}">
                         </div>
                         <div class="col-md-6">
                             <label for="inputPassword4" class="form-label">ขนาดโรงเรียน</label>
                             <select id="inputState" name="size_school" class="form-select">
-                                <option selected>เลือกขนาดโรงเรียน</option>
+                                <option selected>{{sc.size_school}}</option>
+                                <option>เลือกขนาดโรงเรียน</option>
                                 <option value="โรเรียนขนาดเล็ก">โรเรียนขนาดเล็ก</option>
                                 <option value="โรงเรียนขนาดกลาง">โรงเรียนขนาดกลาง</option>
                                 <option value="โรงเรียนขนาดใหญ่">โรงเรียนขนาดใหญ่</option>
@@ -36,28 +37,25 @@
                     <div class="row">
                         <div class="col-4">
                             <label for="inputAddress" class="form-label">ตำบล</label>
-                            <input type="text" name="zone_school" class="form-control" id="inputAddress"
-                                placeholder="1234 Main St">
+                            <input type="text" name="zone_school" class="form-control" id="inputAddress" value="{{sc.zone_school}}">
                         </div>
                         <div class="col-4">
                             <label for="inputAddress" class="form-label">อำเภอ</label>
-                            <input type="text" name="district_school" class="form-control" id="inputAddress"
-                                placeholder="1234 Main St">
+                            <input type="text" name="district_school" class="form-control" id="inputAddress" value="{{sc.district_school}}">
                         </div>
                         <div class="col-4">
                             <label for="inputAddress" class="form-label">จังหวัด</label>
-                            <input type="text" name="province_school" class="form-control" id="inputAddress"
-                                placeholder="1234 Main St">
+                            <input type="text" name="province_school" class="form-control" id="inputAddress" value="{{sc.province_school}}">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="inputCity" class="form-label">ละติจูด</label>
-                            <input type="text" name="Latitude" class="form-control" id="inputCity">
+                            <input type="text" name="Latitude" class="form-control" id="inputCity" value="{{sc.Latitude}}">
                         </div>
                         <div class="col-md-6">
                             <label for="inputCity" class="form-label">ลองจิจูด</label>
-                            <input type="text" name="Longitude" class="form-control" id="inputCity">
+                            <input type="text" name="Longitude" class="form-control" id="inputCity" value="{{sc.Longitude}}">
                         </div>
                     </div>
                     {% for messages in messages %}
@@ -70,4 +68,15 @@
         </div>
     </div>
 </main>
+<script>
+    function addschool() {
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Your work has been saved',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+</script>
 {% endblock body %}
