@@ -31,7 +31,7 @@
                         {% for round in round_apply %}
                         <tr>
                             <td style="text-align: center;">{{round.round_apply_name}}</td>
-                            <td style="text-align: center;"><a href="{% url 'round_applydetail' round.id %}" class="btn btn-warning">ดูข้อมูล</a> / <a href="{% url 'remove' round.id %}" class="btn btn-danger" onclick="del()">ลบข้อมูล</a></td>
+                            <td style="text-align: center;"><a href="{% url 'round_applydetail' round.id %}" class="btn btn-warning">ดูข้อมูล</a> / <a href="{% url 'round_apply_del' round.id %}" class="btn btn-danger" onclick="return confirm('คุณต้องการลบ {{round.round_apply_name}} หรือไม่?')">ลบข้อมูล</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>

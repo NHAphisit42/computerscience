@@ -174,11 +174,7 @@ def addschool(request):
             school.save()
             messages.info(request, "สร้างสถานศึกษาเรียบร้อย")
             return redirect('addschool_backend')
-
-
-def education(request):
-    return render(request, 'education.html')
-
+        
 
 def plan(request):
     plan = Plan.objects.all()
@@ -190,13 +186,26 @@ def plandetail(request, id):
     return render(request, 'plandetail.html', {'pl': pl})
 
 
+def plandel(request, id):
+    pl = Plan.objects.get(id=id)
+    pl.delete()
+    return redirect('plan')
+
+
 def round_apply(request):
     round_apply = Round_apply.objects.all()
     return render(request, 'round_apply.html', {'round_apply': round_apply})
 
+
 def round_applydetail(request, id):
     round = Round_apply.objects.get(id=id)
     return render(request, 'round_apply_detail.html', {'round': round})
+
+
+def round_apply_del(request, id):
+    round_apply_del = Round_apply.objects.get(id=id)
+    round_apply_del.delete()
+    redirect('round_apply')
 
 
 def adduser_backend(request):  # ลงทะเบียน

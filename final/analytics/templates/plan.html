@@ -31,7 +31,7 @@
                         {% for p in plan %}
                         <tr>
                             <td>{{p.name}}</td>
-                            <td style="text-align: center;"><a href="{% url 'plan_detail' p.id %}" class="btn btn-warning">ดูข้อมูล</a> / <a href="{% url 'remove' p.id %}" class="btn btn-danger" onclick="del()">ลบข้อมูล</a></td>
+                            <td style="text-align: center;"><a href="{% url 'plan_detail' p.id %}" class="btn btn-warning">ดูข้อมูล</a> / <a href="{% url 'plandel' p.id %}" class="btn btn-danger" onclick="return confirm('คุณต้องการลบ {{p.name}} หรือไม่?')">ลบข้อมูล</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -39,25 +39,5 @@
             </div>
         </div>
     </div>
-    <script>
-        function del() {
-            swal({
-                title: "Are you sure?",
-                text: "Once deleted, you will not be able to recover this imaginary file!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        swal("Poof! Your imaginary file has been deleted!", {
-                            icon: "success",
-                        });
-                    } else {
-                        swal("Your imaginary file is safe!");
-                    }
-                });
-        }
-    </script>
 </main>
 {% endblock body %}
