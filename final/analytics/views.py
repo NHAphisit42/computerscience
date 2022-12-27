@@ -12,13 +12,13 @@ from sklearn.preprocessing import LabelEncoder
 from student.models import student
 import array
 
-# student.plan_no
-# student.status_family_no
-# student.write_program_no
-# student.trainprogram_no
-# student.round_apply_no
-# student.school_size_no
-# student.family_income_per_month_no
+student.plan_no
+student.status_family_no
+student.write_program_no
+student.trainprogram_no
+student.round_apply_no
+student.school_size_no
+student.family_income_per_month_no
 
 model_DT = load('./analytics/ML/DCT.joblib')
 # model_DT = load('./analytics/ML/DCT.joblib')
@@ -263,53 +263,53 @@ def logout_backend(request):
     return redirect('home_backend')
 
 def result(request):
-    pass
-    # data = []
-    # predictresult = []
-    # if request.method == "POST":
-    #     checkbox = request.POST.getlist('checkbox[]')
-    #     if len(checkbox) > 0:
-    #         for i in range(len(checkbox)):
-    #             for y in range(len(std_select)):
-    #                 if int(std_select[y].id) == int(checkbox[i]):
-    #                     data.append({
-    #                         # "STD_ID" : checkbox[i],
-    #                         # "gender" : std_select[y].gender,
-    #                         # "name" : std_select[y].name,
-    #                         # "class_student" : std_select[y].class_student,
-    #                         # "GPA" : std_select[y].GPA,
-    #                         # "write_program" : student.write_program_no(std_select[y]),
-    #                         # "trainprogram" :student.trainprogram_no(std_select[y]),
-    #                         # "plan" : student.plan_no(std_select[y]),
-    #                         # "status_family" : student.status_family_no(std_select[y]),
-    #                         # "round_apply" : student.round_apply_no(std_select[y]),
-    #                         # "school_size" : student.school_size_no(std_select[y]),
-    #                         # "family_income_per_month" : student.family_income_per_month_no(std_select[y]),
-    #                     })
-    #         for n in data :
-    #             result = getPredictions(n['GPA'], 
-    #                                     n['write_program'], 
-    #                                     n['trainprogram'], 
-    #                                     n['plan'], 
-    #                                     n['status_family'], 
-    #                                     n['round_apply'], 
-    #                                     n['school_size'], 
-    #                                     n['family_income_per_month'])
-    #             predictresult.append({
-    #                 "STD_ID" : n['STD_ID'],
-    #                 "gender" : n['gender'],
-    #                 "name" : n['name'],
-    #                 "class_student" : n['class_student'],
-    #                 "result" : result
-    #             })
-            # return render(request, 'result.html', {'data': data, 'predictresult': predictresult})
+    # pass
+    data = []
+    predictresult = []
+    if request.method == "POST":
+        checkbox = request.POST.getlist('checkbox[]')
+        if len(checkbox) > 0:
+            for i in range(len(checkbox)):
+                for y in range(len(std_select)):
+                    if int(std_select[y].id) == int(checkbox[i]):
+                        data.append({
+                            "STD_ID" : checkbox[i],
+                            "gender" : std_select[y].gender,
+                            "name" : std_select[y].name,
+                            "class_student" : std_select[y].class_student,
+                            "GPA" : std_select[y].GPA,
+                            "write_program" : student.write_program_no(std_select[y]),
+                            "trainprogram" :student.trainprogram_no(std_select[y]),
+                            "plan" : student.plan_no(std_select[y]),
+                            "status_family" : student.status_family_no(std_select[y]),
+                            "round_apply" : student.round_apply_no(std_select[y]),
+                            "school_size" : student.school_size_no(std_select[y]),
+                            "family_income_per_month" : student.family_income_per_month_no(std_select[y]),
+                        })
+            for n in data :
+                result = getPredictions(n['GPA'], 
+                                        n['write_program'], 
+                                        n['trainprogram'], 
+                                        n['plan'], 
+                                        n['status_family'], 
+                                        n['round_apply'], 
+                                        n['school_size'], 
+                                        n['family_income_per_month'])
+                predictresult.append({
+                    "STD_ID" : n['STD_ID'],
+                    "gender" : n['gender'],
+                    "name" : n['name'],
+                    "class_student" : n['class_student'],
+                    "result" : result
+                })
+            return render(request, 'result.html', {'data': data, 'predictresult': predictresult})
 
 
-# def getPredictions(school_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family):
-#     predictions = model_DT.predict([
-#         [school_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family]
-#         ])
-#     if predictions == 0:
-#         return "ไม่ผ่าน"
-#     else:
-#         return "ผ่าน"
+def getPredictions(school_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family):
+    predictions = model_DT.predict([
+        [school_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family]
+        ])
+    if predictions == 0:
+        return "ไม่ผ่าน"
+    else:
+        return "ผ่าน"

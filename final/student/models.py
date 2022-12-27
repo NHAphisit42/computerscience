@@ -151,14 +151,14 @@ class student(models.Model):
     gender = models.CharField(max_length=100, choices=gender_CHOICE, null=True)
     name = models.CharField(max_length=255, null=True)
     class_student = models.CharField(max_length=155, choices=class_student_CHOICE, null=True)
-    # school = models.CharField(max_length=255, null=True)
-    school = models.ForeignKey(School, on_delete=models.CASCADE, null=True)
+    school = models.CharField(max_length=255, null=True)
+    # school = models.ForeignKey(School, on_delete=models.CASCADE, null=True)
     school_size = models.CharField(max_length=255, choices=school_size_CHOICE ,null=True)
     short = models.CharField(max_length=255, null=True)
-    # plan = models.CharField(max_length=255, null=True)
-    plan = models.ForeignKey(Plan, on_delete=models.CASCADE, null=True)
-    # round_apply = models.CharField(max_length=255, null=True)
-    round_apply = models.ForeignKey(Round_apply, on_delete=models.CASCADE, null=True)
+    plan = models.CharField(max_length=255, null=True)
+    # plan = models.ForeignKey(Plan, on_delete=models.CASCADE, null=True)
+    round_apply = models.CharField(max_length=255, null=True)
+    # round_apply = models.ForeignKey(Round_apply, on_delete=models.CASCADE, null=True)
     GPA = models.CharField(max_length=50, null=True)
     grade_maths = models.CharField(max_length=50, null=True)
     grade_science = models.CharField(max_length=50, null=True)
@@ -198,83 +198,83 @@ class student(models.Model):
     def __str__(self):
         return self.name
     
-    # def plan_no(self):
-    #     if 'วิทย์-คณิต' in self.plan:
-    #         return 5
-    #     elif 'ศิลป์-คำนวณ' in self.plan:
-    #         return 6
-    #     elif 'ศิลป์-ภาษา' in self.plan:
-    #         return 8
-    #     elif 'ประกาศนียบัตรวิชาชีพ(ปวช)' in self.plan:
-    #         return 0
-    #     elif 'ประกาศนียบัตรวิชาชีพขั้นสูง(ปวส)' in self.plan:
-    #         return 1
-    #     elif 'เทียบเท่าละดับมัธยมศึกษาตอนปลาย' in self.plan:
-    #         return 2
-    #     elif 'คณิต-อังกฤษ' in self.plan:
-    #         return 3
-    #     elif 'สังคม-ญี่ปุ่น' in self.plan:
-    #         return 9
-    #     elif "ภาษา สังคม" in self.plan:
-    #         return 4
-    #     else:
-    #         return 7
+    def plan_no(self):
+        if 'แผนกการเรียน วิทย์-คณิต' in self.plan:
+            return 5
+        elif 'แผนกการเรียน ศิลป์-คำนวณ' in self.plan:
+            return 6
+        elif 'แผนกการเรียน ศิลป์-ภาษา' in self.plan:
+            return 8
+        elif 'ประกาศนียบัตรวิชาชีพ(ปวช)' in self.plan:
+            return 0
+        elif 'ประกาศนียบัตรวิชาชีพขั้นสูง(ปวส)' in self.plan:
+            return 1
+        elif 'เทียบเท่าละดับมัธยมศึกษาตอนปลาย' in self.plan:
+            return 2
+        elif 'แผนกการเรียน คณิต-อังกฤษ' in self.plan:
+            return 3
+        elif 'แผนกการเรียน สังคม-ญี่ปุ่น' in self.plan:
+            return 9
+        elif "แผนกการเรียน ภาษา สังคม" in self.plan:
+            return 4
+        else:
+            return 7
 
-    # def status_family_no(self):
-    #     if 'บิดา มารดาอยู่ด้วยกัน' in self.status_family:
-    #         return 2
-    #     elif 'บิดา มารดาหย่าร้างกัน' in self.status_family:
-    #         return 1
-    #     else:
-    #         return 0
+    def status_family_no(self):
+        if 'บิดา มารดาอยู่ด้วยกัน' in self.status_family:
+            return 2
+        elif 'บิดา มารดาหย่าร้างกัน' in self.status_family:
+            return 1
+        else:
+            return 0
         
-    # def write_program_no(self):
-    #     if 'ไม่เคย' in self.write_program:
-    #         return 0
-    #     else:
-    #         return 1
+    def write_program_no(self):
+        if 'ไม่เคย' in self.write_program:
+            return 0
+        else:
+            return 1
         
-    # def trainprogram_no(self):
-    #     if 'ไม่เคย' in self.trainprogram:
-    #         return 0
-    #     else:
-    #         return 1
+    def trainprogram_no(self):
+        if 'ไม่เคย' in self.trainprogram:
+            return 0
+        else:
+            return 1
         
-    # def round_apply_no(self):
-    #     if 'portfolio' in self.round_apply:
-    #         return 0
-    #     elif 'นักศึกแลกเปลี่ยน' in self.round_apply:
-    #         return 1
-    #     elif 'รับตรง(เพิ่มเติม)' in self.round_apply:
-    #         return 2
-    #     elif 'รับตรงรอบที่ 1' in self.round_apply:
-    #         return 3
-    #     elif 'รับตรงรอบที่ 2' in self.round_apply:
-    #         return 4
-    #     elif 'รับตรงอิสระ' in self.round_apply:
-    #         return 5
-    #     else :
-    #         return 6
+    def round_apply_no(self):
+        if 'portfolio' in self.round_apply:
+            return 0
+        elif 'นักศึกแลกเปลี่ยน' in self.round_apply:
+            return 1
+        elif 'รับตรง(เพิ่มเติม)' in self.round_apply:
+            return 2
+        elif 'รับตรงรอบที่ 1' in self.round_apply:
+            return 3
+        elif 'รับตรงรอบที่ 2' in self.round_apply:
+            return 4
+        elif 'รับตรงอิสระ' in self.round_apply:
+            return 5
+        else :
+            return 6
         
-    # def school_size_no(self):
-    #     if 'โรงเรียนขนาดใหญ่' in self.school_size:
-    #         return 2
-    #     elif 'โรงเรียนขนาดกลาง' in self.school_size:
-    #         return 1
-    #     else:
-    #         return 0
+    def school_size_no(self):
+        if 'โรงเรียนขนาดใหญ่' in self.school_size:
+            return 2
+        elif 'โรงเรียนขนาดกลาง' in self.school_size:
+            return 1
+        else:
+            return 0
         
-    # def family_income_per_month_no(self):
-    #     if '10,001 ถึง 15,000 บาท' in self.family_income_per_month:
-    #         return 0
-    #     elif '15,001 ถึง 20,000 บาท' in self.family_income_per_month:
-    #         return 1
-    #     elif '25,001 บาทขึ้นไป' in self.family_income_per_month:
-    #         return 2
-    #     elif '5,001 ถึง 10,000 บาท' in self.family_income_per_month:
-    #         return 3
-    #     elif 'ไม่เกิน 5,000 บาท' in self.family_income_per_month:
-    #         return 4
+    def family_income_per_month_no(self):
+        if '10,001 ถึง 15,000 บาท' in self.family_income_per_month:
+            return 0
+        elif '15,001 ถึง 20,000 บาท' in self.family_income_per_month:
+            return 1
+        elif '25,001 บาทขึ้นไป' in self.family_income_per_month:
+            return 2
+        elif '5,001 ถึง 10,000 บาท' in self.family_income_per_month:
+            return 3
+        elif 'ไม่เกิน 5,000 บาท' in self.family_income_per_month:
+            return 4
     class Meta:
         db_table='student'
         verbose_name='นักเรียน'
