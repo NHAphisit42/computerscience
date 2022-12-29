@@ -1,6 +1,6 @@
 from distutils.log import info
 from django.shortcuts import redirect, render
-from student.models import student, Eduction, Round_apply, Plan, School
+from student.models import student
 from django.contrib import messages
 
 # Create your views here.
@@ -8,11 +8,7 @@ def home(request):
     return render(request, 'home.html')
 
 def form(request):
-    school = School.objects.all()
-    education = Eduction.objects.all()
-    round = Round_apply.objects.all()
-    plan = Plan.objects.all()
-    return render(request, 'form.html', {'school': school, 'education': education, 'round': round, 'plan': plan})
+    return render(request, 'form.html')
 
 def addstudent(request):
     if request.method == "POST":

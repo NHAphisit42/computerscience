@@ -2,11 +2,11 @@
 {% block title %}แบบฟอร์ม{% endblock title %}
 {% block body %}
 <style>
-    p{
+    p {
         color: red;
     }
-    
-    h3{
+
+    h3 {
         text-align: center;
     }
 </style>
@@ -14,7 +14,7 @@
 <main>
     <div class="container">
         {% for message in messages%}
-            <p>{{message}}</p>
+        <p>{{message}}</p>
         {% endfor %}
         <form action="{% url 'addstudent' %}" method="post">
             {% csrf_token %}
@@ -32,15 +32,13 @@
                         <option value="นาง">นาง</option>
                     </select>
                 </div>
-                <div class="form-group col-md-10">
+                <div class="form-group col-md-8">
                     <label for="name">ชื่อจริง-นามสกุล</label>
                     <input type="text" name="name" id="name" class="form-control"
                         placeholder="ชื่อจริง (ไม่ต้องพิมพ์คำนำหน้า)">
                 </div>
-            </div>
-            <div class="form-row">
                 <div class="form-group col-md-2">
-                    <label for="class_student">ชั้นปีที่</label>
+                    <label for="class_student">รุ่นการศึกษา</label>
                     <select id="class_student" name="class_student" class="form-control">
                         <option selected>เลือก...</option>
                         <option value="รุ่น61">รุ่น 61</option>
@@ -53,67 +51,65 @@
                         <option value="รุ่น68">รุ่น 68</option>
                     </select>
                 </div>
-                <div class="form-group col-md-4">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-7">
                     <label for="school">สถาบันที่จบการศึกษา</label>
-                    <select name="school" id="school" class="form-control">
-                        {% for sc in school %}
-                            <option value="{{sc.id}}">{{sc.name_school}}</option>
-                        {% endfor %}
-                    </select>
-                    <!-- <input type="text" name="school" id="school" class="form-control" placeholder="โรงเรียน(ตามด้วยชื่อ)"> -->
+                    <input type="text" name="school" id="school" class="form-control"
+                        placeholder="โรงเรียน(ตามด้วยชื่อ)">
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
                     <label for="short">ชื่อย่อของโรงเรียน</label>
                     <input type="text" name="short" id="short" class="form-control" placeholder="เช่น บ.พ,ศ.ก,ป.พ">
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="plan">แผนกการเรียน ที่ใช้สมัครเรียน</label>
+                    <label for="plan">ขนาดโรงเรียน</label>
                     <select name="plan" id="plan" class="form-control">
-                        {% for p in plan %}
-                            <option value="{{p.id}}">{{p.name}}</option>
-                        {% endfor %}
+                        <option selected>เลือกขนาดโรงเรียน</option>
+                        <option value="โรงเรียนขนาดเล็ก">โรงเรียนขนาดเล็ก</option>
+                        <option value="โรงเรียนขนาดกลาง">โรงเรียนขนาดกลาง</option>
+                        <option value="โรงเรียนขนาดใหญ่">โรงเรียนขนาดใหญ่</option>
                     </select>
                 </div>
             </div>
             <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="plan">แผนกการเรียน ที่ใช้สมัครเรียน</label>
+                    <input class="form-control" type="text" name="" id="">
+                </div>
                 <div class="form-group col-md-4">
                     <label for="round_apply">รอบที่มาสมัครเรียนสาขาวิทยาการคอมพิวเตอร์</label>
                     <select name="round_apply" id="round_apply" class="form-control">
-                        {% for round in round %}
-                            <option value="{{round.id}}">{{round.round_apply_name}}</option>
-                        {% endfor %}
+                        <option selected>เลือก</option>
+                        <option value="portfolio">portfolio</option>
+                        <option value="โควต้า">โควต้า</option>
+                        <option value="รับตรงอิสระ">รับตรงอิสระ</option>
+                        <option value="รับตรงรอบที่ 1">รับตรงรอบที่ 1</option>
+                        <option value="รับตรงรอบที่ 2">รับตรงรอบที่ 2</option>
+                        <option value="รับตรง(เพิ่มเติม)">รับตรง(เพิ่มเติม)</option>
+                        <option value="นักศึกแลกเปลี่ยน">นักศึกแลกเปลี่ยน</option>
                     </select>
-                    <!-- <input type="text" name="round_apply" id="round_apply" class="form-control"> -->
                 </div>
             </div>
             <hr>
             <h4>ข้อมูลเกรดของนักศึกษา</h4>
             <hr>
             <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="GPA_BRU">ผลการเรียนมหาลัยปี 1 เทอม 1</label>
-                    <input type="text" class="form-control" id="GPA_BRU" name="GPA_BRU" placeholder="กรอกเกรดในรูปแบบ 2.00">
-                </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-3">
                     <label for="GPA">ผลการเรียนตลอดหลักสูตร</label>
                     <input type="text" class="form-control" id="GPA" name="GPA" placeholder="กรอกเกรดในรูปแบบ 2.00">
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label for="grade_maths">ผลการเรียนรายวิชาคณิตศาสตร์</label>
-                    <input type="text" class="form-control" id="grade_maths" name="grade_maths"
-                        placeholder="กรอกเกรดในรูปแบบ 2.00">
+                    <input type="text" class="form-control" id="grade_maths" name="grade_maths" placeholder="กรอกเกรดในรูปแบบ 2.00">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label for="grade_science">ผลการเรียนรายวิชาวิทยาศาสตร์</label>
-                    <input type="text" class="form-control" id="grade_science" name="grade_science"
-                        placeholder="กรอกเกรดในรูปแบบ 2.00">
+                    <input type="text" class="form-control" id="grade_science" name="grade_science" placeholder="กรอกเกรดในรูปแบบ 2.00">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label for="grade_english">ผลการเรียนรายวิชาภาษาต่างประเทศ</label>
-                    <input type="text" class="form-control" id="grade_english" name="grade_english"
-                        placeholder="กรอกเกรดในรูปแบบ 2.00">
+                    <input type="text" class="form-control" id="grade_english" name="grade_english" placeholder="กรอกเกรดในรูปแบบ 2.00">
                 </div>
             </div>
             <div class="form-row">
@@ -186,7 +182,8 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="which_channel_do_you_know">รู้จักสาขาวิทยาการคอมพิวเตอร์จากช่องทางใด</label>
-                    <input type="text" class="form-control" id="which_channel_do_you_know" name="which_channel_do_you_know">
+                    <input type="text" class="form-control" id="which_channel_do_you_know"
+                        name="which_channel_do_you_know">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="why_did_you_choose_to_study">ทำไมถึงเลือกเรียนสาขานี้</label>

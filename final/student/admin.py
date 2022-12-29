@@ -1,26 +1,9 @@
 from csv import list_dialects
 from django.contrib import admin
-from student.models import student, School, Round_apply, Plan, Eduction
+from student.models import student
 from analytics.models import Predict
 # Register your models here.
 class studentDesing(admin.ModelAdmin):
     list_display = ['id', 'name', 'class_student', 'school', 'school_size', 'plan', 'family_income_per_month', 'status_family']
 
-class schoolDesing(admin.ModelAdmin):
-    list_display = ['id', 'name_school', 'size_school', 'zone_school', 'district_school', 'province_school', 'Latitude', 'Longitude']
-
-class round_applyDesing(admin.ModelAdmin):
-    list_display = ['id', 'round_apply_name']
-
-class educationDesing(admin.ModelAdmin):
-    list_display = ['id', 'education_name']
-
-class planDesing(admin.ModelAdmin):
-    list_display = ['id', 'name']
-
 admin.site.register(student, studentDesing)
-admin.site.register(School, schoolDesing)
-admin.site.register(Plan, planDesing)
-admin.site.register(Eduction, educationDesing)
-admin.site.register(Round_apply, round_applyDesing)
-admin.site.register(Predict)

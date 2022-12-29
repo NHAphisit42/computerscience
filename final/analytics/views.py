@@ -1,16 +1,12 @@
 from django.shortcuts import redirect, render
-from student.models import student, School, Eduction, Plan, Round_apply
+from student.models import student
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from joblib import load
-from sklearn import tree
-from sklearn.tree import DecisionTreeClassifier
-import json
-from sklearn.preprocessing import LabelEncoder
 from student.models import student
-import array
+# from sklearn.utils import upgrade_model
 
 student.plan_no
 student.status_family_no
@@ -21,9 +17,8 @@ student.school_size_no
 student.family_income_per_month_no
 
 model_DT = load('./analytics/ML/DCT.joblib')
-# model_DT = load('./analytics/ML/DCT.joblib')
-# model_RF = load('./analytics/ML/RF.joblib')
-# model_LR = load('./analytics/ML/LR.joblib')
+model_RF = load('./analytics/ML/RF.joblib')
+model_Logistics = load('./analytics/ML/Logistics.joblib')
 
 # Create your views here.
 # @login_required(login_url='login')
@@ -101,19 +96,14 @@ def chart_backend(request):
 
 
 def school(request):
-    school = School.objects.all()
-    sc = school.count()
-    return render(request, 'school.html', {'school': school, 'sc': sc})
+    return render(request, 'school.html')
 
 
 def schooldetail(request, id):
-    sc = School.objects.get(id=id)
-    return render(request, 'schooldetail.html', {'sc': sc})
+    return render(request, 'schooldetail.html')
 
 
 def delschool(request, id):
-    sc = School.objects.get(id=id)
-    sc.delete()
     return redirect('school')
 
 
@@ -146,65 +136,29 @@ def student_list(request):
             global std_select 
             std_select = sd
             return render(request, 'predictive.html', {'sd': sd})
-
-
-def addschool(request):
-    if request.method == "POST":
-        name_school = request.POST['name_school']
-        size_school = request.POST['size_school']
-        zone_school = request.POST['zone_school']
-        district_school = request.POST['district_school']
-        province_school = request.POST['province_school']
-        Latitude = request.POST['Latitude']
-        Longitude = request.POST['Longitude']
-
-        if name_school == "" or size_school == "" or zone_school == "" or district_school == "" or province_school == "" or Latitude == "" or Longitude == "":
-            messages.info(request, "กรุณาป้อนข้อมูลให้ครบ")
-            return redirect("addschool_backend")
-        else:
-            school = School.objects.create(
-                name_school=name_school,
-                size_school=size_school,
-                zone_school=zone_school,
-                district_school=district_school,
-                province_school=province_school,
-                Latitude=Latitude,
-                Longitude=Longitude
-            )
-            school.save()
-            messages.info(request, "สร้างสถานศึกษาเรียบร้อย")
-            return redirect('addschool_backend')
         
 
 def plan(request):
-    plan = Plan.objects.all()
-    return render(request, 'plan.html', {'plan': plan})
+    return render(request, 'plan.html')
 
 
 def plandetail(request, id):
-    pl = Plan.objects.get(id=id)
-    return render(request, 'plandetail.html', {'pl': pl})
+    return render(request, 'plandetail.html')
 
 
 def plandel(request, id):
-    pl = Plan.objects.get(id=id)
-    pl.delete()
     return redirect('plan')
 
 
 def round_apply(request):
-    round_apply = Round_apply.objects.all()
-    return render(request, 'round_apply.html', {'round_apply': round_apply})
+    return render(request, 'round_apply.html')
 
 
 def round_applydetail(request, id):
-    round = Round_apply.objects.get(id=id)
-    return render(request, 'round_apply_detail.html', {'round': round})
+    return render(request, 'round_apply_detail.html')
 
 
 def round_apply_del(request, id):
-    round_apply_del = Round_apply.objects.get(id=id)
-    round_apply_del.delete()
     redirect('round_apply')
 
 
