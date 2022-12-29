@@ -84,7 +84,7 @@ def studentdetail(request, id):
         std.ex19 = request.POST['ex19']
         std.ex20 = request.POST['ex20']
         std.save()
-        redirect('table_backend')
+        return redirect('table_backend')
     else:
         std = student.objects.get(id=id)
         return render(request, 'studentdetail.html', {'std': std})
