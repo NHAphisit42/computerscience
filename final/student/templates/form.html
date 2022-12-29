@@ -3,7 +3,7 @@
 {% block body %}
 <style>
     p {
-        color: red;
+        color: green;
     }
 
     h3 {
@@ -34,8 +34,7 @@
                 </div>
                 <div class="form-group col-md-8">
                     <label for="name">ชื่อจริง-นามสกุล</label>
-                    <input type="text" name="name" id="name" class="form-control"
-                        placeholder="ชื่อจริง (ไม่ต้องพิมพ์คำนำหน้า)">
+                    <input type="text" name="name" id="name" class="form-control" placeholder="ชื่อจริง (ไม่ต้องพิมพ์คำนำหน้า)">
                 </div>
                 <div class="form-group col-md-2">
                     <label for="class_student">รุ่นการศึกษา</label>
@@ -55,16 +54,15 @@
             <div class="form-row">
                 <div class="form-group col-md-7">
                     <label for="school">สถาบันที่จบการศึกษา</label>
-                    <input type="text" name="school" id="school" class="form-control"
-                        placeholder="โรงเรียน(ตามด้วยชื่อ)">
+                    <input type="text" name="school" id="school" class="form-control" placeholder="โรงเรียน(ตามด้วยชื่อ)">
                 </div>
                 <div class="form-group col-md-2">
                     <label for="short">ชื่อย่อของโรงเรียน</label>
                     <input type="text" name="short" id="short" class="form-control" placeholder="เช่น บ.พ,ศ.ก,ป.พ">
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="plan">ขนาดโรงเรียน</label>
-                    <select name="plan" id="plan" class="form-control">
+                    <label for="school_size">ขนาดโรงเรียน</label>
+                    <select name="school_size" id="school_size" class="form-control">
                         <option selected>เลือกขนาดโรงเรียน</option>
                         <option value="โรงเรียนขนาดเล็ก">โรงเรียนขนาดเล็ก</option>
                         <option value="โรงเรียนขนาดกลาง">โรงเรียนขนาดกลาง</option>
@@ -75,7 +73,7 @@
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="plan">แผนกการเรียน ที่ใช้สมัครเรียน</label>
-                    <input class="form-control" type="text" name="" id="">
+                    <input type="text" class="form-control" name="plan" id="">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="round_apply">รอบที่มาสมัครเรียนสาขาวิทยาการคอมพิวเตอร์</label>

@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from joblib import load
 from student.models import student
-# from sklearn.utils import upgrade_model
 
 student.plan_no
 student.status_family_no
@@ -21,7 +20,7 @@ model_RF = load('./analytics/ML/RF.joblib')
 model_Logistics = load('./analytics/ML/Logistics.joblib')
 
 # Create your views here.
-# @login_required(login_url='login')
+@login_required(login_url='login_backend')
 def home_backend(request):
     std = student.objects.all()
     return render(request, 'home_backend.html', {'std': std})
@@ -95,22 +94,6 @@ def chart_backend(request):
     return render(request, 'chart_backend.html')
 
 
-def school(request):
-    return render(request, 'school.html')
-
-
-def schooldetail(request, id):
-    return render(request, 'schooldetail.html')
-
-
-def delschool(request, id):
-    return redirect('school')
-
-
-def addschool_backend(request):
-    return render(request, 'addschool_backend.html')
-
-
 def login_backend(request):
     return render(request, 'login_backend.html')
 
@@ -136,30 +119,6 @@ def student_list(request):
             global std_select 
             std_select = sd
             return render(request, 'predictive.html', {'sd': sd})
-        
-
-def plan(request):
-    return render(request, 'plan.html')
-
-
-def plandetail(request, id):
-    return render(request, 'plandetail.html')
-
-
-def plandel(request, id):
-    return redirect('plan')
-
-
-def round_apply(request):
-    return render(request, 'round_apply.html')
-
-
-def round_applydetail(request, id):
-    return render(request, 'round_apply_detail.html')
-
-
-def round_apply_del(request, id):
-    redirect('round_apply')
 
 
 def adduser_backend(request):  # ลงทะเบียน

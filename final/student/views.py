@@ -17,13 +17,13 @@ def addstudent(request):
         class_student = request.POST['class_student']
         school = request.POST['school']
         short = request.POST['short']
+        school_size = request.POST['school_size']
         plan = request.POST['plan']
         round_apply = request.POST['round_apply']
         GPA = request.POST['GPA']
         grade_maths = request.POST['grade_maths']
         grade_science = request.POST['grade_science']
         grade_english = request.POST['grade_english']
-        GPA_BRU = request.POST['GPA_BRU']
         skillcomputer = request.POST['skillcomputer']
         traincomputer = request.POST['traincomputer']
         write_program = request.POST['write_program']
@@ -64,13 +64,13 @@ def addstudent(request):
                 class_student = class_student,
                 school = school,
                 short = short,
+                school_size = school_size,
                 plan = plan,
                 round_apply = round_apply,
                 GPA = GPA,
                 grade_maths = grade_maths,
                 grade_science = grade_science,
                 grade_english = grade_english,
-                GPA_BRU = GPA_BRU,
                 skillcomputer = skillcomputer,
                 traincomputer = traincomputer,
                 write_program = write_program,
@@ -104,4 +104,4 @@ def addstudent(request):
             )
             std.save()
             messages.info(request, "กรอกข้อมูลครบถ้วน")
-            return redirect('home')
+            return redirect('formstudent')
