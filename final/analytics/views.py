@@ -88,7 +88,16 @@ def studentdetail(request, id):
         return redirect('table_backend')
     else:
         std = student.objects.get(id=id)
-        return render(request, 'studentdetail.html', {'std': std})
+        sum = std.ex1 + std.ex2 + std.ex3 + std.ex4 + std.ex5 + std.ex6 + std.ex7 + std.ex8 + std.ex9 + std.ex10 + std.ex11 + std.ex12 + std.ex13 + std.ex14 + std.ex15 + std.ex16 + std.ex17 + std.ex18 + std.ex19 + std.ex20
+        if sum >= 45 and sum <= 60:
+            sum = "Stong Growth Mindset"
+        elif sum >= 34 and sum <= 44:
+            sum = "Growth Mindset with some Fixed Mindset"
+        elif sum >= 21 and sum <= 33:
+            sum = "Fixed Mindset with some Growth Mindset"
+        else:
+            sum = "Stong Fixed Mindset"
+        return render(request, 'studentdetail.html', {'std': std, 'sum': sum})
 
 
 def chart_backend(request):

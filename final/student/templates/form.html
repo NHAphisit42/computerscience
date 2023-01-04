@@ -2,7 +2,7 @@
 {% block title %}แบบฟอร์ม{% endblock title %}
 {% block body %}
 <style>
-    p {
+    h2 {
         color: green;
     }
 
@@ -13,66 +13,68 @@
 
 <main>
     <div class="container-fluid px-4">
+        <h1 class="mt-4">แบบฟอร์มกรอกข้อมูล</h1>
         {% for message in messages%}
-        <p>{{message}}</p>
+        <h2>{{message}}</h2>
         {% endfor %}
-        <div class="card mb-4">
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">หน้าหลัก</a></li>
+        </ol>
+        <div class="card bg-info mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
-                กรอกข้อมูล
+                กรอกข้อมูลนักศึกษา
             </div>
             <div class="card-body">
-                <form action="{% url 'addstudent' %}" method="post">
+                <form method="POST" action="{% url 'addstudent' %}">
                     {% csrf_token %}
                     <h3>ข้อมูลนักศึกษา</h3>
-                    <hr>
-                    <h4>ข้อมูลส่วนตัว</h4>
                     <hr>
                     <div class="form-row">
                         <div class="from-group col-md-2">
                             <label for="gender">คำนำหน้า</label>
                             <select id="gender" class="form-control" name="gender">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="นาย">นาย</option>
                                 <option value="นางสาว">นางสาว</option>
                                 <option value="นาง">นาง</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-8">
+                        <div class="form-group col-md-10">
                             <label for="name">ชื่อจริง-นามสกุล</label>
-                            <input type="text" name="name" id="name" class="form-control"
-                                placeholder="ชื่อจริง (ไม่ต้องพิมพ์คำนำหน้า)">
-                        </div>
-                        <div class="form-group col-md-2">
-                            <label for="class_student">รุ่นการศึกษา</label>
-                            <select id="class_student" name="class_student" class="form-control">
-                                <option selected>เลือก...</option>
-                                <option value="รุ่น61">รุ่น 61</option>
-                                <option value="รุ่น62">รุ่น 62</option>
-                                <option value="รุ่น63">รุ่น 63</option>
-                                <option value="รุ่น64">รุ่น 64</option>
-                                <option value="รุ่น65">รุ่น 65</option>
-                                <option value="รุ่น66">รุ่น 66</option>
-                                <option value="รุ่น67">รุ่น 67</option>
-                                <option value="รุ่น68">รุ่น 68</option>
-                            </select>
+                            <input type="text" name="name" id="name" class="form-control">
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-7">
-                            <label for="school">สถาบันที่จบการศึกษา</label>
-                            <input type="text" name="school" id="school" class="form-control"
-                                placeholder="โรงเรียน(ตามด้วยชื่อ)">
-                        </div>
                         <div class="form-group col-md-2">
+                            <label for="class_student">ชั้นปีที่</label>
+                            <select id="class_student" name="class_student" class="form-control">
+                                <option>เลือก...</option>
+                                <option value="รุ่น 61">รุ่น61</option>
+                                <option value="รุ่น 62">รุ่น62</option>
+                                <option value="รุ่น 63">รุ่น63</option>
+                                <option value="รุ่น 64">รุ่น64</option>
+                                <option value="รุ่น 65">รุ่น65</option>
+                                <option value="รุ่น 66">รุ่น66</option>
+                                <option value="รุ่น 67">รุ่น67</option>
+                                <option value="รุ่น 68">รุ่น68</option>
+                                <option value="รุ่น 69">รุ่น69</option>
+                                <option value="รุ่น 70">รุ่น70</option>
+                                <option value="รุ่น 71">รุ่น71</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="school">สถาบันที่จบการศึกษา</label>
+                            <input type="text" name="school" id="school" class="form-control">
+                        </div>
+                        <div class="form-group col-md-3">
                             <label for="short">ชื่อย่อของโรงเรียน</label>
-                            <input type="text" name="short" id="short" class="form-control"
-                                placeholder="เช่น บ.พ,ศ.ก,ป.พ">
+                            <input type="text" name="short" id="short" class="form-control">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="school_size">ขนาดโรงเรียน</label>
-                            <select name="school_size" id="school_size" class="form-control">
-                                <option selected>เลือกขนาดโรงเรียน</option>
+                            <select id="school_size" name="school_size" class="form-control">
+                                <option>เลือก...</option>
                                 <option value="โรงเรียนขนาดเล็ก">โรงเรียนขนาดเล็ก</option>
                                 <option value="โรงเรียนขนาดกลาง">โรงเรียนขนาดกลาง</option>
                                 <option value="โรงเรียนขนาดใหญ่">โรงเรียนขนาดใหญ่</option>
@@ -82,52 +84,53 @@
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label for="plan">แผนกการเรียน ที่ใช้สมัครเรียน</label>
-                            <input type="text" class="form-control" name="plan" id="">
+                            <select id="plan" name="plan" class="form-control">
+                                <option>เลือก...</option>
+                                <option value="แผนกการเรียน วิทย์-คณิต">แผนกการเรียน วิทย์-คณิต</option>
+                                <option value="แผนกการเรียน ศิลป์-คำนวณ">แผนกการเรียน ศิลป์-คำนวณ</option>
+                                <option value="ประกาศนียบัตรวิชาชีพ(ปวช)">ประกาศนียบัตรวิชาชีพ(ปวช)</option>
+                                <option value="ประกาศนียบัตรวิชาชีพขั้นสูง(ปวส)">ประกาศนียบัตรวิชาชีพขั้นสูง(ปวส)</option>
+                                <option value="เทียบเท่าละดับมัธยมศึกษาตอนปลาย">เทียบเท่าละดับมัธยมศึกษาตอนปลาย</option>
+                            </select>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="round_apply">รอบที่มาสมัครเรียนสาขาวิทยาการคอมพิวเตอร์</label>
-                            <select name="round_apply" id="round_apply" class="form-control">
-                                <option selected>เลือก</option>
+                            <select id="round_apply" name="round_apply" class="form-control">
+                                <option>เลือก...</option>
                                 <option value="portfolio">portfolio</option>
                                 <option value="โควต้า">โควต้า</option>
-                                <option value="รับตรงอิสระ">รับตรงอิสระ</option>
                                 <option value="รับตรงรอบที่ 1">รับตรงรอบที่ 1</option>
                                 <option value="รับตรงรอบที่ 2">รับตรงรอบที่ 2</option>
-                                <option value="รับตรง(เพิ่มเติม)">รับตรง(เพิ่มเติม)</option>
-                                <option value="นักศึกแลกเปลี่ยน">นักศึกแลกเปลี่ยน</option>
+                                <option value="รับตรงอิสระ">รับตรงอิสระ</option>
                             </select>
                         </div>
                     </div>
                     <hr>
-                    <h4>ข้อมูลเกรดของนักศึกษา</h4>
+                    <h3>ข้อมูลเกรดของนักศึกษา</h3>
                     <hr>
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label for="GPA">ผลการเรียนตลอดหลักสูตร</label>
-                            <input type="text" class="form-control" id="GPA" name="GPA"
-                                placeholder="กรอกเกรดในรูปแบบ 2.00">
+                            <input type="text" class="form-control" id="GPA" name="GPA">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="grade_maths">ผลการเรียนรายวิชาคณิตศาสตร์</label>
-                            <input type="text" class="form-control" id="grade_maths" name="grade_maths"
-                                placeholder="กรอกเกรดในรูปแบบ 2.00">
+                            <input type="text" class="form-control" id="grade_maths" name="grade_maths">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="grade_science">ผลการเรียนรายวิชาวิทยาศาสตร์</label>
-                            <input type="text" class="form-control" id="grade_science" name="grade_science"
-                                placeholder="กรอกเกรดในรูปแบบ 2.00">
+                            <input type="text" class="form-control" id="grade_science" name="grade_science">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="grade_english">ผลการเรียนรายวิชาภาษาต่างประเทศ</label>
-                            <input type="text" class="form-control" id="grade_english" name="grade_english"
-                                placeholder="กรอกเกรดในรูปแบบ 2.00">
+                            <input type="text" class="form-control" id="grade_english" name="grade_english">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label for="skillcomputer">เคยแข่งทักษะด้านคอมพิวเตอร์ไหม</label>
                             <select id="skillcomputer" name="skillcomputer" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="เคย">เคย</option>
                                 <option value="ไม่เคย">ไม่เคย</option>
                             </select>
@@ -135,7 +138,7 @@
                         <div class="form-group col-md-3">
                             <label for="traincomputer">เคยอบรมเกี่ยวคอมพิวเตอร์ไหม</label>
                             <select id="traincomputer" name="traincomputer" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="เคย">เคย</option>
                                 <option value="ไม่เคย">ไม่เคย</option>
                             </select>
@@ -143,7 +146,7 @@
                         <div class="form-group col-md-3">
                             <label for="write_program">เคยเรียนเขียนโปรแกรมไหม</label>
                             <select id="write_program" name="write_program" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="เคย">เคย</option>
                                 <option value="ไม่เคย">ไม่เคย</option>
                             </select>
@@ -151,7 +154,7 @@
                         <div class="form-group col-md-3">
                             <label for="trainprogram">เคยอบรมเขียนโปแกรมไหม</label>
                             <select id="trainprogram" name="trainprogram" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="เคย">เคย</option>
                                 <option value="ไม่เคย">ไม่เคย</option>
                             </select>
@@ -169,7 +172,7 @@
                         <div class="form-group col-md-4">
                             <label for="family_income_per_month">รายได้ของครอบครัวต่อเดือน</label>
                             <select id="family_income_per_month" class="form-control" name="family_income_per_month">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="ไม่เกิน 5,000 บาท">ไม่เกิน 5,000 บาท</option>
                                 <option value="5,001 ถึง 10,000 บาท">5,001 ถึง 10,000 บาท</option>
                                 <option value="10,001 ถึง 15,000 บาท">10,001 ถึง 15,000 บาท</option>
@@ -182,7 +185,7 @@
                         <div class="form-group col-md-4">
                             <label for="status_family">สถานภาพครอบครัว</label>
                             <select id="status_family" name="status_family" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="บิดา มารดาอยู่ด้วยกัน">บิดา มารดาอยู่ด้วยกัน</option>
                                 <option value="บิดา มารดาหย่าร้างกัน">บิดา มารดาหย่าร้างกัน</option>
                                 <option value="บิดาถึงแก่กรรม">บิดาถึงแก่กรรม</option>
@@ -193,23 +196,21 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="which_channel_do_you_know">รู้จักสาขาวิทยาการคอมพิวเตอร์จากช่องทางใด</label>
-                            <input type="text" class="form-control" id="which_channel_do_you_know"
-                                name="which_channel_do_you_know">
+                            <input type="text" class="form-control" id="which_channel_do_you_know" name="which_channel_do_you_know">
                         </div>
                         <div class="form-group col-md-4">
                             <label for="why_did_you_choose_to_study">ทำไมถึงเลือกเรียนสาขานี้</label>
-                            <input type="text" class="form-control" id="why_did_you_choose_to_study"
-                                name="why_did_you_choose_to_study">
+                            <input type="text" class="form-control" id="why_did_you_choose_to_study" name="why_did_you_choose_to_study">
                         </div>
                     </div>
                     <hr>
-                    <h4>Mindset</h4>
+                    <h3>Mindset</h3>
                     <hr>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="ex1">1.สติปัญญาเป็นสิ่งที่เปลี่ยนแปลงยาก</label>
                             <select id="ex1" name="ex1" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="0">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="1">เห็นด้วย</option>
                                 <option value="2">ไม่เห็นด้วย</option>
@@ -219,7 +220,7 @@
                         <div class="form-group col-md-6">
                             <label for="ex2">2.สติปัญญาเป็นสิ่งที่เปลี่ยนแปลงไม่มากก็น้อย</label>
                             <select id="ex2" name="ex2" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="3">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="2">เห็นด้วย</option>
                                 <option value="1">ไม่เห็นด้วย</option>
@@ -231,7 +232,7 @@
                         <div class="form-group col-md-6">
                             <label for="ex3">3.สติปัญญาเป็นสิ่งที่เปลี่ยนแปลงได้มากมายเสมอ</label>
                             <select id="ex3" name="ex3" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="3">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="2">เห็นด้วย</option>
                                 <option value="1">ไม่เห็นด้วย</option>
@@ -241,7 +242,7 @@
                         <div class="form-group col-md-6">
                             <label for="ex4">4.คนแต่ละคนมีลักษณะเฉพาะที่เปลี่ยนแปลงได้ยาก</label>
                             <select id="ex4" name="ex4" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="0">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="1">เห็นด้วย</option>
                                 <option value="2">ไม่เห็นด้วย</option>
@@ -253,7 +254,7 @@
                         <div class="form-group col-md-6">
                             <label for="ex5">5.คนแต่ละคนแม้จะมีลักษณะเฉพาะ แต่ก็เปลี่ยนแปลงได้เสมอ</label>
                             <select id="ex5" name="ex5" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="3">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="2">เห็นด้วย</option>
                                 <option value="1">ไม่เห็นด้วย</option>
@@ -263,7 +264,7 @@
                         <div class="form-group col-md-6">
                             <label for="ex6">6.ใครๆ ก็สามารถเรียนดนตรีให้เก่งได้</label>
                             <select id="ex6" name="ex6" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="3">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="2">เห็นด้วย</option>
                                 <option value="1">ไม่เห็นด้วย</option>
@@ -275,7 +276,7 @@
                         <div class="form-group col-md-6">
                             <label for="ex7">7.มีเพียงบางคนเท่านั้นที่จะเก่งกีฬาได้ เพราะต้องเก่งโดยกำเนิด</label>
                             <select id="ex7" name="ex7" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="0">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="1">เห็นด้วย</option>
                                 <option value="2">ไม่เห็นด้วย</option>
@@ -286,7 +287,7 @@
                             <label for="ex8">8.คณิตศาสตร์เป็นวิชาที่ง่ายสำหรับผู้ชาย
                                 หรือผู้ที่มาจากครอบครัวที่เก่งคณิตศาสตร์เท่านั้น</label>
                             <select id="ex8" name="ex8" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="0">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="1">เห็นด้วย</option>
                                 <option value="2">ไม่เห็นด้วย</option>
@@ -298,7 +299,7 @@
                         <div class="form-group col-md-6">
                             <label for="ex9">9.ความพยายามอยู่ที่ไหน ความสำเร็จอยู่ที่นั่น</label>
                             <select id="ex9" name="ex9" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="3">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="2">เห็นด้วย</option>
                                 <option value="1">ไม่เห็นด้วย</option>
@@ -308,7 +309,7 @@
                         <div class="form-group col-md-6">
                             <label for="ex10">10.ใครๆ ก็สามารถเปลี่ยนแปลงได้มากมาย</label>
                             <select id="ex10" name="ex10" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="3">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="2">เห็นด้วย</option>
                                 <option value="1">ไม่เห็นด้วย</option>
@@ -320,7 +321,7 @@
                         <div class="form-group col-md-6">
                             <label for="ex11">11.การทำสิ่งใหม่ที่ไม่เคยชินเป็นเรื่องยาก เราจึงไม่ควรทำ</label>
                             <select id="ex11" name="ex11" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="0">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="1">เห็นด้วย</option>
                                 <option value="2">ไม่เห็นด้วย</option>
@@ -330,7 +331,7 @@
                         <div class="form-group col-md-6">
                             <label for="ex12">12.การเปลี่ยนทุกคนให้เป็นคนดีเมตตา เป็นเรื่องที่เป็นไปได้ยาก</label>
                             <select id="ex12" name="ex12" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="0">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="1">เห็นด้วย</option>
                                 <option value="2">ไม่เห็นด้วย</option>
@@ -343,7 +344,7 @@
                             <label for="ex13">13.ฉันชื่นชมยินดีเมื่อพ่อแม่ ผู้ชี้แนะ
                                 และครูให้ข้อติชมเกี่ยวทำงานและผลงานของฉัน</label>
                             <select id="ex13" name="ex13" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="3">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="2">เห็นด้วย</option>
                                 <option value="1">ไม่เห็นด้วย</option>
@@ -354,7 +355,7 @@
                             <label for="ex14">14.ฉันมักจะไม่พอใจและโกรธ
                                 เมื่อได้รับข้อติชมเกี่ยวกับการทำงานและผลงานของฉัน</label>
                             <select id="ex14" name="ex14" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="0">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="1">เห็นด้วย</option>
                                 <option value="2">ไม่เห็นด้วย</option>
@@ -367,7 +368,7 @@
                             <label for="ex15">15.คนทุกคนที่ไม่มีความผิดปกติทางสมอง
                                 จะมีความสามารถในการเรียนรู้เท่าเทียม</label>
                             <select id="ex15" name="ex15" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="3">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="2">เห็นด้วย</option>
                                 <option value="1">ไม่เห็นด้วย</option>
@@ -378,7 +379,7 @@
                             <label for="ex16">16.คนทุกคนสามารถเรียนรู้สิ่งใหม่ได้
                                 แต่ไม่สามารถเปลี่ยนทักษะทางปัญญาได้</label>
                             <select id="ex16" name="ex16" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="0">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="1">เห็นด้วย</option>
                                 <option value="2">ไม่เห็นด้วย</option>
@@ -391,7 +392,7 @@
                             <label for="ex17">17.คนทุกคนสามารถทำงานด้วยวิธีการที่แตกต่างจากเดิมได้
                                 แต่ไม่สามารถเปลี่ยนตัวตนที่แท้จริงได้</label>
                             <select id="ex17" name="ex17" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="0">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="1">เห็นด้วย</option>
                                 <option value="2">ไม่เห็นด้วย</option>
@@ -401,7 +402,7 @@
                         <div class="form-group col-md-6">
                             <label for="ex18">18.คนทุกคนล้วนเป็นคนดี แต่บางครั้งอาจตัดสินใจผิดพลาดได้</label>
                             <select id="ex18" name="ex18" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="3">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="2">เห็นด้วย</option>
                                 <option value="1">ไม่เห็นด้วย</option>
@@ -413,7 +414,7 @@
                         <div class="form-group col-md-6">
                             <label for="ex19">19.เหตุผลสำคัญที่ฉันทำงานโรงเรียน คือ ฉันชอบเรียนรู้สิ่งใหม่</label>
                             <select id="ex19" name="ex19" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="3">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="2">เห็นด้วย</option>
                                 <option value="1">ไม่เห็นด้วย</option>
@@ -423,7 +424,7 @@
                         <div class="form-group col-md-6">
                             <label for="ex20">20.คนฉลาดจริงไม่ต้องขยัน</label>
                             <select id="ex20" name="ex20" class="form-control">
-                                <option selected>เลือก...</option>
+                                <option>เลือก...</option>
                                 <option value="3">เห็นด้วยอย่างยิ่ง</option>
                                 <option value="2">เห็นด้วย</option>
                                 <option value="1">ไม่เห็นด้วย</option>
@@ -431,21 +432,9 @@
                             </select>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary" onclick="success()">ตกลง</button>
+                    <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('คุณต้องการส่งแบบฟอร์มไหม')">ตกลง</button>
                 </form>
             </div>
-        </div>
     </div>
-    <script>
-        function success() {
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'กรอกข้อมูลเรียบร้อย',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        }
-    </script>
 </main>
 {% endblock body %}

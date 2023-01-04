@@ -1,7 +1,8 @@
-<nav class="sb-topnav navbar navbar-expand navbar-light" style="background-color: darkcyan;">
+{% load static %}
+<nav class="sb-topnav navbar navbar-expand navbar-light" style="background-color: rgb(11, 212, 219);">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="index.html">Computer Science</a>
+    <img src="{% static 'images/logo_cs.png' %}" width="30px" alt=""><a class="navbar-brand ps-3" href="{% url 'home' %}">วิทยาการคอมพิวเตอร์</a>
     <!-- Sidebar Toggle-->
+    &nbsp;&nbsp;&nbsp;
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-    <!-- Navbar Search-->
 </nav>

@@ -55,8 +55,9 @@ def addstudent(request):
         ex19 = request.POST['ex19']
         ex20 = request.POST['ex20']
 
-        if gender == "" and name == "":
-            messages.info(request, "กรุณากรอกข้อมูลให้ครบ")
+        if gender == "" or name == "" or class_student == "" or school == "" or short == "" or school_size == "" or plan == "" or round_apply == "" or GPA == "" or grade_maths == "" or grade_science == "" or grade_english == "" or skillcomputer == "" or traincomputer == "" or write_program == "" or trainprogram == "" or Other_skills == "" or want_to_develop == "" or family_income_per_month == "" or status_family == "" or which_channel_do_you_know == "" or why_did_you_choose_to_study == "" or ex1 == "" or ex2 == "" or ex3 == "" or ex4 == "" or ex5 == "" or ex6 == "" or ex7 == "" or ex8 == "" or ex9 == "" or ex10 == "" or ex11 == "" or ex12 == "" or ex13 == "" or ex14 == "" or ex15 == "" or ex16 == "" or ex17 == "" or ex18 == "" or ex19 == "" or ex20 == "":
+            messages.warning(request, "กรุณากรอกข้อมูลให้ครบ")
+            return redirect('formstudent')
         else:
             std = student.objects.create(
                 gender = gender,

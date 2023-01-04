@@ -1,0 +1,22 @@
+{% load static %}
+<div id="layoutSidenav_nav">
+    <nav class="sb-sidenav accordion sb-sidenav-ligth" id="sidenavAccordion" style="background-color: #e3f2fd;">
+        <div class="sb-sidenav-menu">
+            <div class="nav">
+                <div class="sb-sidenav-menu-heading">เมนู</div>
+                <a class="nav-link" href="{% url 'home' %}">
+                    <div class="sb-nav-link-icon"><img src="{% static 'images/logo_cs.png' %}" width="25px" alt=""></div>
+                    หน้าหลัก
+                </a>
+                <a class="nav-link" href="{% url 'formstudent' %}">
+                    <div class="sb-nav-link-icon"><img src="{% static 'images/google-forms.png' %}" width="25px" alt=""></div>
+                    แบบฟอร์มกรอกข้อมูลสำหรับนักศึกษา
+                </a>
+            </div>
+        </div>
+        <div class="sb-sidenav-footer">
+            <div class="small">Logged in as:</div>
+            Start Bootstrap
+        </div>
+    </nav>
+</div>

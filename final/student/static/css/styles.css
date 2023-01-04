@@ -7861,6 +7861,7 @@ textarea.form-control-lg {
 .bg-body {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-body-rgb), var(--bs-bg-opacity)) !important;
+  /* background-image: url('images/luke-chesser-pJadQetzTkI-unsplash.jpg'); */
 }
 
 .bg-transparent {
