@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from joblib import load
 from student.models import student
 
+
 student.plan_no
 student.status_family_no
 student.write_program_no
