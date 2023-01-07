@@ -121,7 +121,7 @@ class student(models.Model):
     ex20_CHOICE = (
         (0, 'เห็นด้วยอย่างยิ่ง'), (1, 'เห็นด้วย'), (2, 'ไม่เห็นด้วย'), (3,'ไม่เห็นด้วยอย่างยิ่ง'),)
 
-
+    id = models.AutoField(primary_key=True, null=False, unique=True)
     gender = models.CharField(max_length=100, choices=gender_CHOICE, null=True)
     name = models.CharField(max_length=255, null=True)
     class_student = models.CharField(max_length=155, choices=class_student_CHOICE, null=True)
@@ -169,11 +169,11 @@ class student(models.Model):
         return self.name
     
     def plan_no(self):
-        if 'แผนกการเรียน วิทย์-คณิต' in self.plan:
+        if 'วิทย์-คณิต' in self.plan:
             return 5
-        elif 'แผนกการเรียน ศิลป์-คำนวณ' in self.plan:
+        elif 'ศิลป์-คำนวณ' in self.plan:
             return 6
-        elif 'แผนกการเรียน ศิลป์-ภาษา' in self.plan:
+        elif 'ศิลป์-ภาษา' in self.plan:
             return 8
         elif 'ประกาศนียบัตรวิชาชีพ(ปวช)' in self.plan:
             return 0
@@ -181,11 +181,11 @@ class student(models.Model):
             return 1
         elif 'เทียบเท่าละดับมัธยมศึกษาตอนปลาย' in self.plan:
             return 2
-        elif 'แผนกการเรียน คณิต-อังกฤษ' in self.plan:
+        elif 'คณิต-อังกฤษ' in self.plan:
             return 3
-        elif 'แผนกการเรียน สังคม-ญี่ปุ่น' in self.plan:
+        elif 'สังคม-ญี่ปุ่น' in self.plan:
             return 9
-        elif "แผนกการเรียน ภาษา สังคม" in self.plan:
+        elif "ภาษา สังคม" in self.plan:
             return 4
         else:
             return 7
@@ -235,9 +235,9 @@ class student(models.Model):
             return 0
         
     def family_income_per_month_no(self):
-        if '10,001 - 15,000 บาท' in self.family_income_per_month:
+        if '10,001 – 15,000 บาท' in self.family_income_per_month:
             return 0
-        elif '15,001 - 20,000 บาท' in self.family_income_per_month:
+        elif '15,001 – 20,000 บาท' in self.family_income_per_month:
             return 1
         elif '25,001 บาทขึ้นไป' in self.family_income_per_month:
             return 2

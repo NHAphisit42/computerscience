@@ -186,7 +186,6 @@ def logout_backend(request):
     return redirect('home_backend')
 
 def result(request):
-    # pass
     data = []
     predictresult = []
     if request.method == "POST":
@@ -210,7 +209,7 @@ def result(request):
                             "family_income_per_month" : student.family_income_per_month_no(std_select[y]),
                         })
             for n in data :
-                result = getPredictions(n['GPA'], 
+                result = getPredictions(float(n['GPA']), 
                                         n['write_program'], 
                                         n['trainprogram'], 
                                         n['plan'], 
@@ -229,7 +228,7 @@ def result(request):
 
 
 def getPredictions(school_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family):
-    predictions = model_DT.predict([
+    predictions = model_Logistics.predict([
         [school_size, plan, round_apply, GPA, write_program, trainprogram, family_income_per_month, status_family]
         ])
     if predictions == 0:
