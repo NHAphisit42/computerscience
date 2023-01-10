@@ -10,10 +10,16 @@
     div.container {
         width: 80%;
     }
+    p{
+        color: green;
+    }
 </style>
 <main>
     <div class="container-fluid px-4">
         <h1 class="mt-4">ตารางข้อมูลนักศึกษา</h1>
+        {% for message in messages %}
+            <p>{{message}}</p>
+        {% endfor %}
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a href="{% url 'home_backend' %}">หน้าหลัก</a></li>
             <li class="breadcrumb-item active">ตารางข้อมูลนักศึกษา</li>

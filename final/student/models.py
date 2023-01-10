@@ -121,7 +121,7 @@ class student(models.Model):
     ex20_CHOICE = (
         (0, 'เห็นด้วยอย่างยิ่ง'), (1, 'เห็นด้วย'), (2, 'ไม่เห็นด้วย'), (3,'ไม่เห็นด้วยอย่างยิ่ง'),)
 
-    id = models.AutoField(primary_key=True, null=False, unique=True)
+    id = models.AutoField(primary_key=True, null=False)
     gender = models.CharField(max_length=100, choices=gender_CHOICE, null=True)
     name = models.CharField(max_length=255, null=True)
     class_student = models.CharField(max_length=155, choices=class_student_CHOICE, null=True)

@@ -36,6 +36,7 @@ def table_backend(request):
 def remove(request, id):
     std = student.objects.get(id=id)
     std.delete()
+    messages.info(request, "ลบข้อมูลเรียบร้อยแล้ว")
     return redirect('table_backend')
 
 
@@ -85,6 +86,7 @@ def studentdetail(request, id):
         std.ex19 = request.POST['ex19']
         std.ex20 = request.POST['ex20']
         std.save()
+        messages.info(request, "แก้ไขข้อมูลเรียบร้อยแล้ว")
         return redirect('table_backend')
     else:
         std = student.objects.get(id=id)
