@@ -102,10 +102,6 @@ def studentdetail(request, id):
         return render(request, 'studentdetail.html', {'std': std, 'sum': sum})
 
 
-def chart_backend(request):
-    return render(request, 'chart_backend.html')
-
-
 def login_backend(request):
     return render(request, 'login_backend.html')
 

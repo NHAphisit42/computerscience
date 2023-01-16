@@ -55,9 +55,9 @@
                 <form action="{% url 'student_list' %}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="setdata[]" />
-                    <div class="form-group col-md-2">
-                        <label for="class_student">ค้นหาข้อมูล</label>
-                        <input type="text" name="class_student" id="class_student" class="form-control">
+                    <div class="form-group col-md-5">
+                        <label for="class_student">ค้นหาข้อมูล พิมพ์รุ่นเว้นวรรคตามด้วยรหัสรุ่น เช่น รุ่น 61 / รุ่น 62</label>
+                        <input type="text" name="class_student" id="class_student" class="form-control" placeholder="เช่น รุ่น 61">
                     </div>
                     <button type="submit" class="btn btn-primary btn-sm">ค้นหา</button>
                 </form>
