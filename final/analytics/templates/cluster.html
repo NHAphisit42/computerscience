@@ -1,5 +1,5 @@
-{% extends 'base_backend.html' %} 
-{% block title %}Predictive{% endblock title%} 
+{% extends 'base_backend.html' %}
+{% block title %}จัดกลุ่มข้อมูล{% endblock title %}
 {% block body %}
 <style>
     .my-custom-scrollbar {
@@ -22,7 +22,7 @@
         white-space: nowrap;
     }
 
-    th.text {
+    text {
         text-align: center;
     }
 
@@ -41,7 +41,7 @@
 </style>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">ทำนายข้อมูล</h1>
+        <h1 class="mt-4">การจัดกลุ่มข้อมูลในการวางแผนเตรียมความพร้อม</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item">
                 <a href="{% url 'home_backend' %}">หน้าหลัก</a>
@@ -54,9 +54,9 @@
                 ข้อมูลรุ่น
             </div>
             <div class="card-body">
-                <form action="{% url 'student_list' %}" method="post">
+                <form action="{% url 'student_list_cluster' %}" method="post">
                     {% csrf_token %}
-                    <input type="hidden" name="setdata[]" />
+                    <input type="hidden" name="setdat_cluster[]" />
                     <div class="form-group col-md-5">
                         <label for="class_student">ค้นหาข้อมูล พิมพ์รุ่นเว้นวรรคตามด้วยรหัสรุ่น เช่น รุ่น 61 / รุ่น 62</label>
                         <input type="text" name="class_student" id="class_student" class="form-control" placeholder="เช่น รุ่น 61">
@@ -64,7 +64,7 @@
                     <button type="submit" class="btn btn-primary btn-sm">ค้นหา</button>
                 </form>
                 <br>
-                <form id="Myform" action="{% url 'result' %}" method="POST">
+                <form id="Myform" action="{% url 'result_cluster' %}" method="POST">
                     {% csrf_token %}
                     <div class="card mb-4">
                         <div class="card-header">
@@ -75,17 +75,12 @@
                             <table id="datatablesSimple" class="stripe row-border order-column" style="width: 100%">
                                 <thead>
                                     <tr>
-                                        <th>เลือก</th>
-                                        <th>ชื่อ</th>
-                                        <th>รุ่น</th>
-                                        <th>เกรดมัธยม</th>
-                                        <th>เขียนโปรแกรม</th>
-                                        <th>อบรมเขียนโปรแกรม</th>
-                                        <th>แผนการเรียน</th>
-                                        <th>รอบที่มาสมัคร</th>
-                                        <th>ขนาดโรงเรียน</th>
-                                        <th>สถานะครอบครัว</th>
-                                        <th>รายได้ครอบครัว</th>
+                                        <th class="text">เลือก</th>
+                                        <th class="text">ชื่อ</th>
+                                        <th class="text">รุ่น</th>
+                                        <th class="text">เกรดมัธยม</th>
+                                        <th class="text">แผนการเรียน</th>
+                                        <th class="text">เขียนโปรแกรม</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -94,13 +89,8 @@
                                         <th>ชื่อ</th>
                                         <th>รุ่น</th>
                                         <th>เกรดมัธยม</th>
-                                        <th>เขียนโปรแกรม</th>
-                                        <th>อบรมเขียนโปรแกรม</th>
                                         <th>แผนการเรียน</th>
-                                        <th>รอบที่มาสมัคร</th>
-                                        <th>ขนาดโรงเรียน</th>
-                                        <th>สถานะครอบครัว</th>
-                                        <th>รายได้ครอบครัว</th>
+                                        <th>เขียนโปรแกรม</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
@@ -110,20 +100,15 @@
                                         <td>{{std.gender}}{{std.name}}</td>
                                         <td>{{std.class_student}}</td>
                                         <td><input name="GPA" type="text" value="{{std.GPA}}" /></td>
-                                        <td><input name="write_program" type="text" value="{{std.write_program_no}}" /></td>
-                                        <td><input name="trainprogram" type="text" value="{{std.trainprogram_no}}" /></td>
                                         <td><input name="plan" type="text" value="{{std.plan_no}}" /></td>
-                                        <td><input name="round_apply" type="text" value="{{std.round_apply_no}}" /></td>
-                                        <td><input name="school_size" type="text" value="{{std.school_size_no}}" /></td>
-                                        <td><input name="status_family" type="text" value="{{std.status_family_no}}" /></td>
-                                        <td><input name="family_income_per_month" type="text"value="{{std.family_income_per_month_no}}" /></td>
+                                        <td><input name="write_program" type="text" value="{{std.write_program_no}}" /></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <br />
+                    <br/>
                     <button type="submit" class="btn btn-success btn-sm">ทำนายข้อมูล</button>
                     <button type="button" class="btn btn-warning btn-sm" onclick="selects()">เลือกทั้งหมด</button>
                     <button type="reset" class="btn btn-primary btn-sm" onclick="deSelect()">ยกเลิก</button>

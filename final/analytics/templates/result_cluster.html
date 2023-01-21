@@ -1,0 +1,37 @@
+{% extends "base_backend.html" %}
+{% block title %}ผลการกลุ่มข้อมูล{% endblock title %}
+{% block body %}
+<main>
+    <div class="container-fluid px-4">
+        <h4 class="mt-4">ผลการกลุ่มข้อมูล</h4>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ชื่อ</th>
+                        <th>รุ่น</th>
+                        <th>ผลการกลุ่มข้อมูล</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cluster in predictresult_cluster %}
+                    <tr>
+                        <td>{{cluster.gender}}{{cluster.name}}</td>
+                        <td>{{cluster.class_student}}</td>
+                        <td>{{cluster.result_cluster}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button class="btn btn-primary pull-right" onclick="btn()"><i class="fas fa-print"></i>
+                ปริ้นรายงาน
+            </button>
+        </div>
+    </div>
+</main>
+<script>
+    function btn(){
+        window.print()
+    }
+</script>
+{% endblock body %}

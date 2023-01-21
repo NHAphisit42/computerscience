@@ -19,6 +19,7 @@ student.family_income_per_month_no
 model_DT = load('./analytics/ML/DCT.joblib')
 model_RF = load('./analytics/ML/RF.joblib')
 model_Logistics = load('./analytics/ML/Logistics.joblib')
+model_Clustering = load('./analytics/ML/clustering.joblib')
 
 # Create your views here.
 @login_required(login_url='login_backend')
@@ -106,6 +107,11 @@ def login_backend(request):
     return render(request, 'login_backend.html')
 
 
+def logout_backend(request):
+    logout(request)
+    return redirect('home_backend')
+
+
 def register_backend(request):
     return render(request, 'register_backend.html')
 
@@ -179,10 +185,6 @@ def sign_in(request):  # ลงชื่อเข้าใช้
             return redirect("login_backend")
 
 
-def logout_backend(request):
-    logout(request)
-    return redirect('home_backend')
-
 def result(request):
     data = []
     predictresult = []
@@ -233,3 +235,69 @@ def getPredictions(school_size, plan, round_apply, GPA, write_program, trainprog
         return "ไม่ผ่าน"
     else:
         return "ผ่าน"
+
+
+def cluster(request):
+    return render(request, 'cluster.html')
+
+
+std_select_cluster = []
+def student_list_cluster(request):
+    if request.method == "POST":
+        class_std = request.POST['class_student']
+        if class_std == "":
+            messages.info(request, "กรุณาป้อนข้อมูลให้ครบ")
+            redirect('clustering')
+        else:
+            # print(class_std)
+            sd = student.objects.filter(class_student=class_std)
+            global std_select_cluster 
+            std_select_cluster = sd
+            return render(request, 'cluster.html', {'sd': sd})
+
+
+def result_cluster(request):
+    cluster = []
+    predictresult_cluster = []
+    if request.method == "POST":
+        checkbox = request.POST.getlist('checkbox[]')
+        if len(checkbox) > 0:
+            for i in range(len(checkbox)):
+                for a in range(len(std_select_cluster)):
+                    if int(std_select_cluster[a].id) == int(checkbox[i]):
+                        cluster.append({
+                            "STD_ID" : checkbox[i],
+                            "gender" : std_select_cluster[a].gender,
+                            "name" : std_select_cluster[a].name,
+                            "class_student" : std_select_cluster[a].class_student,
+                            "GPA" : std_select_cluster[a].GPA,
+                            "plan" : student.plan_no(std_select_cluster[a]),
+                            "write_program" : student.write_program_no(std_select_cluster[a]),
+                        })
+                        
+            for c in cluster :
+                result_cluster = getCluster(float(c['GPA']), 
+                                        c['plan'],
+                                        c['write_program']
+                                        )
+                predictresult_cluster.append({
+                    "STD_ID" : c['STD_ID'],
+                    "gender" : c['gender'],
+                    "name" : c['name'],
+                    "class_student" : c['class_student'],
+                    "result_cluster" : result_cluster
+                })
+                
+            return render(request, 'result_cluster.html', {'cluster': cluster, 'predictresult_cluster': predictresult_cluster})
+
+
+def getCluster(GPA, plan, weitr_program):
+    predictions_cluster = model_Clustering.predict([
+        [GPA, plan, weitr_program]
+        ])
+    if predictions_cluster == 0:
+        return "มีพื้นฐานการเขียนโปรแกรม"
+    elif predictions_cluster == 1:
+        return "อยากศึกษาการเขียนโปรแกรม"
+    else:
+        return "ไม่มีพื้นฐานการเขียนโปรแกรม"
