@@ -1,4 +1,4 @@
-# computerscience
+# Project Predictive with Django
 this project It is a graduate project of Computer Science, Faculty of Science, Buriram Rajabhat University. which is a data prediction project on a web application Develop web applications with Python language and Django framework.<br>
 <h3>Steps for using this project There are steps as follows:</h3>
 The first step is to install python on your computer : https://www.python.org/ <br>
