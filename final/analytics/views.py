@@ -167,8 +167,7 @@ def adduser_backend(request):  # ลงทะเบียน
                     messages.info(request, "สร้างบัญชีเรียบร้อย")
                     return redirect("login_backend")
             else:
-                messages.info(
-                    request, "ไม่สามารถลงทะเบียนได้รหัสผ่านไม่ตรงกัน")
+                messages.info(request, "ไม่สามารถลงทะเบียนได้รหัสผ่านไม่ตรงกัน")
                 return redirect("register_backend")
 
 
@@ -186,8 +185,8 @@ def sign_in(request):  # ลงชื่อเข้าใช้
 
 
 def result(request):
-    data = []
-    predictresult = []
+    data = [] #ตัวนี้เก็บข้อมูลที่เลือกมา
+    predictresult = [] #ตัวนี้เก็บค่าที่ทำนายมาและส่งไปแสดงผล
     if request.method == "POST":
         checkbox = request.POST.getlist('checkbox[]')
         if len(checkbox) > 0:
