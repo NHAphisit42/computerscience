@@ -11,3 +11,4 @@ with the following steps:<br>
 5 Go into the project "mysite" directory with the command cd mysite <br>
 6 Runserver with the command python manage.py runserver <br>
 7 Open website: http://127.0.0.1:8000/ <br>
+third step Install a database named PostgreSQL : https://www.postgresql.org/
