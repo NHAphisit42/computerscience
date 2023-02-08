@@ -213,7 +213,7 @@ def result(request):
                                         n['trainprogram'], 
                                         n['plan'], 
                                         n['status_family'], 
-                                        n['round_apply'], 
+                                        n['round_apply'],  
                                         n['school_size'], 
                                         n['family_income_per_month'])
                 predictresult.append({
