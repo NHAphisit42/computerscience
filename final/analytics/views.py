@@ -21,6 +21,7 @@ model_RF = load('./analytics/ML/RF.joblib')
 model_Logistics = load('./analytics/ML/Logistics.joblib')
 model_Clustering = load('./analytics/ML/clustering.joblib')
 
+
 # Create your views here.
 @login_required(login_url='login_backend')
 def home_backend(request):
