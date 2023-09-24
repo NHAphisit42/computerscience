@@ -235,15 +235,15 @@ class student(models.Model):
             return 0
         
     def family_income_per_month_no(self):
-        if '10,001ถึง15,000บาท' in self.family_income_per_month:
+        if '10,001 - 15,000 บาท' in self.family_income_per_month:
             return 0
-        elif '15,001ถึง20,000บาท' in self.family_income_per_month:
+        elif '15,001 - 20,000 บาท' in self.family_income_per_month:
             return 1
-        elif '25,001บาทขึ้นไป' in self.family_income_per_month:
+        elif '25,001 บาทขึ้นไป' in self.family_income_per_month:
             return 2
-        elif '5,001ถึง10,000บาท' in self.family_income_per_month:
+        elif '5,001 - 10,000 บาท' in self.family_income_per_month:
             return 3
-        elif 'ไม่เกิน5,000บาท' in self.family_income_per_month:
+        elif 'ไม่เกิน 5,000 บาท' in self.family_income_per_month:
             return 4
     class Meta:
         db_table='student'
