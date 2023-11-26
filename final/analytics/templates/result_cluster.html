@@ -8,7 +8,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ชื่อ</th>
+                        <th>รหัสนักศึกษา</th>
                         <th>รุ่น</th>
                         <th>ผลการกลุ่มข้อมูล</th>
                     </tr>
@@ -16,7 +16,7 @@
                 <tbody>
                     {% for cluster in predictresult_cluster %}
                     <tr>
-                        <td>{{cluster.gender}}{{cluster.name}}</td>
+                        <td>{{cluster.name}}</td>
                         <td>{{cluster.class_student}}</td>
                         <td>{{cluster.result_cluster}}</td>
                     </tr>

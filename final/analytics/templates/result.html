@@ -8,7 +8,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ชื่อ</th>
+                        <th>รหัสนักศึกษา</th>
                         <th>รุ่น</th>
                         <th>ผลการทำนาย</th>
                     </tr>
@@ -16,7 +16,7 @@
                 <tbody>
                     {% for std in predictresult %}
                     <tr>
-                        <td>{{std.gender}}{{std.name}}</td>
+                        <td>{{std.name}}</td>
                         <td>{{std.class_student}}</td>
                         <td>{{std.result}}</td>
                     </tr>

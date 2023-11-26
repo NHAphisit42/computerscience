@@ -8,7 +8,7 @@
 </style>
 <main>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">ข้อมูลนักศึกษา : {{std.gender}}{{std.name}} {{std.sophomore_student}}</h1>
+        <h1 class="mt-4">ข้อมูลนักศึกษา : {{std.name}} {{std.sophomore_student}}</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a href="{% url 'home_backend' %}">หน้าหลัก</a></li>
             <li class="breadcrumb-item"><a href="{% url 'table_backend' %}">ย้อนกลับ</a></li>
@@ -17,7 +17,7 @@
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
-                ข้อมูลนักศึกษา : {{std.gender}}{{std.name}}
+                ข้อมูลนักศึกษา : {{std.name}}
             </div>
             <div class="card-body">
                 <form method="POST">
@@ -36,7 +36,7 @@
                             </select>
                         </div>
                         <div class="form-group col-md-10">
-                            <label for="name">ชื่อจริง-นามสกุล</label>
+                            <label for="name">รหัสนักศึกษา</label>
                             <input type="text" name="name" id="name" class="form-control" value="{{std.name}}">
                         </div>
                     </div>

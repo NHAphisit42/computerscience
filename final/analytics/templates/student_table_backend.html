@@ -33,8 +33,8 @@
                 <table id="datatablesSimple" class="stripe row-border order-column" style="width:100%">
                     <thead>
                         <tr>
-                            <th style="text-align: center;">คำนำหน้า</th>
-                            <th style="text-align: center;">ชื่อ</th>
+                            <!-- <th style="text-align: center;">คำนำหน้า</th> -->
+                            <th style="text-align: center;">รหัสนักศึกษา</th>
                             <th style="text-align: center;">ชั้นปีที่</th>
                             <th style="text-align: center;">รอบสมัคร</th>
                             <th style="text-align: center;">โรงเรียนที่จบการศึกษา</th>
@@ -43,8 +43,8 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>คำนำหน้า</th>
-                            <th>ชื่อ</th>
+                            <!-- <th>คำนำหน้า</th> -->
+                            <th>รหัสนักศึกษา</th>
                             <th>ชั้นปีที่</th>
                             <th>รอบสมัคร</th>
                             <th>โรงเรียนที่จบการศึกษา</th>
@@ -54,7 +54,7 @@
                     <tbody>
                         {% for std in std %}
                         <tr>
-                            <td>{{std.gender}}</td>
+                            <!-- <td>{{std.gender}}</td> -->
                             <td>{{std.name}}</td>
                             <td>{{std.class_student}}</td>
                             <td>{{std.round_apply}}</td>

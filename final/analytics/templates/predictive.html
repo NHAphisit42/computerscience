@@ -76,7 +76,7 @@
                                 <thead>
                                     <tr>
                                         <th>เลือก</th>
-                                        <th>ชื่อ</th>
+                                        <th>รหัสนักศึกษา</th>
                                         <th>รุ่น</th>
                                         <th>เกรดมัธยม</th>
                                         <th>เขียนโปรแกรม</th>
@@ -91,7 +91,7 @@
                                 <tfoot>
                                     <tr>
                                         <th>เลือก</th>
-                                        <th>ชื่อ</th>
+                                        <th>รหัสนักศึกษา</th>
                                         <th>รุ่น</th>
                                         <th>เกรดมัธยม</th>
                                         <th>เขียนโปรแกรม</th>
@@ -107,7 +107,7 @@
                                     {% for std in sd %}
                                     <tr>
                                         <td><input type="checkbox" name="checkbox[]" value="{{std.id}}" id="checkbox" /></td>
-                                        <td>{{std.gender}}{{std.name}}</td>
+                                        <td>{{std.name}}</td>
                                         <td>{{std.class_student}}</td>
                                         <td><input name="GPA" type="text" value="{{std.GPA}}" /></td>
                                         <td><input name="write_program" type="text" value="{{std.write_program_no}}" /></td>
