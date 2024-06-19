@@ -1,4 +1,4 @@
-from distutils.log import info
+# from distutils.log import info
 from django.shortcuts import redirect, render
 from student.models import student
 from django.contrib import messages
