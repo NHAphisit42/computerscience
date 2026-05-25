@@ -1,0 +1,40 @@
+{% extends "base_backend.html" %}
+{% block title %}ผลการทำนาย{% endblock title %}
+{% block body %}
+<main>
+    <div class="container-fluid px-4">
+        <h4 class="mt-4">ผลการทำนาย</h4>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>รหัสนักศึกษา</th>
+                        <th>รุ่น</th>
+                        <th>ผลการทำนาย</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for std in predictresult %}
+                    <tr>
+                        <td>{{std.name}}</td>
+                        <td>{{std.class_student}}</td>
+                        <td>{{std.result}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button class="btn btn-primary pull-right" onclick="btn()"><i class="fas fa-print"></i>
+                ปริ้นรายงาน
+            </button>
+            <button class="btn btn-secondary pull-right" onclick="window.location.href='/analytics/predict'"><i class="fas fa-arrow-left"></i>
+                กลับหน้าทำนาย
+            </button>
+        </div>
+    </div>
+</main>
+<script>
+    function btn(){
+        window.print()
+    }
+</script>
+{% endblock body %}

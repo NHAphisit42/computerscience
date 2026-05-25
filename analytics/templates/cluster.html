@@ -1,0 +1,169 @@
+{% extends 'base_backend.html' %}
+{% block title %}จัดกลุ่มข้อมูล{% endblock title %}
+{% block body %}
+<style>
+    .my-custom-scrollbar {
+        position: relative;
+        height: 1000px;
+        width: auto;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    td.fitwidth {
+        width: auto;
+        white-space: nowrap;
+    }
+
+    table.autowidth td {
+        white-space: nowrap;
+    }
+
+    text {
+        text-align: center;
+    }
+
+    th,
+    td {
+        white-space: nowrap;
+    }
+
+    div.dataTables_wrapper {
+        margin: 0 auto;
+    }
+
+    div.container {
+        width: 80%;
+    }
+</style>
+<main>
+    <div class="container-fluid px-4">
+        <h1 class="mt-4">การจัดกลุ่มข้อมูลในการวางแผนเตรียมความพร้อม</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item">
+                <a href="{% url 'home_backend' %}">หน้าหลัก</a>
+            </li>
+            <li class="breadcrumb-item active">ทำนายข้อมูล</li>
+        </ol>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                ข้อมูลรุ่น
+            </div>
+            <div class="card-body">
+                <form action="{% url 'student_list_cluster' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="setdat_cluster[]" />
+                    <div class="form-group col-md-5">
+                        <label for="class_student">ค้นหาข้อมูล พิมพ์รุ่นเว้นวรรคตามด้วยรหัสรุ่น เช่น รุ่น 61 / รุ่น 62</label>
+                        <input type="text" name="class_student" id="class_student" class="form-control" placeholder="เช่น รุ่น 61">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">ค้นหา</button>
+                </form>
+                <br>
+                <form id="Myform" action="{% url 'result_cluster' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            ข้อมูลนักศึกษาสาขาวิทยาการคอมพิวเตอร์
+                        </div>
+                        <div class="card-body">
+                            <table id="datatablesSimple" class="stripe row-border order-column" style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th class="text">เลือก</th>
+                                        <th class="text">รหัสนักศึกษา</th>
+                                        <th class="text">รุ่น</th>
+                                        <th class="text">เกรดมัธยม</th>
+                                        <th class="text">แผนการเรียน</th>
+                                        <th class="text">เขียนโปรแกรม</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>เลือก</th>
+                                        <th>รหัสนักศึกษา</th>
+                                        <th>รุ่น</th>
+                                        <th>เกรดมัธยม</th>
+                                        <th>แผนการเรียน</th>
+                                        <th>เขียนโปรแกรม</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    {% for std in sd %}
+                                    <tr>
+                                        <td><input type="checkbox" name="checkbox[]" value="{{std.id}}" id="checkbox" /></td>
+                                        <td>{{std.name}}</td>
+                                        <td>{{std.class_student}}</td>
+                                        <td><input name="GPA" type="text" value="{{std.GPA}}" /></td>
+                                        <td><input name="plan" type="text" value="{{std.plan_no}}" /></td>
+                                        <td><input name="write_program" type="text" value="{{std.write_program_no}}" /></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <br/>
+                    <button type="submit" class="btn btn-success btn-sm">ทำนายข้อมูล</button>
+                    <button type="button" class="btn btn-warning btn-sm" onclick="selects()">เลือกทั้งหมด</button>
+                    <button type="reset" class="btn btn-primary btn-sm" onclick="deSelect()">ยกเลิก</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    $(document).ready(function () {
+        $('#datatablesSimple').DataTable();
+        $("#datatablesSimple").DataTable({
+            scrollY: "300px",
+            scrollX: true,
+            scrollCollapse: true,
+            paging: false,
+            columnDefs: [{ width: "20%", targets: 0 }],
+            fixedColumns: true,
+        });
+    });
+
+    document.getElementById('select-all-button').addEventListener('click', function () {
+        // Get all the checkboxes on the page
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+        // Iterate through the checkboxes and set their checked property to true
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = true;
+        }
+    });
+
+    $('#select-all-button').click(function () {
+        // Get all the checkboxes on the page
+        var checkboxes = $('input[type="checkbox"]');
+
+        // Iterate through the checkboxes and set their checked property to true
+        checkboxes.each(function () {
+            $(this).prop('checked', true);
+        });
+    });
+
+    function selects() {
+        var ele = document.getElementsByName('checkbox[]');
+        for (var i = 0; i < ele.length; i++) {
+            if (ele[i].type == 'checkbox')
+                ele[i].checked = true;
+        }
+    }
+
+    function deSelect() {
+        var ele = document.getElementsByName('chk');
+        for (var i = 0; i < ele.length; i++) {
+            if (ele[i].type == 'checkbox')
+                ele[i].checked = false;
+        }
+    }
+</script>
+{% endblock body %}
