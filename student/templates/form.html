@@ -1,435 +1,913 @@
 {% extends 'base_frontend.html' %}
 {% block title %}แบบฟอร์ม{% endblock title %}
 {% block body %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-    h2 {
-        color: green;
-    }
+  :root{
+    --ink:#1B2A4A;
+    --accent:#F0A83C;
+    --accent-ink:#7A4E0E;
+    --teal:#1FA394;
+    --teal-soft:#4FBDAF;
+    --danger:#E4572E;
+    --surface:#FFFFFF;
+    --bg:#F4F6FA;
+    --muted:#67728A;
+    --border:#E1E5EE;
+  }
 
-    h3 {
-        text-align: center;
-    }
+  .csform *,.csform *::before,.csform *::after{box-sizing:border-box;}
+
+  .csform{
+    font-family:'IBM Plex Sans Thai',system-ui,-apple-system,'Segoe UI',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    padding:2rem 1rem 4rem;
+    border-radius:18px;
+  }
+  .csform__shell{max-width:980px;margin:0 auto;}
+
+  .csform__crumbs{display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--muted);margin-bottom:1.1rem;}
+  .csform__crumbs a{color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:.35rem;}
+  .csform__crumbs a:hover{color:var(--ink);text-decoration:underline;}
+
+  .alert-stack{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.25rem;}
+  .alert-msg{display:flex;align-items:center;gap:.6rem;padding:.8rem 1rem;border-radius:10px;background:#fff;
+    border:1px solid var(--border);border-left:4px solid var(--ink);font-size:.88rem;color:var(--ink);}
+  .alert-msg i{color:var(--ink);}
+  .alert-success{border-left-color:var(--teal);} .alert-success i{color:var(--teal);}
+  .alert-error{border-left-color:var(--danger);} .alert-error i{color:var(--danger);}
+  .alert-warning{border-left-color:var(--accent);} .alert-warning i{color:var(--accent-ink);}
+  .alert-info{border-left-color:#3B82C4;} .alert-info i{color:#3B82C4;}
+
+  .csform__hero{
+    position:relative;padding:1.9rem 1.75rem;border-radius:20px;background:var(--ink);color:#fff;
+    margin-bottom:1.75rem;overflow:hidden;
+    background-image:radial-gradient(rgba(255,255,255,.14) 1px, transparent 1px);
+    background-size:16px 16px;
+  }
+  .csform__eyebrow{
+    display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.06em;
+    background:rgba(255,255,255,.14);padding:.3rem .65rem;border-radius:999px;margin-bottom:.75rem;
+  }
+  .csform__title{margin:0 0 .4rem;font-size:1.65rem;font-weight:700;}
+  .csform__subtitle{margin:0;font-size:.9rem;color:rgba(255,255,255,.8);max-width:44rem;line-height:1.6;}
+
+  .stepper{display:flex;list-style:none;margin:0 0 .6rem;padding:0;gap:.5rem;}
+  .stepper__item{
+    flex:1;display:flex;align-items:center;gap:.6rem;padding:.85rem 1rem;border-radius:14px;
+    background:var(--surface);border:1.5px solid var(--border);
+  }
+  .stepper__num{
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.85rem;color:var(--muted);
+    width:1.9rem;height:1.9rem;border-radius:50%;border:1.5px solid var(--border);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;
+    transition:background .15s ease,border-color .15s ease,color .15s ease;
+  }
+  .stepper__label{font-size:.85rem;font-weight:500;color:var(--muted);transition:color .15s ease;}
+  .stepper__item.is-active{border-color:var(--ink);background:#fff;box-shadow:0 6px 16px -8px rgba(27,42,74,.28);}
+  .stepper__item.is-active .stepper__num{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .stepper__item.is-active .stepper__label{color:var(--ink);font-weight:600;}
+  .stepper__item.is-done .stepper__num{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .stepper__item.is-done .stepper__label{color:var(--ink);}
+  .stepper__track{height:4px;background:var(--border);border-radius:999px;margin:0 0 1.75rem;overflow:hidden;}
+  .stepper__fill{height:100%;width:0%;background:var(--accent);border-radius:999px;transition:width .3s ease;}
+
+  .step{display:none;}
+  .step.is-active{display:block;}
+  @media (prefers-reduced-motion: no-preference){
+    .step.is-active{animation:stepIn .28s ease;}
+  }
+  @keyframes stepIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .card{
+    background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.75rem;
+    margin-bottom:1.25rem;box-shadow:0 10px 30px -22px rgba(27,42,74,.35);
+  }
+  .card__head{display:flex;align-items:flex-start;gap:.85rem;margin-bottom:1.4rem;padding-bottom:1.1rem;
+    border-bottom:1px solid var(--border);}
+  .card__icon{
+    font-size:1.1rem;color:var(--accent-ink);background:rgba(240,168,60,.16);width:2.6rem;height:2.6rem;
+    border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .card__title{margin:0;font-size:1.12rem;font-weight:700;color:var(--ink);}
+  .card__hint{margin:.2rem 0 0;font-size:.82rem;color:var(--muted);}
+  .mindset-progress{
+    font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:600;color:var(--muted);
+    background:#fff;border:1px solid var(--border);padding:.35rem .7rem;border-radius:999px;
+    white-space:nowrap;margin-left:auto;align-self:center;
+  }
+
+  .grid{display:grid;gap:1rem 1.1rem;margin-bottom:1rem;}
+  .grid:last-child{margin-bottom:0;}
+  .grid--12{grid-template-columns:repeat(12,1fr);}
+  .col-2{grid-column:span 2;} .col-3{grid-column:span 3;} .col-4{grid-column:span 4;}
+  .col-5{grid-column:span 5;} .col-6{grid-column:span 6;} .col-9{grid-column:span 9;} .col-12{grid-column:span 12;}
+  @media (max-width:760px){ .grid--12>*{grid-column:span 12 !important;} }
+
+  .field{display:flex;flex-direction:column;gap:.4rem;min-width:0;}
+  .field__label{font-size:.83rem;font-weight:600;color:var(--ink);}
+  .field__label i{color:var(--accent-ink);margin-right:.3rem;width:1rem;text-align:center;}
+  .field__hint{font-size:.75rem;color:var(--muted);}
+
+  .input{
+    font-family:inherit;font-size:.92rem;padding:.65rem .85rem;border-radius:10px;
+    border:1.5px solid var(--border);background:var(--surface);color:var(--ink);
+    transition:border-color .15s ease,box-shadow .15s ease;width:100%;
+  }
+  .input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(27,42,74,.12);}
+  .input--mono{font-family:'IBM Plex Mono',monospace;letter-spacing:.02em;}
+  select.input{
+    appearance:none;-webkit-appearance:none;
+    background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2367728A'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.293l3.71-4.06a.75.75 0 111.08 1.04l-4.25 4.65a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right .75rem center;background-size:1.1em;padding-right:2.2rem;
+  }
+
+  .scale-group{display:flex;flex-wrap:wrap;gap:.5rem;}
+  .scale-group input[type=radio]{position:absolute;opacity:0;width:0;height:0;}
+  .scale-group label{
+    cursor:pointer;padding:.55rem .7rem;border:1.5px solid var(--border);border-radius:999px;
+    font-size:.82rem;color:var(--muted);background:var(--surface);text-align:center;user-select:none;
+    transition:background .15s ease,color .15s ease,border-color .15s ease;
+  }
+  .scale-group label:hover{border-color:var(--ink);}
+  .scale-group input[type=radio]:focus-visible + label{outline:2px solid var(--accent);outline-offset:2px;}
+  .scale-group--2 label{flex:1 1 100px;}
+  .scale-group--2 input:checked + label{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .scale-group--4 label{flex:1 1 145px;}
+  .scale-group--4 input:checked + label.opt--agree-strong{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .scale-group--4 input:checked + label.opt--agree{background:var(--teal-soft);border-color:var(--teal-soft);color:#fff;}
+  .scale-group--4 input:checked + label.opt--disagree{background:var(--accent);border-color:var(--accent);color:#4A2E06;}
+  .scale-group--4 input:checked + label.opt--disagree-strong{background:var(--danger);border-color:var(--danger);color:#fff;}
+
+  .mindset-list{display:flex;flex-direction:column;gap:1.1rem;}
+  .mindset-item{padding:1.1rem 1.2rem;border:1px solid var(--border);border-radius:14px;background:#FBFCFE;}
+  .mindset-item__head{display:flex;gap:.75rem;align-items:flex-start;margin-bottom:.85rem;}
+  .mindset-num{
+    font-family:'IBM Plex Mono',monospace;font-size:.76rem;font-weight:600;color:var(--muted);
+    background:#fff;border:1px solid var(--border);border-radius:8px;padding:.15rem .48rem;
+    flex-shrink:0;margin-top:.1rem;
+  }
+  .mindset-text{margin:0;font-size:.92rem;color:var(--ink);line-height:1.55;}
+
+  .csform__nav{display:flex;align-items:center;gap:1rem;margin-top:1.5rem;flex-wrap:wrap;}
+  .csform__navstatus{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted);margin:0 auto;}
+  .btn{
+    font-family:inherit;font-size:.9rem;font-weight:600;padding:.7rem 1.4rem;border-radius:10px;
+    border:1.5px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;
+    transition:transform .12s ease,box-shadow .12s ease,background .15s ease,opacity .12s ease;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn--ghost{background:#fff;border-color:var(--border);color:var(--ink);}
+  .btn--ghost:hover:not(:disabled){border-color:var(--ink);}
+  .btn--ghost:disabled{opacity:.45;cursor:not-allowed;}
+  .btn--primary{background:var(--ink);color:#fff;}
+  .btn--primary:hover{box-shadow:0 8px 20px -10px rgba(27,42,74,.55);}
+  .btn--submit{background:var(--accent);color:#3D2607;}
+  .btn--submit:hover{box-shadow:0 8px 20px -10px rgba(240,168,60,.65);}
+
+  @media (max-width:560px){
+    .stepper__label{display:none;}
+    .stepper__item{justify-content:center;padding:.7rem;}
+    .csform__hero{padding:1.4rem 1.1rem;}
+    .csform__title{font-size:1.35rem;}
+    .csform__nav{justify-content:center;}
+    .csform__navstatus{order:3;width:100%;text-align:center;margin:.5rem 0 0;}
+  }
+
+  .csform :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 </style>
 
-<main>
-    <div class="container-fluid px-4">
-        <h1 class="mt-4">แบบฟอร์มกรอกข้อมูล</h1>
-        {% for message in messages%}
-        <h2>{{message}}</h2>
-        {% endfor %}
-        <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">หน้าหลัก</a></li>
-        </ol>
-        <div class="card bg-info mb-4">
-            <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                กรอกข้อมูลนักศึกษา
-            </div>
-            <div class="card-body">
-                <form method="POST" action="{% url 'addstudent' %}">
-                    {% csrf_token %}
-                    <h3>ข้อมูลนักศึกษา</h3>
-                    <hr>
-                    <div class="form-row">
-                        <div class="from-group col-md-2">
-                            <label for="gender">คำนำหน้า</label>
-                            <select id="gender" class="form-control" name="gender" required>
-                                <option>เลือก...</option>
-                                <option value="นาย">นาย</option>
-                                <option value="นางสาว">นางสาว</option>
-                                <option value="นาง">นาง</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-10">
-                            <label for="name">ชื่อจริง-นามสกุล</label>
-                            <input type="text" name="name" id="name" class="form-control" placeholder="ไม่ต้องพิมพ์คำนำหน้า" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-2">
-                            <label for="class_student">ชั้นปีที่</label>
-                            <select id="class_student" name="class_student" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="รุ่น 61">รุ่น 61</option>
-                                <option value="รุ่น 62">รุ่น 62</option>
-                                <option value="รุ่น 63">รุ่น 63</option>
-                                <option value="รุ่น 64">รุ่น 64</option>
-                                <option value="รุ่น 65">รุ่น 65</option>
-                                <option value="รุ่น 66">รุ่น 66</option>
-                                <option value="รุ่น 67">รุ่น 67</option>
-                                <option value="รุ่น 68">รุ่น 68</option>
-                                <option value="รุ่น 69">รุ่น 69</option>
-                                <option value="รุ่น 70">รุ่น 70</option>
-                                <option value="รุ่น 71">รุ่น 71</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="school">สถาบันที่จบการศึกษา</label>
-                            <input type="text" name="school" id="school" class="form-control" placeholder="พิมพ์โรงเรียนตามด้วยชื่อ" required>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="short">ชื่อย่อของโรงเรียน</label>
-                            <input type="text" name="short" id="short" class="form-control" placeholder="เช่น บ.พ ป.พ ล.ป" required>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="school_size">ขนาดโรงเรียน</label>
-                            <select id="school_size" name="school_size" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="รร.ขนาดเล็ก">รร.ขนาดเล็ก</option>
-                                <option value="รร.ขนาดกลาง">รร.ขนาดกลาง</option>
-                                <option value="รร.ขนาดใหญ่">รร.ขนาดใหญ่</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="plan">แผนกการเรียน ที่ใช้สมัครเรียน</label>
-                            <input type="text" name="plan" class="form-control" placeholder="แผนการเรียนตามด้วยชื่อแผนการเรียน" required>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="round_apply">รอบที่มาสมัครเรียนสาขาวิทยาการคอมพิวเตอร์</label>
-                            <select id="round_apply" name="round_apply" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="portfolio">portfolio</option>
-                                <option value="โควต้า">โควต้า</option>
-                                <option value="รับตรงรอบที่ 1">รับตรงรอบที่ 1</option>
-                                <option value="รับตรงรอบที่ 2">รับตรงรอบที่ 2</option>
-                                <option value="รับตรงอิสระ">รับตรงอิสระ</option>
-                                <option value="นักศึกแลกเปลี่ยน">นักศึกแลกเปลี่ยน</option>
-                                <option value="รับตรง(เพิ่มเติม)">รับตรง(เพิ่มเติม)</option>
-                            </select>
-                        </div>
-                    </div>
-                    <hr>
-                    <h3>ข้อมูลเกรดของนักศึกษา</h3>
-                    <hr>
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <label for="GPA">ผลการเรียนตลอดหลักสูตร</label>
-                            <input type="text" class="form-control" id="GPA" name="GPA" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" maxlength="4" required>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="grade_maths">ผลการเรียนรายวิชาคณิตศาสตร์</label>
-                            <input type="text" class="form-control" id="grade_maths" name="grade_maths" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" maxlength="4" required>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="grade_science">ผลการเรียนรายวิชาวิทยาศาสตร์</label>
-                            <input type="text" class="form-control" id="grade_science" name="grade_science" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" maxlength="4" required>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="grade_english">ผลการเรียนรายวิชาภาษาต่างประเทศ</label>
-                            <input type="text" class="form-control" id="grade_english" name="grade_english" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" maxlength="4" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-3">
-                            <label for="skillcomputer">เคยแข่งทักษะด้านคอมพิวเตอร์ไหม</label>
-                            <select id="skillcomputer" name="skillcomputer" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="เคย">เคย</option>
-                                <option value="ไม่เคย">ไม่เคย</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="traincomputer">เคยอบรมเกี่ยวคอมพิวเตอร์ไหม</label>
-                            <select id="traincomputer" name="traincomputer" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="เคย">เคย</option>
-                                <option value="ไม่เคย">ไม่เคย</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="write_program">เคยเรียนเขียนโปรแกรมไหม</label>
-                            <select id="write_program" name="write_program" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="เคย">เคย</option>
-                                <option value="ไม่เคย">ไม่เคย</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="trainprogram">เคยอบรมเขียนโปแกรมไหม</label>
-                            <select id="trainprogram" name="trainprogram" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="เคย">เคย</option>
-                                <option value="ไม่เคย">ไม่เคย</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="Other_skills">มีทักษะด้านอื่น ๆ ไหม</label>
-                            <input type="text" class="form-control" id="Other_skills" name="Other_skills" required>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="want_to_develop">สนใจอยากพัฒนาทักษะด้านใดเพิ่ม</label>
-                            <input type="text" class="form-control" id="want_to_develop" name="want_to_develop" required>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="family_income_per_month">รายได้ของครอบครัวต่อเดือน</label>
-                            <select id="family_income_per_month" class="form-control" name="family_income_per_month" required>
-                                <option>เลือก...</option>
-                                <option value="ไม่เกิน 5,000 บาท">ไม่เกิน 5,000 บาท</option>
-                                <option value="5,001 - 10,000 บาท">5,001 - 10,000 บาท</option>
-                                <option value="10,001 - 15,000 บาท">10,001 - 15,000 บาท</option>
-                                <option value="15,001 - 20,000 บาท">15,001 - 20,000 บาท</option>
-                                <option value="25,001 บาทขึ้นไป">25,001 บาทขึ้นไป</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="status_family">สถานภาพครอบครัว</label>
-                            <select id="status_family" name="status_family" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="บิดา มารดาอยู่ด้วยกัน">บิดา มารดาอยู่ด้วยกัน</option>
-                                <option value="บิดา มารดาหย่าร้างกัน">บิดา มารดาหย่าร้างกัน</option>
-                                <option value="บิดาถึงแก่กรรม">บิดาถึงแก่กรรม</option>
-                                <option value="มารดาถึงแก่กรรม">มารดาถึงแก่กรรม</option>
-                                <option value="อยู่กับบิดา">อยู่กับบิดา</option>
-                                <option value="อยู่กับมารดา">อยู่กับมารดา</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="which_channel_do_you_know">รู้จักสาขาวิทยาการคอมพิวเตอร์จากช่องทางใด</label>
-                            <input type="text" class="form-control" id="which_channel_do_you_know" name="which_channel_do_you_know" required>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="why_did_you_choose_to_study">ทำไมถึงเลือกเรียนสาขานี้</label>
-                            <input type="text" class="form-control" id="why_did_you_choose_to_study" name="why_did_you_choose_to_study" required>
-                        </div>
-                    </div>
-                    <hr>
-                    <h3>Mindset</h3>
-                    <hr>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="ex1">1.สติปัญญาเป็นสิ่งที่เปลี่ยนแปลงยาก</label>
-                            <select id="ex1" name="ex1" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="1">เห็นด้วย</option>
-                                <option value="2">ไม่เห็นด้วย</option>
-                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="ex2">2.สติปัญญาเป็นสิ่งที่เปลี่ยนแปลงไม่มากก็น้อย</label>
-                            <select id="ex2" name="ex2" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="2">เห็นด้วย</option>
-                                <option value="1">ไม่เห็นด้วย</option>
-                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="ex3">3.สติปัญญาเป็นสิ่งที่เปลี่ยนแปลงได้มากมายเสมอ</label>
-                            <select id="ex3" name="ex3" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="2">เห็นด้วย</option>
-                                <option value="1">ไม่เห็นด้วย</option>
-                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="ex4">4.คนแต่ละคนมีลักษณะเฉพาะที่เปลี่ยนแปลงได้ยาก</label>
-                            <select id="ex4" name="ex4" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="1">เห็นด้วย</option>
-                                <option value="2">ไม่เห็นด้วย</option>
-                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="ex5">5.คนแต่ละคนแม้จะมีลักษณะเฉพาะ แต่ก็เปลี่ยนแปลงได้เสมอ</label>
-                            <select id="ex5" name="ex5" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="2">เห็นด้วย</option>
-                                <option value="1">ไม่เห็นด้วย</option>
-                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="ex6">6.ใครๆ ก็สามารถเรียนดนตรีให้เก่งได้</label>
-                            <select id="ex6" name="ex6" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="2">เห็นด้วย</option>
-                                <option value="1">ไม่เห็นด้วย</option>
-                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="ex7">7.มีเพียงบางคนเท่านั้นที่จะเก่งกีฬาได้ เพราะต้องเก่งโดยกำเนิด</label>
-                            <select id="ex7" name="ex7" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="1">เห็นด้วย</option>
-                                <option value="2">ไม่เห็นด้วย</option>
-                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="ex8">8.คณิตศาสตร์เป็นวิชาที่ง่ายสำหรับผู้ชาย
-                                หรือผู้ที่มาจากครอบครัวที่เก่งคณิตศาสตร์เท่านั้น</label>
-                            <select id="ex8" name="ex8" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="1">เห็นด้วย</option>
-                                <option value="2">ไม่เห็นด้วย</option>
-                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="ex9">9.ความพยายามอยู่ที่ไหน ความสำเร็จอยู่ที่นั่น</label>
-                            <select id="ex9" name="ex9" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="2">เห็นด้วย</option>
-                                <option value="1">ไม่เห็นด้วย</option>
-                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="ex10">10.ใครๆ ก็สามารถเปลี่ยนแปลงได้มากมาย</label>
-                            <select id="ex10" name="ex10" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="2">เห็นด้วย</option>
-                                <option value="1">ไม่เห็นด้วย</option>
-                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="ex11">11.การทำสิ่งใหม่ที่ไม่เคยชินเป็นเรื่องยาก เราจึงไม่ควรทำ</label>
-                            <select id="ex11" name="ex11" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="1">เห็นด้วย</option>
-                                <option value="2">ไม่เห็นด้วย</option>
-                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="ex12">12.การเปลี่ยนทุกคนให้เป็นคนดีเมตตา เป็นเรื่องที่เป็นไปได้ยาก</label>
-                            <select id="ex12" name="ex12" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="1">เห็นด้วย</option>
-                                <option value="2">ไม่เห็นด้วย</option>
-                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="ex13">13.ฉันชื่นชมยินดีเมื่อพ่อแม่ ผู้ชี้แนะ
-                                และครูให้ข้อติชมเกี่ยวทำงานและผลงานของฉัน</label>
-                            <select id="ex13" name="ex13" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="2">เห็นด้วย</option>
-                                <option value="1">ไม่เห็นด้วย</option>
-                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="ex14">14.ฉันมักจะไม่พอใจและโกรธ
-                                เมื่อได้รับข้อติชมเกี่ยวกับการทำงานและผลงานของฉัน</label>
-                            <select id="ex14" name="ex14" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="1">เห็นด้วย</option>
-                                <option value="2">ไม่เห็นด้วย</option>
-                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="ex15">15.คนทุกคนที่ไม่มีความผิดปกติทางสมอง
-                                จะมีความสามารถในการเรียนรู้เท่าเทียม</label>
-                            <select id="ex15" name="ex15" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="2">เห็นด้วย</option>
-                                <option value="1">ไม่เห็นด้วย</option>
-                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="ex16">16.คนทุกคนสามารถเรียนรู้สิ่งใหม่ได้
-                                แต่ไม่สามารถเปลี่ยนทักษะทางปัญญาได้</label>
-                            <select id="ex16" name="ex16" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="1">เห็นด้วย</option>
-                                <option value="2">ไม่เห็นด้วย</option>
-                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="ex17">17.คนทุกคนสามารถทำงานด้วยวิธีการที่แตกต่างจากเดิมได้
-                                แต่ไม่สามารถเปลี่ยนตัวตนที่แท้จริงได้</label>
-                            <select id="ex17" name="ex17" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="0">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="1">เห็นด้วย</option>
-                                <option value="2">ไม่เห็นด้วย</option>
-                                <option value="3">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="ex18">18.คนทุกคนล้วนเป็นคนดี แต่บางครั้งอาจตัดสินใจผิดพลาดได้</label>
-                            <select id="ex18" name="ex18" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="2">เห็นด้วย</option>
-                                <option value="1">ไม่เห็นด้วย</option>
-                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="ex19">19.เหตุผลสำคัญที่ฉันทำงานโรงเรียน คือ ฉันชอบเรียนรู้สิ่งใหม่</label>
-                            <select id="ex19" name="ex19" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="2">เห็นด้วย</option>
-                                <option value="1">ไม่เห็นด้วย</option>
-                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="ex20">20.คนฉลาดจริงไม่ต้องขยัน</label>
-                            <select id="ex20" name="ex20" class="form-control" required>
-                                <option>เลือก...</option>
-                                <option value="3">เห็นด้วยอย่างยิ่ง</option>
-                                <option value="2">เห็นด้วย</option>
-                                <option value="1">ไม่เห็นด้วย</option>
-                                <option value="0">ไม่เห็นด้วยอย่างยิ่ง</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('คุณต้องการส่งแบบฟอร์มไหม')">ตกลง</button>
-                </form>
-            </div>
+<main class="csform">
+  <div class="csform__shell">
+    <nav class="csform__crumbs">
+      <a href="{% url 'home' %}"><i class="fas fa-house"></i> หน้าหลัก</a>
+      <span>/</span>
+      <span>แบบฟอร์มรับสมัคร</span>
+    </nav>
+
+    {% if messages %}
+    <div class="alert-stack">
+      {% for message in messages %}
+      <div class="alert-msg{% if message.tags %} alert-{{ message.tags }}{% endif %}">
+        <i class="fas fa-circle-info"></i>
+        <span>{{ message }}</span>
+      </div>
+      {% endfor %}
     </div>
+    {% endif %}
+
+    <header class="csform__hero">
+      <span class="csform__eyebrow">ระบบรับสมัครออนไลน์ · สาขาวิทยาการคอมพิวเตอร์</span>
+      <h1 class="csform__title">แบบฟอร์มกรอกข้อมูลนักศึกษา</h1>
+      <p class="csform__subtitle">กรอกข้อมูลให้ครบทั้ง 3 ขั้นตอนด้านล่าง ระบบจะบันทึกข้อมูลเมื่อกดส่งแบบฟอร์มในขั้นตอนสุดท้ายเท่านั้น</p>
+    </header>
+
+    <ol class="stepper" id="stepper">
+      <li class="stepper__item is-active" data-step-btn="1">
+        <span class="stepper__num">01</span>
+        <span class="stepper__label">ข้อมูลนักศึกษา</span>
+      </li>
+      <li class="stepper__item" data-step-btn="2">
+        <span class="stepper__num">02</span>
+        <span class="stepper__label">เกรดและทักษะ</span>
+      </li>
+      <li class="stepper__item" data-step-btn="3">
+        <span class="stepper__num">03</span>
+        <span class="stepper__label">แนวคิดการเรียนรู้</span>
+      </li>
+    </ol>
+    <div class="stepper__track"><div class="stepper__fill" id="stepperFill"></div></div>
+
+    <form method="POST" action="{% url 'addstudent' %}" id="admitForm" novalidate>
+      {% csrf_token %}
+
+      <section class="step is-active" data-step="1">
+        <div class="card">
+          <div class="card__head">
+            <span class="card__icon"><i class="fas fa-user"></i></span>
+            <div>
+              <h2 class="card__title">ข้อมูลนักศึกษา</h2>
+              <p class="card__hint">ชื่อ ระดับชั้น และสถาบันเดิมของผู้สมัคร</p>
+            </div>
+          </div>
+
+          <div class="grid grid--12">
+            <div class="field col-3">
+              <label class="field__label" for="gender">คำนำหน้า</label>
+              <select id="gender" class="input" name="gender" required>
+                <option value="">เลือก...</option>
+                <option value="นาย">นาย</option>
+                <option value="นางสาว">นางสาว</option>
+                <option value="นาง">นาง</option>
+              </select>
+            </div>
+            <div class="field col-9">
+              <label class="field__label" for="name">ชื่อจริง-นามสกุล</label>
+              <input type="text" name="name" id="name" class="input" placeholder="ไม่ต้องพิมพ์คำนำหน้า" required>
+            </div>
+          </div>
+
+          <div class="grid grid--12">
+            <div class="field col-3">
+              <label class="field__label" for="class_student">ชั้นปีที่ (รุ่น)</label>
+              <select id="class_student" name="class_student" class="input" required>
+                <option value="">เลือก...</option>
+                <option value="รุ่น 61">รุ่น 61</option>
+                <option value="รุ่น 62">รุ่น 62</option>
+                <option value="รุ่น 63">รุ่น 63</option>
+                <option value="รุ่น 64">รุ่น 64</option>
+                <option value="รุ่น 65">รุ่น 65</option>
+                <option value="รุ่น 66">รุ่น 66</option>
+                <option value="รุ่น 67">รุ่น 67</option>
+                <option value="รุ่น 68">รุ่น 68</option>
+                <option value="รุ่น 69">รุ่น 69</option>
+                <option value="รุ่น 70">รุ่น 70</option>
+                <option value="รุ่น 71">รุ่น 71</option>
+              </select>
+            </div>
+            <div class="field col-5">
+              <label class="field__label" for="school">สถาบันที่จบการศึกษา</label>
+              <input type="text" name="school" id="school" class="input" placeholder="พิมพ์โรงเรียนตามด้วยชื่อ" required>
+            </div>
+            <div class="field col-2">
+              <label class="field__label" for="short">ชื่อย่อโรงเรียน</label>
+              <input type="text" name="short" id="short" class="input" placeholder="เช่น บ.พ" required>
+            </div>
+            <div class="field col-2">
+              <label class="field__label" for="school_size">ขนาดโรงเรียน</label>
+              <select id="school_size" name="school_size" class="input" required>
+                <option value="">เลือก...</option>
+                <option value="รร.ขนาดเล็ก">รร.ขนาดเล็ก</option>
+                <option value="รร.ขนาดกลาง">รร.ขนาดกลาง</option>
+                <option value="รร.ขนาดใหญ่">รร.ขนาดใหญ่</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid--12">
+            <div class="field col-6">
+              <label class="field__label" for="plan">แผนการเรียนที่ใช้สมัครเรียน</label>
+              <input type="text" name="plan" id="plan" class="input" placeholder="แผนการเรียนตามด้วยชื่อแผนการเรียน" required>
+            </div>
+            <div class="field col-6">
+              <label class="field__label" for="round_apply">รอบที่สมัครเรียนสาขาวิทยาการคอมพิวเตอร์</label>
+              <select id="round_apply" name="round_apply" class="input" required>
+                <option value="">เลือก...</option>
+                <option value="portfolio">portfolio</option>
+                <option value="โควต้า">โควต้า</option>
+                <option value="รับตรงรอบที่ 1">รับตรงรอบที่ 1</option>
+                <option value="รับตรงรอบที่ 2">รับตรงรอบที่ 2</option>
+                <option value="รับตรงอิสระ">รับตรงอิสระ</option>
+                <option value="นักศึกแลกเปลี่ยน">นักศึกแลกเปลี่ยน</option>
+                <option value="รับตรง(เพิ่มเติม)">รับตรง(เพิ่มเติม)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="step" data-step="2">
+        <div class="card">
+          <div class="card__head">
+            <span class="card__icon"><i class="fas fa-graduation-cap"></i></span>
+            <div>
+              <h2 class="card__title">ผลการเรียน</h2>
+              <p class="card__hint">กรอกเป็นทศนิยม 2 ตำแหน่ง เช่น 3.45</p>
+            </div>
+          </div>
+          <div class="grid grid--12">
+            <div class="field col-3">
+              <label class="field__label" for="GPA">ผลการเรียนตลอดหลักสูตร</label>
+              <input type="text" inputmode="decimal" class="input input--mono" id="GPA" name="GPA" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" maxlength="4" required>
+            </div>
+            <div class="field col-3">
+              <label class="field__label" for="grade_maths">วิชาคณิตศาสตร์</label>
+              <input type="text" inputmode="decimal" class="input input--mono" id="grade_maths" name="grade_maths" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" maxlength="4" required>
+            </div>
+            <div class="field col-3">
+              <label class="field__label" for="grade_science">วิชาวิทยาศาสตร์</label>
+              <input type="text" inputmode="decimal" class="input input--mono" id="grade_science" name="grade_science" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" maxlength="4" required>
+            </div>
+            <div class="field col-3">
+              <label class="field__label" for="grade_english">วิชาภาษาต่างประเทศ</label>
+              <input type="text" inputmode="decimal" class="input input--mono" id="grade_english" name="grade_english" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" maxlength="4" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__head">
+            <span class="card__icon"><i class="fas fa-laptop-code"></i></span>
+            <div>
+              <h2 class="card__title">ทักษะด้านคอมพิวเตอร์</h2>
+              <p class="card__hint">ประสบการณ์ก่อนเข้าศึกษาในสาขานี้</p>
+            </div>
+          </div>
+          <div class="grid grid--12">
+
+                        <div class="field col-3">
+                            <label class="field__label" for="skillcomputer_yes"><i class="fas fa-trophy"></i> เคยแข่งทักษะด้านคอมพิวเตอร์ไหม</label>
+                            <div class="scale-group scale-group--2" role="radiogroup" aria-label="เคยแข่งทักษะด้านคอมพิวเตอร์ไหม">
+                                <input type="radio" id="skillcomputer_yes" name="skillcomputer" value="เคย" required>
+                                <label for="skillcomputer_yes">เคย</label>
+                                <input type="radio" id="skillcomputer_no" name="skillcomputer" value="ไม่เคย" required>
+                                <label for="skillcomputer_no">ไม่เคย</label>
+                            </div>
+                        </div>
+
+                        <div class="field col-3">
+                            <label class="field__label" for="traincomputer_yes"><i class="fas fa-chalkboard-teacher"></i> เคยอบรมเกี่ยวคอมพิวเตอร์ไหม</label>
+                            <div class="scale-group scale-group--2" role="radiogroup" aria-label="เคยอบรมเกี่ยวคอมพิวเตอร์ไหม">
+                                <input type="radio" id="traincomputer_yes" name="traincomputer" value="เคย" required>
+                                <label for="traincomputer_yes">เคย</label>
+                                <input type="radio" id="traincomputer_no" name="traincomputer" value="ไม่เคย" required>
+                                <label for="traincomputer_no">ไม่เคย</label>
+                            </div>
+                        </div>
+
+                        <div class="field col-3">
+                            <label class="field__label" for="write_program_yes"><i class="fas fa-code"></i> เคยเรียนเขียนโปรแกรมไหม</label>
+                            <div class="scale-group scale-group--2" role="radiogroup" aria-label="เคยเรียนเขียนโปรแกรมไหม">
+                                <input type="radio" id="write_program_yes" name="write_program" value="เคย" required>
+                                <label for="write_program_yes">เคย</label>
+                                <input type="radio" id="write_program_no" name="write_program" value="ไม่เคย" required>
+                                <label for="write_program_no">ไม่เคย</label>
+                            </div>
+                        </div>
+
+                        <div class="field col-3">
+                            <label class="field__label" for="trainprogram_yes"><i class="fas fa-laptop-code"></i> เคยอบรมเขียนโปรแกรมไหม</label>
+                            <div class="scale-group scale-group--2" role="radiogroup" aria-label="เคยอบรมเขียนโปรแกรมไหม">
+                                <input type="radio" id="trainprogram_yes" name="trainprogram" value="เคย" required>
+                                <label for="trainprogram_yes">เคย</label>
+                                <input type="radio" id="trainprogram_no" name="trainprogram" value="ไม่เคย" required>
+                                <label for="trainprogram_no">ไม่เคย</label>
+                            </div>
+                        </div>
+          </div>
+          <div class="grid grid--12">
+            <div class="field col-6">
+              <label class="field__label" for="Other_skills">มีทักษะด้านอื่น ๆ ไหม</label>
+              <input type="text" class="input" id="Other_skills" name="Other_skills" required>
+            </div>
+            <div class="field col-6">
+              <label class="field__label" for="want_to_develop">สนใจอยากพัฒนาทักษะด้านใดเพิ่ม</label>
+              <input type="text" class="input" id="want_to_develop" name="want_to_develop" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__head">
+            <span class="card__icon"><i class="fas fa-house-user"></i></span>
+            <div>
+              <h2 class="card__title">ข้อมูลครอบครัวและความสนใจ</h2>
+              <p class="card__hint">ใช้เพื่อการพิจารณาและสถิติของสาขาวิชาเท่านั้น</p>
+            </div>
+          </div>
+          <div class="grid grid--12">
+            <div class="field col-4">
+              <label class="field__label" for="family_income_per_month">รายได้ของครอบครัวต่อเดือน</label>
+              <select id="family_income_per_month" class="input" name="family_income_per_month" required>
+                <option value="">เลือก...</option>
+                <option value="ไม่เกิน 5,000 บาท">ไม่เกิน 5,000 บาท</option>
+                <option value="5,001 - 10,000 บาท">5,001 - 10,000 บาท</option>
+                <option value="10,001 - 15,000 บาท">10,001 - 15,000 บาท</option>
+                <option value="15,001 - 20,000 บาท">15,001 - 20,000 บาท</option>
+                <option value="25,001 บาทขึ้นไป">25,001 บาทขึ้นไป</option>
+              </select>
+            </div>
+            <div class="field col-8">
+              <label class="field__label" for="status_family">สถานภาพครอบครัว</label>
+              <select id="status_family" name="status_family" class="input" required>
+                <option value="">เลือก...</option>
+                <option value="บิดา มารดาอยู่ด้วยกัน">บิดา มารดาอยู่ด้วยกัน</option>
+                <option value="บิดา มารดาหย่าร้างกัน">บิดา มารดาหย่าร้างกัน</option>
+                <option value="บิดาถึงแก่กรรม">บิดาถึงแก่กรรม</option>
+                <option value="มารดาถึงแก่กรรม">มารดาถึงแก่กรรม</option>
+                <option value="อยู่กับบิดา">อยู่กับบิดา</option>
+                <option value="อยู่กับมารดา">อยู่กับมารดา</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid--12">
+            <div class="field col-6">
+              <label class="field__label" for="which_channel_do_you_know">รู้จักสาขาวิทยาการคอมพิวเตอร์จากช่องทางใด</label>
+              <input type="text" class="input" id="which_channel_do_you_know" name="which_channel_do_you_know" required>
+            </div>
+            <div class="field col-6">
+              <label class="field__label" for="why_did_you_choose_to_study">ทำไมถึงเลือกเรียนสาขานี้</label>
+              <input type="text" class="input" id="why_did_you_choose_to_study" name="why_did_you_choose_to_study" required>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="step" data-step="3">
+        <div class="card">
+          <div class="card__head">
+            <span class="card__icon"><i class="fas fa-brain"></i></span>
+            <div>
+              <h2 class="card__title">แนวคิดการเรียนรู้ (Mindset)</h2>
+              <p class="card__hint">เลือกคำตอบที่ตรงกับความคิดเห็นของคุณมากที่สุดในแต่ละข้อ</p>
+            </div>
+            <span class="mindset-progress" id="mindsetProgress">0/20 ข้อ</span>
+          </div>
+          <div class="mindset-list">
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">01</span>
+                        <p class="mindset-text">สติปัญญาเป็นสิ่งที่เปลี่ยนแปลงยาก</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 1">
+                        <input type="radio" id="ex1_0" name="ex1" value="0" required>
+                        <label for="ex1_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex1_1" name="ex1" value="1" required>
+                        <label for="ex1_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex1_2" name="ex1" value="2" required>
+                        <label for="ex1_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex1_3" name="ex1" value="3" required>
+                        <label for="ex1_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">02</span>
+                        <p class="mindset-text">สติปัญญาเป็นสิ่งที่เปลี่ยนแปลงไม่มากก็น้อย</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 2">
+                        <input type="radio" id="ex2_0" name="ex2" value="3" required>
+                        <label for="ex2_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex2_1" name="ex2" value="2" required>
+                        <label for="ex2_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex2_2" name="ex2" value="1" required>
+                        <label for="ex2_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex2_3" name="ex2" value="0" required>
+                        <label for="ex2_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">03</span>
+                        <p class="mindset-text">สติปัญญาเป็นสิ่งที่เปลี่ยนแปลงได้มากมายเสมอ</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 3">
+                        <input type="radio" id="ex3_0" name="ex3" value="3" required>
+                        <label for="ex3_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex3_1" name="ex3" value="2" required>
+                        <label for="ex3_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex3_2" name="ex3" value="1" required>
+                        <label for="ex3_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex3_3" name="ex3" value="0" required>
+                        <label for="ex3_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">04</span>
+                        <p class="mindset-text">คนแต่ละคนมีลักษณะเฉพาะที่เปลี่ยนแปลงได้ยาก</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 4">
+                        <input type="radio" id="ex4_0" name="ex4" value="0" required>
+                        <label for="ex4_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex4_1" name="ex4" value="1" required>
+                        <label for="ex4_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex4_2" name="ex4" value="2" required>
+                        <label for="ex4_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex4_3" name="ex4" value="3" required>
+                        <label for="ex4_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">05</span>
+                        <p class="mindset-text">คนแต่ละคนแม้จะมีลักษณะเฉพาะ แต่ก็เปลี่ยนแปลงได้เสมอ</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 5">
+                        <input type="radio" id="ex5_0" name="ex5" value="3" required>
+                        <label for="ex5_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex5_1" name="ex5" value="2" required>
+                        <label for="ex5_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex5_2" name="ex5" value="1" required>
+                        <label for="ex5_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex5_3" name="ex5" value="0" required>
+                        <label for="ex5_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">06</span>
+                        <p class="mindset-text">ใครๆ ก็สามารถเรียนดนตรีให้เก่งได้</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 6">
+                        <input type="radio" id="ex6_0" name="ex6" value="3" required>
+                        <label for="ex6_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex6_1" name="ex6" value="2" required>
+                        <label for="ex6_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex6_2" name="ex6" value="1" required>
+                        <label for="ex6_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex6_3" name="ex6" value="0" required>
+                        <label for="ex6_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">07</span>
+                        <p class="mindset-text">มีเพียงบางคนเท่านั้นที่จะเก่งกีฬาได้ เพราะต้องเก่งโดยกำเนิด</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 7">
+                        <input type="radio" id="ex7_0" name="ex7" value="0" required>
+                        <label for="ex7_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex7_1" name="ex7" value="1" required>
+                        <label for="ex7_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex7_2" name="ex7" value="2" required>
+                        <label for="ex7_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex7_3" name="ex7" value="3" required>
+                        <label for="ex7_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">08</span>
+                        <p class="mindset-text">คณิตศาสตร์เป็นวิชาที่ง่ายสำหรับผู้ชาย หรือผู้ที่มาจากครอบครัวที่เก่งคณิตศาสตร์เท่านั้น</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 8">
+                        <input type="radio" id="ex8_0" name="ex8" value="0" required>
+                        <label for="ex8_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex8_1" name="ex8" value="1" required>
+                        <label for="ex8_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex8_2" name="ex8" value="2" required>
+                        <label for="ex8_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex8_3" name="ex8" value="3" required>
+                        <label for="ex8_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">09</span>
+                        <p class="mindset-text">ความพยายามอยู่ที่ไหน ความสำเร็จอยู่ที่นั่น</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 9">
+                        <input type="radio" id="ex9_0" name="ex9" value="3" required>
+                        <label for="ex9_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex9_1" name="ex9" value="2" required>
+                        <label for="ex9_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex9_2" name="ex9" value="1" required>
+                        <label for="ex9_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex9_3" name="ex9" value="0" required>
+                        <label for="ex9_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">10</span>
+                        <p class="mindset-text">ใครๆ ก็สามารถเปลี่ยนแปลงได้มากมาย</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 10">
+                        <input type="radio" id="ex10_0" name="ex10" value="3" required>
+                        <label for="ex10_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex10_1" name="ex10" value="2" required>
+                        <label for="ex10_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex10_2" name="ex10" value="1" required>
+                        <label for="ex10_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex10_3" name="ex10" value="0" required>
+                        <label for="ex10_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">11</span>
+                        <p class="mindset-text">การทำสิ่งใหม่ที่ไม่เคยชินเป็นเรื่องยาก เราจึงไม่ควรทำ</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 11">
+                        <input type="radio" id="ex11_0" name="ex11" value="0" required>
+                        <label for="ex11_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex11_1" name="ex11" value="1" required>
+                        <label for="ex11_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex11_2" name="ex11" value="2" required>
+                        <label for="ex11_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex11_3" name="ex11" value="3" required>
+                        <label for="ex11_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">12</span>
+                        <p class="mindset-text">การเปลี่ยนทุกคนให้เป็นคนดีเมตตา เป็นเรื่องที่เป็นไปได้ยาก</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 12">
+                        <input type="radio" id="ex12_0" name="ex12" value="0" required>
+                        <label for="ex12_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex12_1" name="ex12" value="1" required>
+                        <label for="ex12_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex12_2" name="ex12" value="2" required>
+                        <label for="ex12_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex12_3" name="ex12" value="3" required>
+                        <label for="ex12_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">13</span>
+                        <p class="mindset-text">ฉันชื่นชมยินดีเมื่อพ่อแม่ ผู้ชี้แนะ และครูให้ข้อติชมเกี่ยวทำงานและผลงานของฉัน</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 13">
+                        <input type="radio" id="ex13_0" name="ex13" value="3" required>
+                        <label for="ex13_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex13_1" name="ex13" value="2" required>
+                        <label for="ex13_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex13_2" name="ex13" value="1" required>
+                        <label for="ex13_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex13_3" name="ex13" value="0" required>
+                        <label for="ex13_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">14</span>
+                        <p class="mindset-text">ฉันมักจะไม่พอใจและโกรธ เมื่อได้รับข้อติชมเกี่ยวกับการทำงานและผลงานของฉัน</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 14">
+                        <input type="radio" id="ex14_0" name="ex14" value="0" required>
+                        <label for="ex14_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex14_1" name="ex14" value="1" required>
+                        <label for="ex14_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex14_2" name="ex14" value="2" required>
+                        <label for="ex14_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex14_3" name="ex14" value="3" required>
+                        <label for="ex14_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">15</span>
+                        <p class="mindset-text">คนทุกคนที่ไม่มีความผิดปกติทางสมอง จะมีความสามารถในการเรียนรู้เท่าเทียม</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 15">
+                        <input type="radio" id="ex15_0" name="ex15" value="3" required>
+                        <label for="ex15_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex15_1" name="ex15" value="2" required>
+                        <label for="ex15_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex15_2" name="ex15" value="1" required>
+                        <label for="ex15_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex15_3" name="ex15" value="0" required>
+                        <label for="ex15_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">16</span>
+                        <p class="mindset-text">คนทุกคนสามารถเรียนรู้สิ่งใหม่ได้ แต่ไม่สามารถเปลี่ยนทักษะทางปัญญาได้</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 16">
+                        <input type="radio" id="ex16_0" name="ex16" value="0" required>
+                        <label for="ex16_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex16_1" name="ex16" value="1" required>
+                        <label for="ex16_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex16_2" name="ex16" value="2" required>
+                        <label for="ex16_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex16_3" name="ex16" value="3" required>
+                        <label for="ex16_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">17</span>
+                        <p class="mindset-text">คนทุกคนสามารถทำงานด้วยวิธีการที่แตกต่างจากเดิมได้ แต่ไม่สามารถเปลี่ยนตัวตนที่แท้จริงได้</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 17">
+                        <input type="radio" id="ex17_0" name="ex17" value="0" required>
+                        <label for="ex17_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex17_1" name="ex17" value="1" required>
+                        <label for="ex17_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex17_2" name="ex17" value="2" required>
+                        <label for="ex17_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex17_3" name="ex17" value="3" required>
+                        <label for="ex17_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">18</span>
+                        <p class="mindset-text">คนทุกคนล้วนเป็นคนดี แต่บางครั้งอาจตัดสินใจผิดพลาดได้</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 18">
+                        <input type="radio" id="ex18_0" name="ex18" value="3" required>
+                        <label for="ex18_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex18_1" name="ex18" value="2" required>
+                        <label for="ex18_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex18_2" name="ex18" value="1" required>
+                        <label for="ex18_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex18_3" name="ex18" value="0" required>
+                        <label for="ex18_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">19</span>
+                        <p class="mindset-text">เหตุผลสำคัญที่ฉันทำงานโรงเรียน คือ ฉันชอบเรียนรู้สิ่งใหม่</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 19">
+                        <input type="radio" id="ex19_0" name="ex19" value="3" required>
+                        <label for="ex19_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex19_1" name="ex19" value="2" required>
+                        <label for="ex19_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex19_2" name="ex19" value="1" required>
+                        <label for="ex19_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex19_3" name="ex19" value="0" required>
+                        <label for="ex19_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+
+                <div class="mindset-item">
+                    <div class="mindset-item__head">
+                        <span class="mindset-num">20</span>
+                        <p class="mindset-text">คนฉลาดจริงไม่ต้องขยัน</p>
+                    </div>
+                    <div class="scale-group scale-group--4" role="radiogroup" aria-label="คำถามข้อที่ 20">
+                        <input type="radio" id="ex20_0" name="ex20" value="3" required>
+                        <label for="ex20_0" class="opt--agree-strong">เห็นด้วยอย่างยิ่ง</label>
+                        <input type="radio" id="ex20_1" name="ex20" value="2" required>
+                        <label for="ex20_1" class="opt--agree">เห็นด้วย</label>
+                        <input type="radio" id="ex20_2" name="ex20" value="1" required>
+                        <label for="ex20_2" class="opt--disagree">ไม่เห็นด้วย</label>
+                        <input type="radio" id="ex20_3" name="ex20" value="0" required>
+                        <label for="ex20_3" class="opt--disagree-strong">ไม่เห็นด้วยอย่างยิ่ง</label>
+                    </div>
+                </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="csform__nav">
+        <button type="button" class="btn btn--ghost" id="prevBtn" disabled><i class="fas fa-arrow-left"></i> ย้อนกลับ</button>
+        <span class="csform__navstatus" id="navStatus" aria-live="polite">ขั้นตอนที่ 1 จาก 3</span>
+        <button type="button" class="btn btn--primary" id="nextBtn">ถัดไป <i class="fas fa-arrow-right"></i></button>
+        <button type="submit" class="btn btn--submit" id="submitBtn" style="display:none;"><i class="fas fa-paper-plane"></i> ส่งแบบฟอร์ม</button>
+      </div>
+    </form>
+  </div>
 </main>
+
+<script>
+(function(){
+  var steps = Array.prototype.slice.call(document.querySelectorAll('.step'));
+  var stepperItems = Array.prototype.slice.call(document.querySelectorAll('.stepper__item'));
+  var total = steps.length;
+  var current = 1;
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var submitBtn = document.getElementById('submitBtn');
+  var navStatus = document.getElementById('navStatus');
+  var fill = document.getElementById('stepperFill');
+  var form = document.getElementById('admitForm');
+
+  function validateStep(stepEl){
+    var controls = stepEl.querySelectorAll('input, select, textarea');
+    for (var i = 0; i < controls.length; i++){
+      var el = controls[i];
+      if (typeof el.checkValidity === 'function' && !el.checkValidity()){
+        if (typeof el.reportValidity === 'function') el.reportValidity();
+        el.focus();
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function showStep(n){
+    steps.forEach(function(s){
+      s.classList.toggle('is-active', Number(s.dataset.step) === n);
+    });
+    stepperItems.forEach(function(item){
+      var idx = Number(item.dataset.stepBtn);
+      item.classList.toggle('is-active', idx === n);
+      item.classList.toggle('is-done', idx < n);
+    });
+    fill.style.width = ((n - 1) / (total - 1) * 100) + '%';
+    prevBtn.disabled = (n === 1);
+    nextBtn.style.display = (n === total) ? 'none' : 'inline-flex';
+    submitBtn.style.display = (n === total) ? 'inline-flex' : 'none';
+    navStatus.textContent = 'ขั้นตอนที่ ' + n + ' จาก ' + total;
+    var firstField = steps[n - 1].querySelector('input, select, textarea');
+    if (firstField) { try { firstField.focus({preventScroll: true}); } catch (e) {} }
+    steps[n - 1].scrollIntoView({behavior: 'smooth', block: 'start'});
+  }
+
+  nextBtn.addEventListener('click', function(){
+    if (!validateStep(steps[current - 1])) return;
+    if (current < total) { current++; showStep(current); }
+  });
+
+  prevBtn.addEventListener('click', function(){
+    if (current > 1) { current--; showStep(current); }
+  });
+
+  stepperItems.forEach(function(item){
+    item.style.cursor = 'pointer';
+    item.addEventListener('click', function(){
+      var target = Number(item.dataset.stepBtn);
+      if (target < current) { current = target; showStep(current); }
+    });
+  });
+
+  form.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' && current < total && e.target.tagName !== 'TEXTAREA'){
+      e.preventDefault();
+      nextBtn.click();
+    }
+  });
+
+  form.addEventListener('submit', function(e){
+    for (var i = 0; i < steps.length; i++){
+      if (!validateStep(steps[i])){
+        e.preventDefault();
+        current = i + 1;
+        showStep(current);
+        return;
+      }
+    }
+    if (!confirm('คุณต้องการส่งแบบฟอร์มไหม')){
+      e.preventDefault();
+    }
+  });
+
+  var mindsetRadios = document.querySelectorAll('.mindset-list input[type=radio]');
+  var mindsetProgress = document.getElementById('mindsetProgress');
+  function updateMindsetProgress(){
+    var names = {};
+    var count = 0;
+    mindsetRadios.forEach(function(r){
+      if (r.checked && !names[r.name]) { names[r.name] = true; count++; }
+    });
+    if (mindsetProgress) mindsetProgress.textContent = count + '/20 ข้อ';
+  }
+  mindsetRadios.forEach(function(r){ r.addEventListener('change', updateMindsetProgress); });
+  updateMindsetProgress();
+
+  showStep(current);
+})();
+</script>
 {% endblock body %}

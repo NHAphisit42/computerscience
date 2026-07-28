@@ -55,10 +55,10 @@
                         {% for std in std %}
                         <tr>
                             <!-- <td>{{std.gender}}</td> -->
-                            <td>{{std.name}}</td>
-                            <td>{{std.class_student}}</td>
-                            <td>{{std.round_apply}}</td>
-                            <td>{{std.school}}</td>
+                            <td style="text-align: center;">{{std.name}}</td>
+                            <td style="text-align: center;">{{std.class_student}}</td>
+                            <td style="text-align: center;">{{std.round_apply}}</td>
+                            <td style="text-align: center;">{{std.school}}</td>
                             <td style="text-align: center;"><a href="{% url 'studentdetail' std.id %}" class="btn btn-warning btn-sm">ดูข้อมูล</a> / <a href="{% url 'remove' std.id %}" class="btn btn-danger btn-sm" onclick="return confirm('คุณต้องการลบ {{std.name}} หรือไม่?')">ลบข้อมูล</a></td>
                         </tr>
                         {% endfor %}
